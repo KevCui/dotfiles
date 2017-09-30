@@ -1,0 +1,61 @@
+!-----------------------------------------------
+!     X T E R M - setting
+!-----------------------------------------------
+xterm*background: black
+xterm*foreground: gray
+!xterm*faceName: Inconsolata:pixelsize=12
+xterm*faceName: Hack:pixelsize=11
+xterm*faceNameDoublesize: LiHeiPro:pixelsize=12
+xterm*scrollBar: off
+
+!-----------------------------------------------
+!     U R X V T - setting
+!-----------------------------------------------
+urxvt*scrollBar:	false
+!urxvt*font:		xft:Inconsolata:size=10:antialias=true:hinting=true,xft:LiHeiPro:size=11:antialias=true,FontAwesome:pixelsize=11
+urxvt*font:		xft:Hack:pixelsize=16:antialias=true:hinting=true,xft:LiHeiPro:pixelsize=16:antialias=true,FontAwesome:minispace=true
+!URxvt.letterSpace: -1
+urxvt*secondaryScroll:	true
+urxvt*saveLines:	65535
+urxvt*CursorBlink:	false
+!urxvt.background:	black
+urxvt.foreground:	#EBEBFF
+urxvt*depth:		32
+urxvt*background:	rgba:0000/0000/0000/cccc
+!urxvt*transparent:	false
+!urxvt*fading:		40
+!urxvt*shading:		20
+urxvt.urgentOnBell:	true
+urxvt.perl-ext-common:	default,matcher
+urxvt.url-launcher:	/usr/bin/chromium
+urxvt.urlLanucher:  chromium
+urxvt.matcher.button:	1
+urxvt.colorUL:		#4682B4
+!urxvt*decTerminalID: vt340
+!urxvt*numColorRegisters: 256
+
+!----- Colors ----------------------------------
+!black
+urxvt*color0:	#171717
+urxvt*color8:	#737373
+!red
+urxvt*color1:	#FF5E5E
+urxvt*color9:	#FF7878
+!green
+urxvt*color2:	#9CE82B
+urxvt*color10:	#9ACD32
+!yellow
+urxvt*color3:	#F0E68C
+urxvt*color11:	#EEE8AA
+!blue
+urxvt*color4:	#008AFF
+urxvt*color12:	#4F98FF
+!magenta
+urxvt*color5:	#E88CFF
+urxvt*color13:	#EDA6FF
+!cyan
+urxvt*color6:	#87CEFA
+urxvt*color14:	#B0E2FF
+!white
+urxvt*color7:	#DCDCCC
+urxvt*color15:	#FFFFFF
