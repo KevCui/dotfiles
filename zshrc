@@ -17,7 +17,7 @@ setprompt
 #------------------------------
 export PATH="$PATH":${HOME}/Script:/opt/android-sdk/tools/bin/:/opt/android-sdk/platform-tools/:${HOME}/bin:${HOME}/.cabal/bin
 export TERM='rxvt-256color'
-export BROWSER="chromium"
+export BROWSER="firefox-nightly"
 export EDITOR="vim"
 export sys=/etc/systemd/system
 export libsys=/usr/lib/systemd/system

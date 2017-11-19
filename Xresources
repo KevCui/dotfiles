@@ -27,8 +27,8 @@ urxvt*background:	rgba:0000/0000/0000/cccc
 !urxvt*shading:		20
 urxvt.urgentOnBell:	true
 urxvt.perl-ext-common:	default,matcher
-urxvt.url-launcher:	/usr/bin/chromium
-urxvt.urlLanucher:  chromium
+urxvt.url-launcher:	/usr/bin/firefox-nightly
+urxvt.urlLanucher:  firefox-nightly
 urxvt.matcher.button:	1
 urxvt.colorUL:		#4682B4
 !urxvt*decTerminalID: vt340
