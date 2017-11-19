@@ -1,33 +1,33 @@
 /* Where to edit userChrome.css https://i.redd.it/v7lkiqannojz.png */
 @-moz-document url("chrome://browser/content/browser.xul") {
-	/* hide navigation bar */
+    /* hide navigation bar */
     #nav-bar {
         display: none;
     }
 
-	/* hover the bottom of tab bar to show navigation bar */
-	#navigator-toolbox:hover > #nav-bar{
-		display: block;
-	}
+    /* hover the bottom of tab bar to show navigation bar */
+    #navigator-toolbox:hover > #nav-bar{
+        display: -moz-box;
+    }
 
     /* disable tab flash */
     .tab-loading-burst[bursting]::before {
         animation: none !important;
     }
 
-	/* remove 'dragging tab' margin/padding nonsense */
-	#TabsToolbar[movingtab] {
-		padding-bottom: unset !important;
-	}
+    /* remove 'dragging tab' margin/padding nonsense */
+    #TabsToolbar[movingtab] {
+        padding-bottom: unset !important;
+    }
 
-	#TabsToolbar[movingtab] > .tabbrowser-tabs {
-		padding-bottom: unset !important;
-		margin-bottom: unset !important;
-	}
+    #TabsToolbar[movingtab] > .tabbrowser-tabs {
+        padding-bottom: unset !important;
+        margin-bottom: unset !important;
+    }
 
-	#TabsToolbar[movingtab] + #nav-bar {
-		margin-top: unset !important;
-	}
+    #TabsToolbar[movingtab] + #nav-bar {
+        margin-top: unset !important;
+    }
 
     /* hide scroll bar */
     #content browser {
