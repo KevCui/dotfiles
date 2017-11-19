@@ -235,6 +235,6 @@ exec --no-startup-id xcompmgr -cF
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
-exec --no-startup-id chromium
+exec --no-startup-id firefox-nightly
 exec --no-startup-id urxvt -e "tm"
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
