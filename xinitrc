@@ -5,6 +5,9 @@ export QT_IM_MODULE=fcitx
 export GTK_IM_MODULE=fcitx
 export LC_CTYPE="zh_CN.UTF-8"
 
+# Start network
+sudo netctl start home &
+
 # Apply settings for urxvt
 xrdb -merge ~/.Xresources
 
