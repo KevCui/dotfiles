@@ -28,4 +28,9 @@
 	#TabsToolbar[movingtab] + #nav-bar {
 		margin-top: unset !important;
 	}
+
+    /* hide scroll bar */
+    #content browser {
+        margin-right: -12px !important;
+    }
 }
