@@ -86,6 +86,15 @@ dnl () { aria2c -c -s 5 "$1" }
 dispon () { xrandr --output HDMI-1 --mode 1920x1080 --right-of eDP-1 }
 dispoff () { xrandr --output HDMI-1 --off }
 
+# Print alphabet
+alpha () {
+  i=1
+  for x in {a..z}; do
+    echo "$i\t$x"
+    i=$((i+1))
+  done
+}
+
 #------------------------------
 # Alias
 #------------------------------
