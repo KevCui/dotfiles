@@ -11,7 +11,7 @@ set nu
 set hlsearch
 set guicursor=a:blinkon0
 
-"file coding utf-8
+" file coding utf-8
 set encoding=utf-8
 set fileencodings=utf-8
 set termencoding=utf-8
@@ -27,7 +27,7 @@ set fileformats=unix
 
 set foldlevel=99
 
-"spell check
+" spell check
 autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
 autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
 autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
@@ -37,3 +37,7 @@ call vundle#begin()
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 call vundle#end()
+
+" Switch j k key binding
+nnoremap k j|xnoremap k j|onoremap k j|
+nnoremap j k|xnoremap j k|onoremap j k|
