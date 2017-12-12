@@ -33,4 +33,9 @@
     #content browser {
         margin-right: -12px !important;
     }
+
+    /* move hover URL hint to top-left */
+    statuspanel[type="overLink"]{
+        top:54px;
+    }
 }
