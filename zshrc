@@ -1,16 +1,9 @@
 #------------------------------
 # Prompt
 #------------------------------
-setprompt () {
-  # load some modules
-  autoload -U colors zsh/terminfo # Used in the colour alias below
-  colors
-  setopt prompt_subst
-
-  PS1="%{$fg[red]%}●%{$fg[yellow]%}●%{$fg[green]%}● %{$fg[blue]%}\$(date +'%H:%M:%S') %{$fg[yellow]%}>>%{$fg[white]%} "
-  RPROMPT="%{$fg[green]%}%/%b"
-}
-setprompt
+setopt prompt_subst
+PS1="%F{red}●%F{yellow}●%F{green}● %F{blue}%* %F{yellow}>>%f "
+RPROMPT="%F{yellow}\$(git rev-parse --abbrev-ref HEAD 2> /dev/null) %F{green}%B%~%b"
 
 #------------------------------
 # Variables
