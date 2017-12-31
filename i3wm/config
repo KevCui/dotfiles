@@ -194,7 +194,7 @@ for_window [class="feh"] floating enable
 for_window [class="Wine"] floating enable
 
 # Layout
-for_window [class="Firefox"] layout tabbed
+for_window [class="Nightly"] layout tabbed
 for_window [class="Chromium"] layout tabbed
 
 # Volume
