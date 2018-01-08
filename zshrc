@@ -58,7 +58,7 @@ extract () {
 mcd() { mkdir -p "$1" && cd "$1"; }
 
 # poweroff
-po() { pactl set-sink-mute 0 1;sleep "$1" && sudo systemctl poweroff; }
+po() { sleep "$1" && sudo systemctl poweroff; }
 
 # js compressor
 yuijs() { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type js "$1".js > "$1".min.js;}
@@ -158,8 +158,7 @@ setopt inc_append_history
 #-----------------------------
 # Dircolors
 #-----------------------------
-LS_COLORS='rs=0:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:tw=30;42:ow=34;42:st=37;44:ex=01;32:';
-export LS_COLORS
+eval `dircolors ${HOME}/.dir_colors`
 
 #------------------------------
 # Keybindings
