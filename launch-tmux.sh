@@ -6,7 +6,7 @@ tmux split-window -h -p 40 'while true; do tput clear; date;echo;task ls; sleep 
 tmux split-window -v 'task shell'
 
 # File Manager
-tmux new-window -n "file" 'ranger ~/.config/ranger'
+tmux new-window -n "file" 'source .zshrc; ranger'
 tmux select-pane -t 0
 
 # Script |
