@@ -194,13 +194,16 @@ for_window [class="feh"] floating enable
 for_window [class="Wine"] floating enable
 
 # Layout
-for_window [class="Nightly"] layout tabbed
+for_window [class="Firefox Developer Edition"] layout tabbed
 for_window [class="Chromium"] layout tabbed
 
 # Volume
 bindsym XF86AudioRaiseVolume exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"
+bindsym $mod+minus exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"
 bindsym XF86AudioLowerVolume exec "pamixer -d 15;notify-send -u low `pamixer --get-volume`"
+bindsym $mod+0 exec "pamixer -d 15;notify-send -u low `pamixer --get-volume`"
 bindsym XF86AudioMute exec "pamixer -t;notify-send -u low `amixer get Master | awk '$0~/%/{print $6}' | tr -d '[]'`"
+bindsym $mod+equal exec "pamixer -t;notify-send -u low `amixer get Master | awk '$0~/%/{print $6}' | tr -d '[]'`"
 
 # Brightness
 bindsym XF86MonBrightnessUp exec "brightnessctl -d intel_backlight set 10%+"
@@ -213,11 +216,12 @@ bindsym $mod+Control+Shift+Left exec "xrandr --output eDP-1 --rotate left"
 bindsym $mod+Control+Shift+Right exec "xrandr --output eDP-1 --rotate right"
 
 # Fixed workspace
-assign [class="Nightly"] $ws1
+assign [class="Firefox Developer Edition"] $ws1
 assign [class="Chromium"] $ws1
 assign [class="URxvt"] $ws2
-assign [class="Thunderbird"] $ws3
+assign [class="Daily"] $ws3
 assign [class="Gimp"] $ws4
+assign [class="darktable"] $ws4
 assign [class="VirtualBox"] $ws5
 assign [class="libreoffice-startcenter"] $ws4
 assign [class="libreoffice-writer"] $ws4
@@ -235,6 +239,7 @@ exec --no-startup-id xcompmgr -cF
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
-exec --no-startup-id firefox-nightly
+exec --no-startup-id firefox-developer-edition
+exec --no-startup-id thunderbird-nightly
 exec --no-startup-id urxvt -e "launch-tmux.sh"
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
