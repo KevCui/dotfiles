@@ -243,3 +243,4 @@ exec --no-startup-id firefox-developer-edition
 exec --no-startup-id thunderbird-nightly
 exec --no-startup-id urxvt -e "launch-tmux.sh"
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
+exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
