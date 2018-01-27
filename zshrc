@@ -77,7 +77,8 @@ dl () { aria2c -c -s 5 "$1" --all-proxy="" }
 dnl () { aria2c -c -s 5 "$1" }
 
 # HDMI display screen on/off
-dispon () { xrandr --output HDMI-1 --mode 1920x1080 --right-of eDP-1 }
+dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
+dispabove () { xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1 }
 dispoff () { xrandr --output HDMI-1 --off }
 
 # Print alphabet
