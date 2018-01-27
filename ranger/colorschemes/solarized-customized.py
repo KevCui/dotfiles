@@ -37,7 +37,7 @@ class Solarized(ColorScheme):
             if context.container:
                 fg = 96
             if context.directory:
-                fg = 26
+                fg = 32
             elif context.executable and not \
                     any((context.media, context.container,
                         context.fifo, context.socket)):
