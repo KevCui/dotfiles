@@ -17,7 +17,7 @@ synclient TapButton2=3 TapButton1=1 AccelFactor=0.09 MaxSpeed=5 PalmDetect=1 Ver
 syndaemon -i 0.5 -t -K -R -d
 
 # Mute
-pamixer -m
+#pamixer -m
 
 # Start i3
 exec i3
