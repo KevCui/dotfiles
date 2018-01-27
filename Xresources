@@ -13,7 +13,7 @@ xterm*scrollBar: off
 !-----------------------------------------------
 urxvt*scrollBar:	false
 !urxvt*font:		xft:Inconsolata:size=10:antialias=true:hinting=true,xft:LiHeiPro:size=11:antialias=true,FontAwesome:pixelsize=11
-urxvt*font:		xft:Hack:pixelsize=16:antialias=true:hinting=true,xft:LiHeiPro:pixelsize=16:antialias=true,FontAwesome:minispace=true
+urxvt*font:		xft:Hack:pixelsize=12:antialias=true:hinting=true,xft:LiHeiPro:pixelsize=13:antialias=true,FontAwesome:minispace=true
 !URxvt.letterSpace: -1
 urxvt*secondaryScroll:	true
 urxvt*saveLines:	65535
@@ -27,8 +27,8 @@ urxvt*background:	rgba:0000/0000/0000/cccc
 !urxvt*shading:		20
 urxvt.urgentOnBell:	true
 urxvt.perl-ext-common:	default,matcher
-urxvt.url-launcher:	/usr/bin/firefox-nightly
-urxvt.urlLanucher:  firefox-nightly
+urxvt.url-launcher:	/usr/bin/firefox-developer-edition
+urxvt.urlLanucher:  firefox-developer-edition
 urxvt.matcher.button:	1
 urxvt.colorUL:		#4682B4
 !urxvt*decTerminalID: vt340
