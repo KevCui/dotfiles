@@ -142,12 +142,9 @@ alias g='git $@'
 # hugo alias
 alias hugos='cd ~/git/blog; hugo server -t=uno -D'
 
-<<<<<<< HEAD
 # python server
 alias python-server='python3 -m http.server 8000'
 
-=======
->>>>>>> f535a5c4115849f16ca48356d2ea025955052be7
 #------------------------------
 # History
 #------------------------------
