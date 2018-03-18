@@ -94,53 +94,53 @@ alpha () {
 # Alias
 #------------------------------
 # general alias
-alias 'rm=rm -i'
-alias 'ls=ls --color=auto'
-alias 'dir=dir --color=auto'
-alias 'vdir=vdir --color=auto'
-alias 'grep=grep --color=auto'
-alias 'fgrep=fgrep --color=auto'
-alias 'egrep=egrep --color=auto'
-alias 'cdd=cd ~/Downloads'
-alias 'cdp=cd $PATH_NOW'
-alias 'pt=export PATH_NOW=`pwd`'
-alias 'cds=cd ~/Script'
-alias 'cdb=cd ~/Dropbox'
-alias 'pg=ps aux | grep $1'
-alias 'pk9=pkill -9 -f $1'
-alias 'c=clear'
-alias 'pg=ps aux | grep $@'
-alias 'lg=ls -ltr | grep $@'
-alias 'vi=vim'
-alias 'ls=ls --color -F'
-alias 'hl=ls -ltr --color -lh'
-alias ll="ls -ltr --color -lh"
+alias rm='rm -i'
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias cdd='cd ~/Downloads'
+alias cdp='cd $PATH_NOW'
+alias pt='export PATH_NOW=`pwd`'
+alias cds='cd ~/Script'
+alias cdb='cd ~/Dropbox'
+alias pg='ps aux | grep $1'
+alias pk9='pkill -9 -f $1'
+alias c='clear'
+alias pg='ps aux | grep $@'
+alias lg='ls -ltr | grep $@'
+alias vi='vim'
+alias ls='ls --color -F'
+alias hl='ls -ltr --color -lh'
+alias ll='ls -ltr --color -lh'
 alias y='yaourt'
 alias unplug='devmon -u'
 alias weather='curl wttr.in/$1'
 
 # ruby twitter cli alias
-#alias tmen="t mention -r"
-#alias tre="t retweet"
-#alias tu="t update $1"
-#alias tdel="t delete status $1"
-#alias ts="t stream timeline"
+#alias tmen='t mention -r'
+#alias tre='t retweet'
+#alias tu='t update $1'
+#alias tdel='t delete status $1'
+#alias ts='t stream timeline'
 
 # git alias
-alias cdg="cd ~/git"
-alias cdgb="cd ~/git/blog"
-alias gitundo="git reset -- $1"
-alias g="git $@"
+alias cdg='cd ~/git'
+alias cdgb='cd ~/git/blog'
+alias gitundo='git reset -- $1'
+alias g='git $@'
 
 # hexo alias
-# alias hd="hexo g;hexo d"
-# alias hb="hexo backup;git push"
+# alias hd='hexo g;hexo d'
+# alias hb='hexo backup;git push'
 
 # hugo alias
-alias hugos="cd ~/git/blog; hugo server -t=uno -D"
+alias hugos='cd ~/git/blog; hugo server -t=uno -D'
 
 # python server
-alias python-server="python3 -m http.server 8000"
+alias python-server='python3 -m http.server 8000'
 
 #------------------------------
 # History
