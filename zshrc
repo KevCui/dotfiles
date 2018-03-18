@@ -90,6 +90,9 @@ alpha () {
   done
 }
 
+# convert raw image to jpg
+rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
+
 #------------------------------
 # Alias
 #------------------------------
@@ -139,9 +142,12 @@ alias g='git $@'
 # hugo alias
 alias hugos='cd ~/git/blog; hugo server -t=uno -D'
 
+<<<<<<< HEAD
 # python server
 alias python-server='python3 -m http.server 8000'
 
+=======
+>>>>>>> f535a5c4115849f16ca48356d2ea025955052be7
 #------------------------------
 # History
 #------------------------------
