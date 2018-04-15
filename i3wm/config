@@ -194,7 +194,7 @@ for_window [class="feh"] floating enable
 for_window [class="Wine"] floating enable
 
 # Layout
-for_window [class="Firefox Developer Edition"] layout tabbed
+for_window [class="Firefox Nightly"] layout tabbed
 for_window [class="Chromium"] layout tabbed
 
 # Volume
@@ -216,7 +216,7 @@ bindsym $mod+Control+Shift+Left exec "xrandr --output eDP-1 --rotate left"
 bindsym $mod+Control+Shift+Right exec "xrandr --output eDP-1 --rotate right"
 
 # Fixed workspace
-assign [class="Firefox Developer Edition"] $ws1
+assign [class="Firefox Nightly"] $ws1
 assign [class="Chromium"] $ws1
 assign [class="URxvt"] $ws2
 assign [class="Daily"] $ws3
@@ -239,7 +239,7 @@ exec --no-startup-id xcompmgr -cF
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
-exec --no-startup-id firefox-developer-edition
+exec --no-startup-id firefox-nightly
 exec --no-startup-id thunderbird-nightly
 exec --no-startup-id urxvt -e "launch-tmux.sh"
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
