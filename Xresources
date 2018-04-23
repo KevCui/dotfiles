@@ -8,7 +8,7 @@ XTerm.vt100.backarrowKey: false
 XTerm.ttyModes: erase ^?
 XTerm.vt100.saveLines: 65535
 XTerm.vt100.scrollBar: false
-XTerm.vt100.faceName: Hack:size=9:antialias=false
+XTerm.vt100.faceName: Hack:size=9:antialias=true
 XTerm.vt100.font: 7x13
 XTerm.vt100.faceNameDoublesize: LiHeiPro
 XTerm.vt100.faceSize: 8
