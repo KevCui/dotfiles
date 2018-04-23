@@ -193,6 +193,7 @@ for_window [class="Viewnior"] floating enable
 # Layout
 for_window [class="Nightly"] layout tabbed
 for_window [class="Chromium"] layout tabbed
+for_window [class="XTerm"] layout tabbed
 
 # Volume
 bindsym XF86AudioRaiseVolume exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"

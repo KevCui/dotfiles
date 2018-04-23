@@ -15,6 +15,7 @@ XTerm.vt100.faceSize: 8
 XTerm.vt100.bellIsUrgent: true
 XTerm.scaleHeight: 1.01
 XTerm*selectToClipboard: true
+XTerm*cursorBlink: true
 
 !----- Colors ----------------------------------
 XTerm.vt100*foreground: white
