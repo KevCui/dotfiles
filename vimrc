@@ -1,5 +1,5 @@
 set nocompatible
-colorscheme molokai
+colorscheme snazzy
 syntax on
 
 " gvim font

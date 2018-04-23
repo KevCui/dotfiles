@@ -93,6 +93,12 @@ alpha () {
 # convert raw image to jpg
 rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
 
+# get YouTube RSS QR code
+youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e 's/\">.*//' | head -1`; echo $url; qr "$url"}
+
+# fetch currency exchange rate
+currency () { [ -z $3 ] && amount=1 || amount=$3; curl -s "https://www.xe.com/currencyconverter/convert/?Amount=$amount&From=$1&To=$2" | grep "uccResultUnit" | sed -e "s/.*uccFromResultAmount//" -e "s/resultRightArrow.*//" -e "s/<[^>]*>//g" -e "s/'>//" -e "s/&nbsp;//" -e "s/<span.*//"}
+
 #------------------------------
 # Alias
 #------------------------------
@@ -108,6 +114,7 @@ alias cdd='cd ~/Downloads'
 alias cdp='cd $PATH_NOW'
 alias pt='export PATH_NOW=`pwd`'
 alias cds='cd ~/Script'
+alias cdt='cd ~/.local/share/Trash'
 alias cdb='cd ~/Dropbox'
 alias pg='ps aux | grep $1'
 alias pk9='pkill -9 -f $1'

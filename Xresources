@@ -1,61 +1,46 @@
 !-----------------------------------------------
 !     X T E R M - setting
 !-----------------------------------------------
-xterm*background: black
-xterm*foreground: gray
-!xterm*faceName: Inconsolata:pixelsize=12
-xterm*faceName: Hack:pixelsize=11
-xterm*faceNameDoublesize: LiHeiPro:pixelsize=12
-xterm*scrollBar: off
-
-!-----------------------------------------------
-!     U R X V T - setting
-!-----------------------------------------------
-urxvt*scrollBar:	false
-!urxvt*font:		xft:Inconsolata:size=10:antialias=true:hinting=true,xft:LiHeiPro:size=11:antialias=true,FontAwesome:pixelsize=11
-urxvt*font:		xft:Hack:pixelsize=12:antialias=true:hinting=true,xft:LiHeiPro:pixelsize=13:antialias=true,FontAwesome:minispace=true
-!URxvt.letterSpace: -1
-urxvt*secondaryScroll:	true
-urxvt*saveLines:	65535
-urxvt*CursorBlink:	false
-!urxvt.background:	black
-urxvt.foreground:	#EBEBFF
-urxvt*depth:		32
-urxvt*background:	rgba:0000/0000/0000/cccc
-!urxvt*transparent:	false
-!urxvt*fading:		40
-!urxvt*shading:		20
-urxvt.urgentOnBell:	true
-urxvt.perl-ext-common:	default,matcher
-urxvt.url-launcher:	/usr/bin/firefox-developer-edition
-urxvt.urlLanucher:  firefox-developer-edition
-urxvt.matcher.button:	1
-urxvt.colorUL:		#4682B4
-!urxvt*decTerminalID: vt340
-!urxvt*numColorRegisters: 256
+XTerm.termName: xterm-256color
+XTerm.vt100.locale: true
+XTerm.vt100.metaSendsEscape: true
+XTerm.vt100.backarrowKey: false
+XTerm.ttyModes: erase ^?
+XTerm.vt100.saveLines: 65535
+XTerm.vt100.scrollBar: false
+XTerm.vt100.faceName: Hack:size=9:antialias=false
+XTerm.vt100.font: 7x13
+XTerm.vt100.faceNameDoublesize: LiHeiPro
+XTerm.vt100.faceSize: 8
+XTerm.vt100.bellIsUrgent: true
+XTerm.scaleHeight: 1.01
+XTerm*selectToClipboard: true
+XTerm*cursorBlink: true
 
 !----- Colors ----------------------------------
+XTerm.vt100*foreground: white
+XTerm.vt100*background: #222222
 !black
-urxvt*color0:	#171717
-urxvt*color8:	#737373
+XTerm.vt100*color0:	#171717
+XTerm.vt100*color8:	#737373
 !red
-urxvt*color1:	#FF5E5E
-urxvt*color9:	#FF7878
+XTerm.vt100*color1:	#FF5E5E
+XTerm.vt100*color9:	#FF7878
 !green
-urxvt*color2:	#9CE82B
-urxvt*color10:	#9ACD32
+XTerm.vt100*color2:	#9CE82B
+XTerm.vt100*color10: #9ACD32
 !yellow
-urxvt*color3:	#F0E68C
-urxvt*color11:	#EEE8AA
+XTerm.vt100*color3:	#F0E68C
+XTerm.vt100*color11: #EEE8AA
 !blue
-urxvt*color4:	#008AFF
-urxvt*color12:	#4F98FF
+XTerm.vt100*color4:	#008AFF
+XTerm.vt100*color12: #4F98FF
 !magenta
-urxvt*color5:	#E88CFF
-urxvt*color13:	#EDA6FF
+XTerm.vt100*color5:	#E88CFF
+XTerm.vt100*color13: #EDA6FF
 !cyan
-urxvt*color6:	#87CEFA
-urxvt*color14:	#B0E2FF
+XTerm.vt100*color6:	#87CEFA
+XTerm.vt100*color14: #B0E2FF
 !white
-urxvt*color7:	#DCDCCC
-urxvt*color15:	#FFFFFF
+XTerm.vt100*color7:	#DCDCCC
+XTerm.vt100*color15: #FFFFFF

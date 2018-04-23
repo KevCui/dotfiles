@@ -8,7 +8,7 @@ export LC_CTYPE="zh_CN.UTF-8"
 # Start network
 sudo netctl start home &
 
-# Apply settings for urxvt
+# Apply settings for xterm
 xrdb -merge ~/.Xresources
 
 # Touchpad
