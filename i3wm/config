@@ -8,7 +8,6 @@
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -31,7 +30,7 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec xterm
 
 # kill focused window
 #bindsym $mod+Shift+q kill
@@ -83,16 +82,13 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+f floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
 
 # switch to workspace
 set $ws1 1
@@ -192,9 +188,10 @@ for_window [title="Preferences$"] floating enable
 for_window [class="(?i)mplayer"] floating enable
 for_window [class="feh"] floating enable
 for_window [class="Wine"] floating enable
+for_window [class="Viewnior"] floating enable
 
 # Layout
-for_window [class="Firefox Nightly"] layout tabbed
+for_window [class="Nightly"] layout tabbed
 for_window [class="Chromium"] layout tabbed
 
 # Volume
@@ -216,12 +213,12 @@ bindsym $mod+Control+Shift+Left exec "xrandr --output eDP-1 --rotate left"
 bindsym $mod+Control+Shift+Right exec "xrandr --output eDP-1 --rotate right"
 
 # Fixed workspace
-assign [class="Firefox Nightly"] $ws1
+assign [class="Nightly"] $ws1
 assign [class="Chromium"] $ws1
-assign [class="URxvt"] $ws2
+assign [class="XTerm"] $ws2
 assign [class="Daily"] $ws3
+assign [class="Darktable"] $ws3
 assign [class="Gimp"] $ws4
-assign [class="darktable"] $ws4
 assign [class="VirtualBox"] $ws5
 assign [class="libreoffice-startcenter"] $ws4
 assign [class="libreoffice-writer"] $ws4
@@ -235,12 +232,11 @@ client.unfocused #333333 #333333 #888888 #292d2e
 client.urgent #2f343a #900000 #ffffff #900000
 
 # Autostart
-exec --no-startup-id xcompmgr -cF
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
 exec --no-startup-id firefox-nightly
 exec --no-startup-id thunderbird-nightly
-exec --no-startup-id urxvt -e "launch-tmux.sh"
+exec --no-startup-id xterm -e "launch-tmux.sh"
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
