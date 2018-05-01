@@ -99,6 +99,9 @@ youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e '
 # fetch currency exchange rate
 currency () { [ -z $3 ] && amount=1 || amount=$3; curl -s "https://www.xe.com/currencyconverter/convert/?Amount=$amount&From=$1&To=$2" | grep "uccResultUnit" | sed -e "s/.*uccFromResultAmount//" -e "s/resultRightArrow.*//" -e "s/<[^>]*>//g" -e "s/'>//" -e "s/&nbsp;//" -e "s/<span.*//"}
 
+# get weather info
+weather () { curl "wttr.in/$1" }
+
 #------------------------------
 # Alias
 #------------------------------
@@ -122,12 +125,12 @@ alias c='clear'
 alias pg='ps aux | grep $@'
 alias lg='ls -ltr | grep $@'
 alias vi='vim'
+alias vif='vim $(fzf)'
 alias ls='ls --color -F'
 alias hl='ls -ltr --color -lh'
 alias ll='ls -ltr --color -lh'
 alias y='yaourt'
 alias unplug='devmon -u'
-alias weather='curl wttr.in/$1'
 
 # ruby twitter cli alias
 #alias tmen='t mention -r'
