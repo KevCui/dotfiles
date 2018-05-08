@@ -6,9 +6,9 @@
     }
 
     /* hover the bottom of tab bar to show navigation bar */
-    #navigator-toolbox:hover > #nav-bar{
+    /*#navigator-toolbox:hover > #nav-bar{
         display: -moz-box;
-    }
+    }*/
 
     /* disable tab flash */
     .tab-loading-burst[bursting]::before {
