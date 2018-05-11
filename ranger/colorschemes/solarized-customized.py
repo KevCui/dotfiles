@@ -68,6 +68,7 @@ class Solarized(ColorScheme):
                     fg = red
             if not context.selected and (context.cut or context.copied):
                 fg = 234
+                bg = 244
                 attr |= bold
             if context.main_column:
                 if context.selected:
