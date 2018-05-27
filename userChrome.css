@@ -1,9 +1,9 @@
 /* Where to edit userChrome.css https://i.redd.it/v7lkiqannojz.png */
 @-moz-document url("chrome://browser/content/browser.xul") {
     /* hide navigation bar */
-    #nav-bar {
+    /*#nav-bar {
         display: none;
-    }
+    }*/
 
     /* hover the bottom of tab bar to show navigation bar */
     /*#navigator-toolbox:hover > #nav-bar{
