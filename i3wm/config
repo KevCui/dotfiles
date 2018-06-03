@@ -236,9 +236,8 @@ client.urgent #2f343a #900000 #ffffff #900000
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
-exec --no-startup-id /usr/bin/launch-tmux.sh
 exec --no-startup-id firefox-nightly
 exec --no-startup-id thunderbird-nightly
-exec --no-startup-id xterm -e "tmux attach -d"
+exec xterm -hold -e /usr/bin/launch-tmux.sh
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
