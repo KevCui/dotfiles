@@ -9,7 +9,7 @@ RPROMPT="%F{yellow}\$(git rev-parse --abbrev-ref HEAD 2> /dev/null) %F{green}%B%
 # Variables
 #------------------------------
 export PATH="$PATH":${HOME}/Script:/opt/android-sdk/tools/bin/:/opt/android-sdk/platform-tools/:${HOME}/bin:${HOME}/.cabal/bin
-export TERM='st-256color'
+export TERM='xterm-256color'
 export BROWSER="firefox-nightly"
 export EDITOR="vim"
 export sys=/etc/systemd/system
