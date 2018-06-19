@@ -30,7 +30,7 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec xterm
+bindsym $mod+Return exec st
 
 # kill focused window
 #bindsym $mod+Shift+q kill
@@ -190,11 +190,6 @@ for_window [class="feh"] floating enable
 for_window [class="Wine"] floating enable
 for_window [class="Viewnior"] floating enable
 
-# Layout
-for_window [class="Nightly"] layout tabbed
-for_window [class="Chromium"] layout tabbed
-for_window [class="XTerm"] layout tabbed
-
 # Volume
 bindsym XF86AudioRaiseVolume exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"
 bindsym $mod+minus exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"
@@ -215,8 +210,14 @@ bindsym $mod+Control+Shift+Right exec "xrandr --output eDP-1 --rotate right"
 
 # Fixed workspace
 assign [class="Nightly"] $ws1
+for_window [class="Nightly"] layout tabbed
+
 assign [class="Chromium"] $ws1
-assign [class="XTerm"] $ws2
+for_window [class="Chromium"] layout tabbed
+
+assign [class="st-256color"] $ws2
+for_window [class="st-256color"] layout tabbed
+
 assign [class="Daily"] $ws3
 assign [class="Darktable"] $ws3
 assign [class="Gimp"] $ws4
@@ -238,6 +239,6 @@ exec --no-startup-id dunst
 exec --no-startup-id fcitx
 exec --no-startup-id firefox-nightly
 exec --no-startup-id thunderbird-nightly
-exec --no-startup-id "zsh -c 'sleep 15; exec xterm -hold -e /usr/bin/tmux.sh'"
+exec --no-startup-id st -e /usr/bin/tmux.sh
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1

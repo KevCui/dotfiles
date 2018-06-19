@@ -1,7 +1,7 @@
 !-----------------------------------------------
 !     X T E R M - setting
 !-----------------------------------------------
-XTerm.termName: xterm-256color
+XTerm.termName: st-256color
 XTerm.vt100.locale: true
 XTerm.vt100.metaSendsEscape: true
 XTerm.vt100.backarrowKey: false
