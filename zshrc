@@ -129,7 +129,7 @@ alias vif='vim $(fzf)'
 alias ls='ls --color -F'
 alias hl='ls -ltr --color -lh'
 alias ll='ls -ltr --color -lh'
-alias y='yaourt'
+alias a='aurman'
 alias unplug='devmon -u'
 
 # ruby twitter cli alias
