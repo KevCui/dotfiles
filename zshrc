@@ -83,11 +83,11 @@ dispoff () { xrandr --output HDMI-1 --off }
 
 # Print alphabet
 alpha () {
-  i=1
-  for x in {a..z}; do
-    echo "$i\t$x"
-    i=$((i+1))
-  done
+    i=1
+    for x in {a..z}; do
+        echo "$i\t$x"
+        i=$((i+1))
+    done
 }
 
 # convert raw image to jpg
@@ -101,6 +101,13 @@ currency () { [ -z $3 ] && amount=1 || amount=$3; curl -s "https://www.xe.com/cu
 
 # get weather info
 weather () { curl "wttr.in/$1" }
+
+# calculator
+= () {
+    calc="${*//p/+}"
+    calc="${calc//x/*}"
+    calc $calc
+}
 
 #------------------------------
 # Alias
@@ -164,13 +171,7 @@ alias python-server="python3 -m http.server 8000"
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=10000
-function h() {
-  if [ -z "$*" ]; then
-    history 1;
-  else
-    history 1 | egrep "$@";
-  fi
-}
+function h() { [ -z "$*" ] && history 1 || history 1 | egrep "$@" }
 
 # share history
 setopt share_history
