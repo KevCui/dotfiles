@@ -108,9 +108,9 @@ TERM xterm-termite
 # 48;5;COLOR_NUMBER
 
 # Special files
-NORMAL 00;38;5;250 # global default
-FILE   00;38;5;250 # normal file
-DIR    01;38;5;26  # directory
+NORMAL 00;38;5;255 # global default
+FILE   00;38;5;255 # normal file
+DIR    01;38;5;33  # directory
 LINK   07;38;5;106 # symbolic link. ('target'=the color for the file pointed to)
 ORPHAN 07;38;5;160 # symlink to nonexistent file
 FIFO   07;38;5;137 # pipe
@@ -225,17 +225,17 @@ CHR    01;38;5;137 # character device driver
 .m4a    00;38;5;214
 
 # Documents/Readables
-.pdf  00;38;5;109
-.PDF  00;38;5;109
-.html 00;38;5;109
-.HTML 00;38;5;109
-.doc  00;38;5;109
-.docx 00;38;5;109
-.ppt  00;38;5;109
-.pptx 00;38;5;109
-.odt  00;38;5;109
-.odp  00;38;5;109
-.epub 00;38;5;109
+.pdf  00;38;5;48
+.PDF  00;38;5;48
+.html 00;38;5;48
+.HTML 00;38;5;48
+.doc  00;38;5;48
+.docx 00;38;5;48
+.ppt  00;38;5;48
+.pptx 00;38;5;48
+.odt  00;38;5;48
+.odp  00;38;5;48
+.epub 00;38;5;48
 
 # Source code files
 .pl     00;38;5;179
@@ -268,32 +268,32 @@ CHR    01;38;5;137 # character device driver
 .Rmd    00;38;5;137
 
 # Special sources/configs
-*Makefile 00;38;5;94
-*do       00;38;5;94
-*Doxyfile 00;38;5;94
-*config   00;38;5;94
-.conf     00;38;5;94
-.cfg      00;38;5;94
+*Makefile 00;38;5;136
+*do       00;38;5;136
+*Doxyfile 00;38;5;136
+*config   00;38;5;136
+.conf     00;38;5;136
+.cfg      00;38;5;136
 
 # Plain text
-.txt 00;38;5;250
-.md  00;38;5;250
+.txt 00;38;5;255
+.md  00;38;5;255
 
 # Other readables
-.xlm   00;38;5;245
-.xls   00;38;5;245
-.xlsx  00;38;5;245
-.csv   00;38;5;245
-.tsv   00;38;5;245
-.Rds   00;38;5;245
-.rds   00;38;5;245
-.RDS   00;38;5;245
-.Rdata 00;38;5;245
-.RData 00;38;5;245
-.RDATA 00;38;5;245
-.sav   00;38;5;245
-.mat   00;38;5;245
-.json  00;38;5;245
+.xlm   00;38;5;255
+.xls   00;38;5;255
+.xlsx  00;38;5;255
+.csv   00;38;5;255
+.tsv   00;38;5;255
+.Rds   00;38;5;255
+.rds   00;38;5;255
+.RDS   00;38;5;255
+.Rdata 00;38;5;255
+.RData 00;38;5;255
+.RDATA 00;38;5;255
+.sav   00;38;5;255
+.mat   00;38;5;255
+.json  00;38;5;255
 
 # Special interest
 *README           07;38;5;250
@@ -327,4 +327,3 @@ CHR    01;38;5;137 # character device driver
 .pyc        00;38;5;238
 .class      00;38;5;238
 .cache      00;38;5;238
-
