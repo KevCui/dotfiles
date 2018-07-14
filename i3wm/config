@@ -179,6 +179,7 @@ bindsym $mod+Pause mode "$mode_system"
 
 # no border
 for_window [class="^.*$"] border none
+for_window [class="st-256color"] border 1pixel
 hide_edge_borders none
 
 # floating windows
@@ -215,9 +216,6 @@ for_window [class="Nightly"] layout tabbed
 assign [class="Chromium"] $ws1
 for_window [class="Chromium"] layout tabbed
 
-assign [class="st-256color"] $ws2
-for_window [class="st-256color"] layout tabbed
-
 assign [class="Daily"] $ws3
 assign [class="Darktable"] $ws3
 assign [class="Gimp"] $ws4
@@ -234,11 +232,16 @@ client.unfocused #333333 #333333 #888888 #292d2e
 client.urgent #2f343a #900000 #ffffff #900000
 
 # Autostart
+exec --no-startup-id "i3-msg 'workspace 2; append_layout ~/.config/i3/st-workspace.json'"
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
 exec --no-startup-id firefox-nightly
 exec --no-startup-id thunderbird-nightly
-exec --no-startup-id st -e /usr/bin/tmux.sh
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
+exec --no-startup-id st -n ranger -e ranger
+exec --no-startup-id st -n tasksh -e zsh -c "task ls; $SHELL"
+exec --no-startup-id st
+exec --no-startup-id st
+exec --no-startup-id st
