@@ -41,3 +41,8 @@ call vundle#end()
 " Switch j k key binding
 nnoremap k j|xnoremap k j|onoremap k j|
 nnoremap j k|xnoremap j k|onoremap j k|
+
+" System clipboard
+:inoremap <C-v> <ESC>"+pa
+:vnoremap <C-c> "+y
+:vnoremap <C-d> "+d
