@@ -1,0 +1,36 @@
+" ph
+
+highlight clear
+
+highlight Win cterm=none ctermfg=248 ctermbg=234
+highlight Directory cterm=bold ctermfg=033 ctermbg=234
+highlight Link cterm=bold ctermfg=yellow ctermbg=234
+highlight BrokenLink cterm=reverse ctermfg=red ctermbg=default
+highlight Socket cterm=bold ctermfg=125 ctermbg=default
+highlight Device cterm=bold ctermfg=red ctermbg=default
+highlight Fifo cterm=bold ctermfg=cyan ctermbg=default
+highlight Executable cterm=bold ctermfg=166 ctermbg=default
+highlight Selected cterm=bold ctermfg=255 ctermbg=237
+highlight CurrLine cterm=bold ctermfg=default ctermbg=237
+highlight TopLine cterm=bold ctermfg=black ctermbg=235
+highlight TopLineSel cterm=bold ctermfg=black ctermbg=default
+highlight StatusLine cterm=bold ctermfg=black ctermbg=235
+highlight WildMenu cterm=underline,reverse ctermfg=white ctermbg=black
+highlight CmdLine cterm=none ctermfg=white ctermbg=black
+highlight ErrorMsg cterm=none ctermfg=red ctermbg=black
+highlight Border cterm=none ctermfg=black ctermbg=234
+highlight JobLine cterm=bold,reverse ctermfg=black ctermbg=white
+highlight SuggestBox cterm=bold ctermfg=default ctermbg=default
+highlight /^.*\.(aac|au|flac|mid|midi|mka|mp3|mpc|ra|wav|m4a|ogg|oga|flac|m4a)$/ ctermfg=214
+highlight /^.*\.(pdf|epub|PDF|html|HTML|doc|docx|ppt|pptx|xlm|xls|xlsx|csv|tsv|Rds|RDS|Rdata|RData|RDATA|sav|mat|json|odt|odp)$/ ctermfg=48
+highlight /^.*\.(pl|PL|py|pm|tt|yml|sql|css|js|sh|R|js|sh|r|hs|rb|cc|c|lua|vim|m)$/ ctermfg=179
+highlight /^.*\.(log|bak|aux|lof|lol|lot|out|toc|bbl|blg|~|#|part|incomplete|swp|tmp|temp|o|pyc|class|cache)$/ ctermfg=238
+highlight /^.*\.(README|README|README.md|REAMME.markdown|TODO|todo|NOTE|note)$/ ctermfg=250
+highlight /^.*\.(Makefile|do|Doxyfile|config|conf|cfg|ini)$/ ctermfg=136
+highlight /^.*\.(txt|md|srt)$/ ctermfg=255
+highlight /^.*\.(jpg|jpeg|png|gif|tiff|webp|bmp|svg|svgz|pbm|ppm|pgm|tga|xbm|xpm|tif|png|PNG|mng|pcx|dl|xcf|xwd|yuv|cgm|emf|eps|CR2|ico)$/ ctermfg=220
+highlight /^.*\.(mov|MOV|mpg|mpeg|m2v|mkv|ogm|mp4|m4v|mp4v|vob|qt|nuv|wmv|asf|rm|rmvb|flc|avi|fli|flv|gl|m2ts|divx|webm)$/ ctermfg=208
+highlight /^.*\.(zip|gz|bz2|xz|tar|tgz|tbz2|7z|rar|iso|rpm|deb|jar|arj|gem|apk|ace|zoo|cpio|rz|tbz|tbz2|tz|taz)$/ ctermfg=96
+if $USER == 'root'
+    highlight Border ctermbg=red
+endif
