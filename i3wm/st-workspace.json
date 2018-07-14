@@ -33,8 +33,9 @@
                             "percent": 0.6,
                             "swallows": [
                                {
-                                  "class": "st-256color",
-                                  "instance": "ranger"
+                                  "class": "XTerm",
+                                  "instance": "xterm",
+                                  "title": "ranger"
                                }
                             ],
                             "type": "con"

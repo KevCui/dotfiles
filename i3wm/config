@@ -91,6 +91,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # switch to workspace
+workspace_layout tabbed
 set $ws1 1
 set $ws2 2
 set $ws3 3
@@ -180,6 +181,7 @@ bindsym $mod+Pause mode "$mode_system"
 # no border
 for_window [class="^.*$"] border none
 for_window [class="st-256color"] border 1pixel
+for_window [class="XTerm"] border 1pixel
 hide_edge_borders none
 
 # floating windows
@@ -240,7 +242,7 @@ exec --no-startup-id firefox-nightly
 exec --no-startup-id thunderbird-nightly
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
-exec --no-startup-id st -n ranger -e ranger
+exec --no-startup-id xterm -T ranger -e zsh -c ranger
 exec --no-startup-id st -n tasksh -e zsh -c "task ls; $SHELL"
 exec --no-startup-id st
 exec --no-startup-id st

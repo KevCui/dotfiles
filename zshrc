@@ -23,10 +23,6 @@ export NDK_ROOT=${HOME}/android-ndk-r9d
 export JAVA_HOME=/usr/lib/jvm/default/
 export PATH=$ANDROID_SDK:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$PATH
 
-# awesome wm
-#export rclua={$HOME|/.config/awesome/rc.lua
-#export alog=${HOME}/.cache/awesome
-
 #------------------------------
 # Functions
 #------------------------------
