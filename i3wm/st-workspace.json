@@ -82,7 +82,7 @@
                                     "swallows": [
                                        {
                                           "class": "st-256color",
-                                          "instance": "st-256color"
+                                          "instance": "small"
                                        }
                                     ],
                                     "type": "con"
@@ -113,7 +113,7 @@
                             "swallows": [
                                {
                                   "class": "st-256color",
-                                  "instance": "st-256color"
+                                  "instance": "main"
                                }
                             ],
                             "type": "con"
@@ -133,7 +133,7 @@
                             "swallows": [
                                {
                                   "class": "st-256color",
-                                  "instance": "st-256color"
+                                  "instance": "additional"
                                }
                             ],
                             "type": "con"
