@@ -116,12 +116,11 @@ alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias cdd='cd ~/Downloads'
 alias cdp='cd $PATH_NOW'
 alias pt='export PATH_NOW=`pwd`'
+alias cdd='cd ~/Downloads'
 alias cds='cd ~/Script'
 alias cdt='cd ~/.local/share/Trash'
-alias cdb='cd ~/Dropbox'
 alias pg='ps aux | grep $1'
 alias pk9='pkill -9 -f $1'
 alias c='clear'
@@ -135,31 +134,17 @@ alias ll='ls -ltr --color -lh'
 alias a='aurman'
 alias unplug='devmon -u'
 
-# ruby twitter cli alias
-#alias tmen='t mention -r'
-#alias tre='t retweet'
-#alias tu='t update $1'
-#alias tdel='t delete status $1'
-#alias ts='t stream timeline'
-
 # git alias
 alias cdg='cd ~/git'
-alias cdgb='cd ~/git/blog'
+alias cdb='cd ~/git/blog'
 alias gitundo='git reset -- $1'
 alias g='git $@'
-
-# hexo alias
-# alias hd='hexo g;hexo d'
-# alias hb='hexo backup;git push'
 
 # hugo alias
 alias hugos='cd ~/git/blog; hugo server -t=uno -D'
 
 # python server
 alias python-server='python3 -m http.server 8000'
-
-# python server
-alias python-server="python3 -m http.server 8000"
 
 #------------------------------
 # History
