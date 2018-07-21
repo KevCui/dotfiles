@@ -166,11 +166,22 @@ eval `dircolors ${HOME}/.dir_colors`
 #------------------------------
 # Keybindings
 #------------------------------
-bindkey '^B' beginning-of-line
-bindkey '^E' end-of-line
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
+bindkey "^A" beginning-of-line
+bindkey "^B" backward-char
+bindkey '^E' end-of-line
+bindkey "^F" forward-char
+bindkey "^H" backward-delete-char
+bindkey "^K" kill-line
+bindkey "^L" clear-screen
+bindkey "^N" down-history
+bindkey "^P" up-history
 bindkey "^R" history-incremental-search-backward
+bindkey "^T" transpose-chars
+bindkey "^U" kill-whole-line
+bindkey "^W" backward-kill-word
+bindkey "^Y" yank
 
 #------------------------------
 # Comp
