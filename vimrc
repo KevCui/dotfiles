@@ -85,5 +85,6 @@ let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace wh
 let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all selected lines is commented or not
 
 
-" Mark highlight text color
-highlight SignatureMarkText guifg=Green
+" Mark highlight color
+hi SignatureMarkText guifg=Green guibg=#1E1E1E
+hi SignColumn guibg=#1E1E1E
