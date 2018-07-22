@@ -233,6 +233,10 @@ client.focused_inactive #333333 #333333 #888888 #292d2e
 client.unfocused #333333 #333333 #888888 #292d2e
 client.urgent #2f343a #900000 #ffffff #900000
 
+# Mouse behavior
+mouse_warping none
+focus_follows_mouse no
+
 # Autostart
 no_focus [title="ranger"]
 no_focus [instance="tasksh"]
