@@ -51,10 +51,8 @@ Plugin 'raimondi/delimitmate' "auto close quote       https://github.com/raimond
 Plugin 'scrooloose/nerdcommenter' "ci cm cu           https://github.com/scrooloose/nerdcommenter
 Plugin 'kshenoy/vim-signature' "mx dmx m<space> m. m, https://github.com/kshenoy/vim-signature
 Plugin 'SearchComplete' "insert mode completion       https://github.com/vim-scripts/SearchComplete
-Plugin 'honza/vim-snippets'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
+Plugin 'SirVer/ultisnips' "UltiSnips                  https://github.com/SirVer/ultisnips
+Plugin 'honza/vim-snippets' "snippets files           https://github.com/honza/vim-snippets
 call vundle#end()
 
 " Switch j k key bindings
