@@ -5,21 +5,7 @@
 	tool = vimdiff
 [difftool]
 	prompt = false
-[alias]
-    a = add
-    s = status
-    ci = commit -m
-    co = checkout
-    p = push
-    pll = pull
-	d = difftool
-    b = branch
-    m = merge
-    l = log
-    i = init
-    undo = checkout --
-    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-    type = cat-file -t
-    dump = cat-file -p
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
+[include]
+    path = ~/git/dotfiles/gitalias
