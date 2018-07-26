@@ -152,7 +152,7 @@ alias python-server='python3 -m http.server 8000'
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=10000
-function h() { [ -z "$*" ] && history 1 || history 1 | egrep "$@" }
+function h() { [ -z "$*" ] && history -i 1 || history -i 1 | egrep "$@" }
 
 # share history
 setopt share_history
@@ -168,6 +168,8 @@ eval `dircolors ${HOME}/.dir_colors`
 #------------------------------
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 bindkey "^A" beginning-of-line
 bindkey "^B" backward-char
 bindkey '^E' end-of-line
@@ -182,6 +184,8 @@ bindkey "^T" transpose-chars
 bindkey "^U" kill-whole-line
 bindkey "^W" backward-kill-word
 bindkey "^Y" yank
+bindkey -M vicmd 'j' history-substring-search-up
+bindkey -M vicmd 'k' history-substring-search-down
 
 #------------------------------
 # Comp
@@ -217,3 +221,10 @@ eval `ssh-agent -s` > /dev/null
 ssh-add ${HOME}/.ssh/githubkey &> /dev/null
 ssh-add ${HOME}/.ssh/secretkey &> /dev/null
 ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
+
+#------------------------------
+# ZSH Plugins
+#------------------------------
+source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
