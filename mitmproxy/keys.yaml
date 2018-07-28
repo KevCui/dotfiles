@@ -1,0 +1,12 @@
+-
+  key: j
+  ctx: ["global"]
+  cmd: console.nav.up
+-
+  key: k
+  ctx: ["global"]
+  cmd: console.nav.down
+-
+  key: l
+  ctx: ["flowlist"]
+  cmd: console.nav.select
