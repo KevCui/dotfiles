@@ -15,6 +15,7 @@ set guicursor=a:blinkon0
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gbk,gb18030
 set termencoding=utf-8
+set nofixendofline
 
 " color
 set t_Co=256
