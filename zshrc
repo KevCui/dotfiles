@@ -141,7 +141,7 @@ alias gitundo='git reset -- $1'
 alias g='git $@'
 
 # hugo alias
-alias hugos='cd ~/git/blog; hugo server -t=uno -D'
+alias hugos='cd ~/git/blog; hugo server -D'
 
 # python server
 alias python-server='python3 -m http.server 8000'
@@ -162,6 +162,13 @@ setopt inc_append_history
 # Dircolors
 #-----------------------------
 eval `dircolors ${HOME}/.dir_colors`
+
+#------------------------------
+# ZSH Plugins
+#------------------------------
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #------------------------------
 # Keybindings
@@ -221,10 +228,3 @@ eval `ssh-agent -s` > /dev/null
 ssh-add ${HOME}/.ssh/githubkey &> /dev/null
 ssh-add ${HOME}/.ssh/secretkey &> /dev/null
 ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
-
-#------------------------------
-# ZSH Plugins
-#------------------------------
-source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
