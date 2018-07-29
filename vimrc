@@ -54,6 +54,7 @@ Plugin 'kshenoy/vim-signature' "mx dmx m<space> m. m, https://github.com/kshenoy
 Plugin 'SearchComplete' "insert mode completion       https://github.com/vim-scripts/SearchComplete
 Plugin 'SirVer/ultisnips' "UltiSnips                  https://github.com/SirVer/ultisnips
 Plugin 'honza/vim-snippets' "snippets files           https://github.com/honza/vim-snippets
+Plugin 'RRethy/vim-illuminate' "illuminating select   https://github.com/RRethy/vim-illuminate
 call vundle#end()
 
 " Switch j k key bindings
@@ -87,3 +88,6 @@ let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all sele
 " Mark highlight color
 hi SignatureMarkText guifg=Green guibg=#1E1E1E
 hi SignColumn guibg=#1E1E1E
+
+" Disable illuminate for nerdtree
+let g:Illuminate_ftblacklist = ['nerdtree']
