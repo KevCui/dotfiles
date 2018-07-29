@@ -105,11 +105,12 @@ weather () { curl "wttr.in/$1" }
     calc $calc
 }
 
-# show last commit time of sites
+# show last modified time of sites
 lm () {
     for url in $(cat ~/.site); do
-        echo "$url"
-        curl -s -H 'Cache-Control: no-cache, no-store' "$url" | grep "last commit"
+        echo "> $url"
+        time=$(curl -Is "$url" | grep last | cut -c16-)
+        echo "\t"$(date -d $time)
     done
 }
 #------------------------------
