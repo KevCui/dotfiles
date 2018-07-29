@@ -105,6 +105,13 @@ weather () { curl "wttr.in/$1" }
     calc $calc
 }
 
+# show last commit time of sites
+lm () {
+    for url in $(cat ~/.site); do
+        echo "$url"
+        curl -s -H 'Cache-Control: no-cache, no-store' "$url" | grep "last commit"
+    done
+}
 #------------------------------
 # Alias
 #------------------------------
@@ -152,7 +159,7 @@ alias python-server='python3 -m http.server 8000'
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=10000
-function h() { [ -z "$*" ] && history -i 1 || history -i 1 | egrep "$@" }
+h() { [ -z "$*" ] && history -i 1 || history -i 1 | egrep "$@" }
 
 # share history
 setopt share_history
