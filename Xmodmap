@@ -1,7 +1,7 @@
 ! xmodmap for the Colemak layout.
 ! 2006-01-01 Shai Coleman, http://colemak.com/ . Public domain. 
 
-keycode  49 =        grave    asciitilde       dead_tilde        asciitilde            
+keycode  49 =       Escape        Escape           Escape            Escape
 keycode  10 =            1        exclam       exclamdown       onesuperior            
 keycode  11 =            2            at        masculine       twosuperior            
 keycode  12 =            3    numbersign      ordfeminine     threesuperior            
@@ -53,7 +53,7 @@ keycode  60 =       period       greater    dead_abovedot        asciitilde
 keycode  61 =        slash      question     questiondown        asciitilde            
                                                                                       
 keycode  66 =    BackSpace     BackSpace        BackSpace         BackSpace            
-keycode  94 =        minus    underscore           endash            emdash            
+keycode  94 =        grave    asciitilde       dead_tilde        asciitilde            
 keycode  65 =        space         space            space      nobreakspace            
 !keycode 113 =  Mode_switch   Mode_switch                                               
 clear Lock
