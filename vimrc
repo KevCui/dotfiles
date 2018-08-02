@@ -11,7 +11,7 @@ set nu
 set hlsearch
 set guicursor=a:blinkon0
 
-"file coding utf-8
+" file coding utf-8
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gbk,gb18030
 set termencoding=utf-8
@@ -35,6 +35,10 @@ autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
 
 " leader key mapping
 let mapleader = " "
+
+" maintain undo history between sessions
+set undofile
+set undodir=~/.vim/undodir
 
 " plugins
 set rtp+=~/.vim/bundle/Vundle.vim
