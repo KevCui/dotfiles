@@ -178,13 +178,14 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+export HISTORY_SUBSTRING_SEARCH_FUZZY=1
+
 #------------------------------
 # Keybindings
 #------------------------------
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
 bindkey "^A" beginning-of-line
 bindkey "^B" backward-char
 bindkey '^E' end-of-line
