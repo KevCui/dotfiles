@@ -1,6 +1,32 @@
-set nocompatible
-colorscheme snazzy
-syntax on
+" plugins
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'godlygeek/tabular' "align text                https://github.com/godlygeek/tabular
+Plugin 'plasticboy/vim-markdown' "markdown highlight  https://github.com/plasticboy/vim-markdown
+Plugin 'wellle/targets.vim' "di'                      https://github.com/wellle/targets.vim
+Plugin 'cespare/vim-toml' "toml syntax                https://github.com/cespare/vim-toml
+Plugin 'elzr/vim-json' "json syntax                   https://github.com/elzr/vim-json
+Plugin 'tpope/vim-fugitive' "Gedit Gstatus Gdiff      https://github.com/tpope/vim-fugitive
+Plugin 'scrooloose/nerdtree' "file system             https://github.com/scrooloose/nerdtree
+Plugin 'easymotion/vim-easymotion' "w f b s           https://github.com/easymotion/vim-easymotion
+Plugin 'ervandew/supertab' "tab completion            https://github.com/ervandew/supertab
+Plugin 'raimondi/delimitmate' "auto close quote       https://github.com/raimondi/delimitmate
+Plugin 'scrooloose/nerdcommenter' "ci cm cu           https://github.com/scrooloose/nerdcommenter
+Plugin 'kshenoy/vim-signature' "mx dmx m<space> m. m, https://github.com/kshenoy/vim-signature
+Plugin 'SearchComplete' "insert mode completion       https://github.com/vim-scripts/SearchComplete
+Plugin 'SirVer/ultisnips' "UltiSnips                  https://github.com/SirVer/ultisnips
+Plugin 'honza/vim-snippets' "snippets files           https://github.com/honza/vim-snippets
+Plugin 'RRethy/vim-illuminate' "illuminating select   https://github.com/RRethy/vim-illuminate
+Plugin 'itchyny/lightline.vim' "status line           https://github.com/itchyny/lightline.vim
+call vundle#end()
+
+" theme
+colorscheme iceberg
+set laststatus=2
+let g:lightline = { 'colorscheme': 'iceberg'  }
+
+" color
+set t_Co=256
 
 " gvim font
 set guifont=Hack\ 9
@@ -10,15 +36,13 @@ filetype plugin on
 set nu
 set hlsearch
 set guicursor=a:blinkon0
+syntax on
 
 " file coding utf-8
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gbk,gb18030
 set termencoding=utf-8
 set nofixendofline
-
-" color
-set t_Co=256
 
 " format
 set softtabstop=4
@@ -39,27 +63,6 @@ let mapleader = " "
 " maintain undo history between sessions
 set undofile
 set undodir=~/.vim/undodir
-
-" plugins
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'godlygeek/tabular' "align text                https://github.com/godlygeek/tabular
-Plugin 'plasticboy/vim-markdown' "markdown highlight  https://github.com/plasticboy/vim-markdown
-Plugin 'wellle/targets.vim' "di'                      https://github.com/wellle/targets.vim
-Plugin 'cespare/vim-toml' "toml syntax                https://github.com/cespare/vim-toml
-Plugin 'elzr/vim-json' "json syntax                   https://github.com/elzr/vim-json
-Plugin 'tpope/vim-fugitive' "Gedit Gstatus Gdiff      https://github.com/tpope/vim-fugitive
-Plugin 'scrooloose/nerdtree' "file system             https://github.com/scrooloose/nerdtree
-Plugin 'easymotion/vim-easymotion' "w f b s           https://github.com/easymotion/vim-easymotion
-Plugin 'ervandew/supertab' "tab completion            https://github.com/ervandew/supertab
-Plugin 'raimondi/delimitmate' "auto close quote       https://github.com/raimondi/delimitmate
-Plugin 'scrooloose/nerdcommenter' "ci cm cu           https://github.com/scrooloose/nerdcommenter
-Plugin 'kshenoy/vim-signature' "mx dmx m<space> m. m, https://github.com/kshenoy/vim-signature
-Plugin 'SearchComplete' "insert mode completion       https://github.com/vim-scripts/SearchComplete
-Plugin 'SirVer/ultisnips' "UltiSnips                  https://github.com/SirVer/ultisnips
-Plugin 'honza/vim-snippets' "snippets files           https://github.com/honza/vim-snippets
-Plugin 'RRethy/vim-illuminate' "illuminating select   https://github.com/RRethy/vim-illuminate
-call vundle#end()
 
 " Switch j k key bindings
 nnoremap k j|xnoremap k j|onoremap k j|
@@ -87,7 +90,6 @@ let g:vim_markdown_json_frontmatter = 1
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
 let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all selected lines is commented or not
-
 
 " Mark highlight color
 hi SignatureMarkText guifg=Green guibg=#1E1E1E
