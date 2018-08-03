@@ -18,6 +18,7 @@ Plugin 'SirVer/ultisnips' "UltiSnips                  https://github.com/SirVer/
 Plugin 'honza/vim-snippets' "snippets files           https://github.com/honza/vim-snippets
 Plugin 'RRethy/vim-illuminate' "illuminating select   https://github.com/RRethy/vim-illuminate
 Plugin 'itchyny/lightline.vim' "status line           https://github.com/itchyny/lightline.vim
+Plugin 'junegunn/goyo.vim' "free writing              https://github.com/junegunn/goyo.vim
 call vundle#end()
 
 " theme
