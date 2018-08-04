@@ -92,8 +92,8 @@ TERM xterm-termite
 # 48;5;COLOR_NUMBER
 
 # Special files
-NORMAL 00;38;5;250 # global default
-FILE   00;38;5;250 # normal file
+NORMAL 00;38;5;255 # global default
+FILE   00;38;5;255 # normal file
 DIR    01;38;5;111  # directory
 LINK   07;38;5;149 # symbolic link. ('target'=the color for the file pointed to)
 ORPHAN 07;38;5;203 # symlink to nonexistent file
@@ -138,34 +138,34 @@ CHR    01;38;5;215 # character device driver
 .gem    00;38;5;141
 
 # Image formats
-.jpg    00;38;5;215
-.JPG    00;38;5;215
-.jpeg   00;38;5;215
-.gif    00;38;5;215
-.bmp    00;38;5;215
-.pbm    00;38;5;215
-.pgm    00;38;5;215
-.ppm    00;38;5;215
-.tga    00;38;5;215
-.xbm    00;38;5;215
-.xpm    00;38;5;215
-.tif    00;38;5;215
-.tiff   00;38;5;215
-.png    00;38;5;215
-.PNG    00;38;5;215
-.svg    00;38;5;215
-.svgz   00;38;5;215
-.mng    00;38;5;215
-.pcx    00;38;5;215
-.dl     00;38;5;215
-.xcf    00;38;5;215
-.xwd    00;38;5;215
-.yuv    00;38;5;215
-.cgm    00;38;5;215
-.emf    00;38;5;215
-.eps    00;38;5;215
-.CR2    00;38;5;215
-.ico    00;38;5;215
+.jpg    00;38;5;221
+.JPG    00;38;5;221
+.jpeg   00;38;5;221
+.gif    00;38;5;221
+.bmp    00;38;5;221
+.pbm    00;38;5;221
+.pgm    00;38;5;221
+.ppm    00;38;5;221
+.tga    00;38;5;221
+.xbm    00;38;5;221
+.xpm    00;38;5;221
+.tif    00;38;5;221
+.tiff   00;38;5;221
+.png    00;38;5;221
+.PNG    00;38;5;221
+.svg    00;38;5;221
+.svgz   00;38;5;221
+.mng    00;38;5;221
+.pcx    00;38;5;221
+.dl     00;38;5;221
+.xcf    00;38;5;221
+.xwd    00;38;5;221
+.yuv    00;38;5;221
+.cgm    00;38;5;221
+.emf    00;38;5;221
+.eps    00;38;5;221
+.CR2    00;38;5;221
+.ico    00;38;5;221
 
 # Video
 .mov    00;38;5;215
