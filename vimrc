@@ -19,15 +19,15 @@ Plugin 'honza/vim-snippets' "snippets files           https://github.com/honza/v
 Plugin 'RRethy/vim-illuminate' "illuminating select   https://github.com/RRethy/vim-illuminate
 Plugin 'itchyny/lightline.vim' "status line           https://github.com/itchyny/lightline.vim
 Plugin 'junegunn/goyo.vim' "free writing              https://github.com/junegunn/goyo.vim
+Plugin 'godlygeek/csapprox' "gui color for term       https://github.com/godlygeek/csapprox
 call vundle#end()
 
-" theme
+" theme & color
+set t_Co=256
+let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 colorscheme iceberg
 set laststatus=2
 let g:lightline = { 'colorscheme': 'iceberg'  }
-
-" color
-set t_Co=256
 
 " gvim font
 set guifont=Hack\ 9
