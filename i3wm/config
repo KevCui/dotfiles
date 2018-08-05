@@ -36,11 +36,7 @@ bindsym $mod+Return exec st
 #bindsym $mod+Shift+q kill
 bindsym $mod+F4 kill
 
-# start dmenu (a program launcher)
-#bindsym $mod+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
+# rofi
 bindsym $mod+r exec "rofi -show run -lines 8 -eh 1 -width 20 -font 'Hack 18' -color-normal '#002b37,#819396,#003643,#008ed4,#ffffff' -color-urgent '#002b37,#da4281,#003643,#008ed4,#890661' -color-window '#002b37,#002b37,#003642' -color-active '#002b37,#008ed4,#003643,#008ed4,#66c6ff'"
 
 # change focus
@@ -228,6 +224,7 @@ assign [class="libreoffice-calc"] $ws4
 assign [class="Soffice"] $ws4
 
 # Theme
+# <colorclass> <border> <background> <text> <indicator> <child_border>
 client.focused #0088CC #0088CC #ffffff #dddddd
 client.focused_inactive #333333 #333333 #888888 #292d2e
 client.unfocused #333333 #333333 #888888 #292d2e
