@@ -258,6 +258,8 @@ CHR    01;38;5;215 # character device driver
 *config   00;38;5;149
 .conf     00;38;5;149
 .cfg      00;38;5;149
+.ini      00;38;5;149
+.rc       00;38;5;149
 
 # Plain text
 .txt      00;38;5;149
