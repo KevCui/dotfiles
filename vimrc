@@ -20,6 +20,7 @@ Plugin 'RRethy/vim-illuminate' "illuminating select   https://github.com/RRethy/
 Plugin 'itchyny/lightline.vim' "status line           https://github.com/itchyny/lightline.vim
 Plugin 'junegunn/goyo.vim' "free writing              https://github.com/junegunn/goyo.vim
 Plugin 'godlygeek/csapprox' "gui color for term       https://github.com/godlygeek/csapprox
+Plugin 'lilydjwg/colorizer' "colorize all color texts https://github.com/lilydjwg/colorizer
 call vundle#end()
 
 " theme & color
