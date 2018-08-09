@@ -41,6 +41,8 @@ class iceberg(ColorScheme):
                 fg = 232
                 bg = 149
                 attr |= bold
+            if context.video:
+                fg = 215
             if context.fifo:
                 fg = 232
                 bg = 215
