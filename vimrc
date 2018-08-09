@@ -46,6 +46,9 @@ set fileencodings=utf-8,gb2312,gbk,gb18030
 set termencoding=utf-8
 set nofixendofline
 
+" encryption
+setlocal cm=blowfish2
+
 " format
 set softtabstop=4
 set shiftwidth=4
