@@ -37,7 +37,7 @@ bindsym $mod+Return exec st
 bindsym $mod+F4 kill
 
 # rofi
-bindsym $mod+r exec "rofi -show run -lines 8 -eh 1 -width 20 -font 'Hack 18' -color-normal '#002b37,#819396,#003643,#008ed4,#ffffff' -color-urgent '#002b37,#da4281,#003643,#008ed4,#890661' -color-window '#002b37,#002b37,#003642' -color-active '#002b37,#008ed4,#003643,#008ed4,#66c6ff'"
+bindsym $mod+space exec "rofi -show run -lines 8 -eh 1 -width 20 -font 'Hack 18' -color-normal '#002b37,#819396,#003643,#008ed4,#ffffff' -color-urgent '#002b37,#da4281,#003643,#008ed4,#890661' -color-window '#002b37,#002b37,#003642' -color-active '#002b37,#008ed4,#003643,#008ed4,#66c6ff'"
 
 # change focus
 bindsym $mod+h focus left
@@ -81,7 +81,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+f floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+shift+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
