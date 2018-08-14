@@ -141,6 +141,7 @@ alias hl='ls -ltr --color -lh'
 alias ll='ls -ltr --color -lh'
 alias a='aurman'
 alias unplug='devmon -u'
+alias diff='colordiff'
 
 # git alias
 alias cdg='cd ~/git'
