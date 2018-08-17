@@ -155,6 +155,48 @@ alias hugos='cd ~/git/blog; hugo server -D'
 # python server
 alias python-server='python3 -m http.server 8000'
 
+# grc alias
+if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
+
+  # Supported commands
+  cmds=(
+    cc \
+    configure \
+    cvs \
+    df \
+    dig \
+    gcc \
+    gmake \
+    ifconfig \
+    ip \
+    last \
+    ls \
+    ldap \
+    make \
+    mount \
+    mtr \
+    netstat \
+    ping \
+    ping6 \
+    ps \
+    traceroute \
+    traceroute6 \
+    wdiff \
+    whois \
+    iwconfig \
+  );
+
+  # Set alias for available commands.
+  for cmd in $cmds ; do
+    if (( $+commands[$cmd] )) ; then
+      alias $cmd="grc --colour=auto $(whence $cmd)"
+    fi
+  done
+
+  # Clean up variables
+  unset cmds cmd
+fi
+
 #------------------------------
 # History
 #------------------------------
