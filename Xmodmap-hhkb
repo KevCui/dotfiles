@@ -74,7 +74,7 @@ keycode 102 = Super_R
 !add    Mod5    = Scroll_Lock
 
 keycode   9 = Escape
-keycode  22 = BackSpace Terminate_Server
+keycode  22 = BackSpace
 keycode  23 = Tab ISO_Left_Tab
 keycode  36 = Return
 keycode  37 = Control_L
