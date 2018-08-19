@@ -263,10 +263,10 @@ CHR    01;38;5;215 # character device driver
 *rc       00;38;5;149
 
 # Plain text
-.txt      00;38;5;149
-.md       00;38;5;149
-.markdown 00;38;5;149
-.srt      00;38;5;149
+.txt      00;38;5;255
+.md       00;38;5;255
+.markdown 00;38;5;255
+.srt      00;38;5;255
 
 # Other readables
 .xlm   00;38;5;149
