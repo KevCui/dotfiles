@@ -156,7 +156,7 @@ alias hugos='cd ~/git/blog; hugo server -D'
 alias python-server='python3 -m http.server 8000'
 
 # run firefox with default GTK3 theme
-alias firefox='env GTK_THEME=Adwaita:light firefox-nightly'
+alias firefox='env GTK_THEME=Arc firefox-nightly'
 
 # grc alias
 if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
