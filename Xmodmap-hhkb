@@ -62,6 +62,9 @@ keycode 102 = Super_R
 keycode 22  = Delete
 keycode 119 = BackSpace
 
+! Alt_R Mode_switch
+keycode 108 = Mode_switch
+
 !clear Shift
 !clear Control
 !clear Mod1
