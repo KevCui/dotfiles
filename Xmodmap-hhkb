@@ -58,6 +58,10 @@ keycode  65 =        space         space            space      nobreakspace
 keycode 100 = Super_L
 keycode 102 = Super_R
 
+! DEL and BS
+keycode 22  = Delete
+keycode 119 = BackSpace
+
 !clear Shift
 !clear Control
 !clear Mod1
@@ -74,7 +78,6 @@ keycode 102 = Super_R
 !add    Mod5    = Scroll_Lock
 
 keycode   9 = Escape
-keycode  22 = BackSpace
 keycode  23 = Tab ISO_Left_Tab
 keycode  36 = Return
 keycode  37 = Control_L
