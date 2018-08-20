@@ -23,6 +23,13 @@ export NDK_ROOT=${HOME}/android-ndk-r9d
 export JAVA_HOME=/usr/lib/jvm/default/
 export PATH=$ANDROID_SDK:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$PATH
 
+# fzf key bindings and color
+export FZF_DEFAULT_OPTS='
+  --bind ctrl-j:up,ctrl-k:down
+  --color fg:250,hl:221,fg+:232,bg+:111,hl+:221
+  --color info:111,prompt:221,spinner:221,pointer:111,marker:221
+'
+
 #------------------------------
 # Functions
 #------------------------------
@@ -223,6 +230,8 @@ eval `dircolors ${HOME}/.dir_colors`
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/fzf/completion.zsh
+source ~/.zsh/fzf/key-bindings.zsh
 
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
@@ -241,8 +250,6 @@ bindkey "^K" kill-line
 bindkey "^L" clear-screen
 bindkey "^N" down-history
 bindkey "^P" up-history
-bindkey "^R" history-incremental-search-backward
-bindkey "^T" transpose-chars
 bindkey "^U" kill-whole-line
 bindkey "^W" backward-kill-word
 bindkey "^Y" yank
