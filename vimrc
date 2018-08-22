@@ -91,6 +91,9 @@ map <Leader> <Plug>(easymotion-prefix)
 let g:vim_markdown_toml_frontmatter = 1
 let g:vim_markdown_json_frontmatter = 1
 
+" markdown folding
+let g:vim_markdown_folding_disabled = 1
+
 " nerdcommenter
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
 let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
