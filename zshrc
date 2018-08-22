@@ -120,6 +120,10 @@ lm () {
         echo "\t"$(date -d $time)
     done
 }
+
+# clean unzip mess
+zipundo() { unzip -Z -1 "$1" | xargs -I{} rm -v {}}
+
 #------------------------------
 # Alias
 #------------------------------
