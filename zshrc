@@ -261,31 +261,17 @@ bindkey -M vicmd 'j' history-substring-search-up
 bindkey -M vicmd 'k' history-substring-search-down
 
 #------------------------------
-# Comp
+# Completion
 #------------------------------
-autoload -U colors && colors
-autoload -U compinit promptinit
-zstyle ':completion:*' menu select
-setopt completealiases
-zmodload zsh/complist
 autoload -Uz compinit
 compinit
-zstyle :compinstall filename '${HOME}/.zshrc'
+zstyle ':completion:*' menu select
+setopt completealiases
 
 zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
 zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-
-zstyle ':completion:*:pacman:*' force-list always
-zstyle ':completion:*:*:pacman:*' menu yes select
-
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-
-zstyle ':completion:*:*:kill:*' menu yes select
-zstyle ':completion:*:kill:*'   force-list always
-
-zstyle ':completion:*:*:killall:*' menu yes select
-zstyle ':completion:*:killall:*'   force-list always
 
 #------------------------------
 # SSH
