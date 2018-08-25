@@ -153,6 +153,9 @@ alias ll='ls -ltr --color -lh'
 alias a='aurman'
 alias unplug='devmon -u'
 alias diff='colordiff'
+alias ping='prettyping --nolegend'
+alias top='htop'
+alias cat='bat --theme=iceberg'
 
 # git alias
 alias cdg='cd ~/git'
