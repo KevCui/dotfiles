@@ -129,7 +129,6 @@ zipundo() { unzip -Z -1 "$1" | xargs -I{} rm -v {}}
 #------------------------------
 # general alias
 alias rm='rm -i'
-alias ls='ls --color=auto'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
@@ -147,9 +146,8 @@ alias pg='ps aux | grep $@'
 alias lg='ls -ltr | grep $@'
 alias vi='vim'
 alias vif='vim $(fzf)'
-alias ls='ls --color -F'
-alias hl='ls -ltr --color -lh'
-alias ll='ls -ltr --color -lh'
+alias ls='exa -s mod --git'
+alias ll='exa -l -G -s mod --git --time-style=long-iso'
 alias a='aurman'
 alias unplug='devmon -u'
 alias diff='colordiff'
@@ -187,7 +185,6 @@ if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
     ifconfig \
     ip \
     last \
-    ls \
     ldap \
     make \
     mount \
