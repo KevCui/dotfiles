@@ -218,6 +218,7 @@ for_window [class="Chromium"] layout tabbed
 assign [class="Daily"] $ws3
 assign [class="Darktable"] $ws3
 assign [class="Thunar"] $ws3
+assign [class="Gthumb"] $ws3
 assign [class="Gimp"] $ws4
 assign [class="VirtualBox"] $ws5
 assign [class="libreoffice-startcenter"] $ws4
