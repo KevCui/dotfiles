@@ -33,9 +33,8 @@
                             "percent": 0.6,
                             "swallows": [
                                {
-                                  "class": "XTerm",
-                                  "instance": "xterm",
-                                  "title": "ranger"
+                                  "class": "st-256color",
+                                  "instance": "main"
                                }
                             ],
                             "type": "con"
@@ -88,55 +87,6 @@
                                     "type": "con"
                                 }
                             ]
-                        }
-                    ]
-                },
-                {
-                    "border": "normal",
-                    "floating": "auto_off",
-                    "layout": "splith",
-                    "percent": 0.333333333333333,
-                    "type": "con",
-                    "nodes": [
-                        {
-                            "border": "pixel",
-                            "current_border_width": 1,
-                            "floating": "auto_off",
-                            "geometry": {
-                               "height": 364,
-                               "width": 564,
-                               "x": 0,
-                               "y": 0
-                            },
-                            "name": "st",
-                            "percent": 0.5,
-                            "swallows": [
-                               {
-                                  "class": "st-256color",
-                                  "instance": "main"
-                               }
-                            ],
-                            "type": "con"
-                        },
-                        {
-                            "border": "pixel",
-                            "current_border_width": 1,
-                            "floating": "auto_off",
-                            "geometry": {
-                               "height": 364,
-                               "width": 564,
-                               "x": 0,
-                               "y": 0
-                            },
-                            "name": "st",
-                            "percent": 0.5,
-                            "swallows": [
-                               {
-                                  "class": "st-256color",
-                                  "instance": "additional"
-                               }
-                            ],
-                            "type": "con"
                         }
                     ]
                 }
