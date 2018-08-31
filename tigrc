@@ -1,0 +1,11 @@
+bind generic j move-up
+bind generic J previous
+bind generic <C-J> find-prev
+bind generic k move-down
+bind generic K next
+bind generic <C-K> find-next
+
+bind generic a !git commit --amend
+bind generic <C-F> !?it checkout %(commit) %(file)
+bind generic 9 !@sh -c "echo -n %(commit) | xclip -selection c"
+bind status P !git push origin
