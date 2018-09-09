@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Hack:size=9:antialias=true:autohint=true";
+static char *font = "%font%:size=%size%:antialias=true:autohint=true";
 static int borderpx = 2;
 
 /*
@@ -85,31 +85,31 @@ unsigned int tabspaces = 4;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"#171717",
-	"#FF5E5E",
-	"#9CE82B",
-	"#F0E68C",
-	"#008AFF",
-	"#E88CFF",
-	"#87CEFA",
-	"#DCDCCC",
+	"%color0%",
+	"%color1%",
+	"%color2%",
+	"%color3%",
+	"%color4%",
+	"%color5%",
+	"%color6%",
+	"%color7%",
 
 	/* 8 bright colors */
-	"#737373",
-	"#FF7878",
-	"#9ACD32",
-	"#EEE8AA",
-	"#4F98FF",
-	"#EDA6FF",
-	"#B0E2FF",
-	"#FFFFFF",
+	"%color8%",
+	"%color9%",
+	"%color10%",
+	"%color11%",
+	"%color12%",
+	"%color13%",
+	"%color14%",
+	"%color15%",
 
 	[255] = 0,
 
 	/* more colors can be added after 255 to use with DefaultXX */
-	"#FF8000",
-    "#2B92DB",
-    "#1E1E1E",
+    "%rcscolor%",
+    "%cscolor%",
+    "%bgcolor%",
     "#161821",
 };
 

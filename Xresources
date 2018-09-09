@@ -8,7 +8,7 @@ XTerm.vt100.backarrowKey: false
 XTerm.ttyModes: erase ^?
 XTerm.vt100.saveLines: 65535
 XTerm.vt100.scrollBar: false
-XTerm.vt100.faceName: Hack:size=9:antialias=true
+XTerm.vt100.faceName: %font%:size=%size%:antialias=true
 XTerm.vt100.font: 7x13
 XTerm.vt100.faceNameDoublesize: LiHeiPro
 XTerm.vt100.faceSize: 8
@@ -18,29 +18,29 @@ XTerm*selectToClipboard: true
 XTerm*cursorBlink: true
 
 !----- Colors ----------------------------------
-XTerm.vt100*foreground: white
-XTerm.vt100*background: #222222
+XTerm.vt100*foreground: %color7%
+XTerm.vt100*background: %bgcolor%
 !black
-XTerm.vt100*color0:	#171717
-XTerm.vt100*color8:	#737373
+XTerm.vt100*color0: %color0%
+XTerm.vt100*color8: %color8%
 !red
-XTerm.vt100*color1:	#FF5E5E
-XTerm.vt100*color9:	#FF7878
+XTerm.vt100*color1: %color1%
+XTerm.vt100*color9: %color9%
 !green
-XTerm.vt100*color2:	#9CE82B
-XTerm.vt100*color10: #9ACD32
+XTerm.vt100*color2:	%color2%
+XTerm.vt100*color10: %color10%
 !yellow
-XTerm.vt100*color3:	#F0E68C
-XTerm.vt100*color11: #EEE8AA
+XTerm.vt100*color3: %color3%
+XTerm.vt100*color11: %color11%
 !blue
-XTerm.vt100*color4:	#008AFF
-XTerm.vt100*color12: #4F98FF
+XTerm.vt100*color4: %color4%
+XTerm.vt100*color12: %color12%
 !magenta
-XTerm.vt100*color5:	#E88CFF
-XTerm.vt100*color13: #EDA6FF
+XTerm.vt100*color5: %color5%
+XTerm.vt100*color13: %color13%
 !cyan
-XTerm.vt100*color6:	#87CEFA
-XTerm.vt100*color14: #B0E2FF
+XTerm.vt100*color6: %color6%
+XTerm.vt100*color14: %color14%
 !white
-XTerm.vt100*color7:	#DCDCCC
-XTerm.vt100*color15: #FFFFFF
+XTerm.vt100*color7: %color7%
+XTerm.vt100*color15: %color15%
