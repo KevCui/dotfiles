@@ -191,12 +191,9 @@ for_window [class="Viewnior"] floating enable
 for_window [class="Peek"] stacking enable
 
 # Volume
-bindsym XF86AudioRaiseVolume exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"
-bindsym $mod+equal exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"
-bindsym XF86AudioLowerVolume exec "pamixer -d 15;notify-send -u low `pamixer --get-volume`"
-bindsym $mod+minus exec "pamixer -d 15;notify-send -u low `pamixer --get-volume`"
-bindsym XF86AudioMute exec "pamixer -t;notify-send -u low `amixer get Master | awk '$0~/%/{print $6}' | tr -d '[]'`"
-bindsym $mod+0 exec "pamixer -t;notify-send -u low `amixer get Master | awk '$0~/%/{print $6}' | tr -d '[]'`"
+bindsym %raisevol% exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"
+bindsym %lowervol% exec "pamixer -d 15;notify-send -u low `pamixer --get-volume`"
+bindsym %mute% exec "pamixer -t;notify-send -u low `amixer get Master | awk '$0~/%/{print $6}' | tr -d '[]'`"
 
 # Brightness
 bindsym XF86MonBrightnessUp exec "brightnessctl -d intel_backlight set 10%+"
