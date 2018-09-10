@@ -11,7 +11,7 @@
 " If you would like to use another vi clone such as Elvis or Vile
 " you will need to change this setting.
 
-set vicmd=vim
+set vicmd=nvim
 " set vicmd=elvis\ -G\ termcap
 " set vicmd=vile
 
@@ -133,12 +133,12 @@ mark h ~/
 " %m run the command in a menu window
 
 command! df df -h %m 2> /dev/null
-command! diff vim -d %f %F
+command! diff nvim -d %f %F
 command! zip zip -r %f.zip %f
 command! run !! ./%f
 command! make !!make %a
 command! mkcd :mkdir %a | cd %a
-command! vgrep vim "+grep %a"
+command! vgrep nvim "+grep %a"
 command! reload :write | restart
 
 " ------------------------------------------------------------------------------

@@ -21,6 +21,7 @@ Plugin 'itchyny/lightline.vim' "status line           https://github.com/itchyny
 Plugin 'junegunn/goyo.vim' "free writing              https://github.com/junegunn/goyo.vim
 Plugin 'godlygeek/csapprox' "gui color for term       https://github.com/godlygeek/csapprox
 Plugin 'lilydjwg/colorizer' "colorize all color texts https://github.com/lilydjwg/colorizer
+Plugin 'jamessan/vim-gnupg' "gpg encryption           https://github.com/jamessan/vim-gnupg
 call vundle#end()
 
 " theme & color
@@ -45,9 +46,6 @@ set encoding=utf-8
 set fileencodings=utf-8,gb2312,gbk,gb18030
 set termencoding=utf-8
 set nofixendofline
-
-" encryption
-setlocal cm=blowfish2
 
 " format
 set softtabstop=4
@@ -105,3 +103,15 @@ hi SignColumn guibg=#1E1E1E
 
 " Disable illuminate for nerdtree
 let g:Illuminate_ftblacklist = ['nerdtree']
+
+" gpg
+let g:GPGUseAgent=1
+let g:GPGPreferSymmetric=1
+let g:GPGPreferArmor=1
+let g:GPGUsePipes=1
+
+" Vim only
+if !has('nvim')
+    " encryption
+    setlocal cm=blowfish2
+endif

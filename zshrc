@@ -11,10 +11,12 @@ RPROMPT="%F{yellow}\$(git rev-parse --abbrev-ref HEAD 2> /dev/null) %F{green}%B%
 export PATH="$PATH":${HOME}/Script:/opt/android-sdk/tools/bin/:/opt/android-sdk/platform-tools/:${HOME}/bin:${HOME}/.cabal/bin:${HOME}/.npm-global/bin
 export TERM='xterm-256color'
 export BROWSER="firefox-nightly"
-export EDITOR="vim"
+export EDITOR="nvim"
 export sys=/etc/systemd/system
 export libsys=/usr/lib/systemd/system
 export pkg=/var/cache/pacman/pkg
+GPG_TTY=$(tty)
+export GPG_TTY
 
 # Android SDK
 export ANDROID_SDK=/opt/android-sdk/
@@ -133,8 +135,8 @@ alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias ccat='pygmentize -g -O style=colorful,linenos=1'
-alias vi='vim'
-alias vif='vim $(fzf)'
+alias vi='nvim'
+alias vif='nvim $(fzf)'
 alias ls='exa -s mod --git'
 alias ll='exa -l -s mod --git --time-style=long-iso'
 alias a='aurman'
