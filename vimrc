@@ -110,8 +110,9 @@ let g:GPGPreferSymmetric=1
 let g:GPGPreferArmor=1
 let g:GPGUsePipes=1
 
-" Vim only
-if !has('nvim')
+if has('nvim')
+    :tnoremap <Esc> <C-\><C-n>
+else
     " encryption
     setlocal cm=blowfish2
 endif
