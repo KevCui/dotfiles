@@ -72,9 +72,9 @@ nnoremap k j|xnoremap k j|onoremap k j|
 nnoremap j k|xnoremap j k|onoremap j k|
 
 " System clipboard
-:inoremap <C-v> <ESC>"+pa
-:vnoremap <C-c> "+y
-:vnoremap <C-d> "+d
+inoremap <C-v> <ESC>"+pa
+vnoremap <C-c> "+y
+vnoremap <C-d> "+d
 
 " Grammar check
 let g:grammarous#languagetool_cmd = 'languagetool'
@@ -112,10 +112,11 @@ let g:GPGUsePipes=1
 
 if has('nvim')
     " Escape terminal
-    :tnoremap <Esc> <C-\><C-n>
+    tnoremap <Esc> <C-\><C-n>
 
-    " Save with sudo :w suda://%
+    " w!! write file with sudo
     Plugin 'lambdalisue/suda.vim' "read write with sudo   https://github.com/lambdalisue/suda.vim
+    cnoremap w!! execute 'write suda://%'
 else
     " encryption
     setlocal cm=blowfish2
