@@ -250,8 +250,8 @@ bindkey "^P" up-history
 bindkey "^U" kill-whole-line
 bindkey "^W" backward-kill-word
 bindkey "^Y" yank
-bindkey -M vicmd 'j' history-substring-search-up
-bindkey -M vicmd 'k' history-substring-search-down
+%comment%bindkey -M vicmd 'j' history-substring-search-up
+%comment%bindkey -M vicmd 'k' history-substring-search-down
 
 #------------------------------
 # Completion
@@ -270,6 +270,9 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # SSH
 #------------------------------
 eval `ssh-agent -s` > /dev/null
-ssh-add ${HOME}/.ssh/githubkey &> /dev/null
-ssh-add ${HOME}/.ssh/secretkey &> /dev/null
 ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
+
+#------------------------------
+# Other source
+#------------------------------
+source %othersource%
