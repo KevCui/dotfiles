@@ -111,8 +111,15 @@ let g:GPGPreferArmor=1
 let g:GPGUsePipes=1
 
 if has('nvim')
+    " Escape terminal
     :tnoremap <Esc> <C-\><C-n>
+
+    " Save with sudo :w suda://%
+    Plugin 'lambdalisue/suda.vim' "read write with sudo   https://github.com/lambdalisue/suda.vim
 else
     " encryption
     setlocal cm=blowfish2
+
+    " w!! write file with sudo
+    cnoremap w!! execute 'write !sudo tee % >/dev/null' <bar> edit!
 endif
