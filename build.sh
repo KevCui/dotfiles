@@ -46,4 +46,5 @@ for filename in $(yq -r '. | to_entries[]'.key "$1"); do
 done
 
 # Show unreplaced variables
-rg '%\w\w+%' $OUTPUT 2> /dev/null
+echo
+rg '%\w\w+%' "$OUTPUT"/*
