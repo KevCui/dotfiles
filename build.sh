@@ -3,9 +3,14 @@
 HOME=$(pwd)
 OUTPUT=${HOME}/output
 
-# Check command exists
+# Check commands exist
 if [ ! "$(command -v yq)" ]; then
     echo "Please install yq first"
+    exit 1
+fi
+
+if [ ! "$(command -v rg)" ]; then
+    echo "Please install ripgrep first"
     exit 1
 fi
 
@@ -39,3 +44,6 @@ for filename in $(yq -r '. | to_entries[]'.key "$1"); do
     cmd="$cmd $HOME/$filename > $OUTPUT/$filename"
     eval "$cmd"
 done
+
+# Show unreplaced variables
+rg '%\w\w+%' $OUTPUT 2> /dev/null
