@@ -196,8 +196,8 @@ bindsym %lowervol% exec "pamixer -d 15;notify-send -u low `pamixer --get-volume`
 bindsym %mute% exec "pamixer -t;notify-send -u low `amixer get Master | awk '$0~/%/{print $6}' | tr -d '[]'`"
 
 # Brightness
-bindsym XF86MonBrightnessUp exec "brightnessctl -d intel_backlight set 10%+"
-bindsym XF86MonBrightnessDown exec "brightnessctl -d intel_backlight set 10%-"
+bindsym XF86MonBrightnessUp exec "light -A 10"
+bindsym XF86MonBrightnessDown exec "light -U 10"
 
 # Rotate screen
 bindsym $mod+Control+Shift+Up exec "xrandr --output eDP-1 --rotate normal"
