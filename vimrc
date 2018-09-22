@@ -22,6 +22,7 @@ Plugin 'junegunn/goyo.vim' "free writing              https://github.com/junegun
 Plugin 'godlygeek/csapprox' "gui color for term       https://github.com/godlygeek/csapprox
 Plugin 'lilydjwg/colorizer' "colorize all color texts https://github.com/lilydjwg/colorizer
 Plugin 'jamessan/vim-gnupg' "gpg encryption           https://github.com/jamessan/vim-gnupg
+Plugin 'blindFS/vim-taskwarrior' "taskwarrior :TW     https://github.com/blindFS/vim-taskwarrior
 call vundle#end()
 
 " theme & color
