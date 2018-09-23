@@ -7,7 +7,6 @@ Plugin 'wellle/targets.vim' "di'                      https://github.com/wellle/
 Plugin 'cespare/vim-toml' "toml syntax                https://github.com/cespare/vim-toml
 Plugin 'elzr/vim-json' "json syntax                   https://github.com/elzr/vim-json
 Plugin 'tpope/vim-fugitive' "Gedit Gstatus Gdiff      https://github.com/tpope/vim-fugitive
-Plugin 'scrooloose/nerdtree' "file system             https://github.com/scrooloose/nerdtree
 Plugin 'easymotion/vim-easymotion' "w f b s           https://github.com/easymotion/vim-easymotion
 Plugin 'ervandew/supertab' "tab completion            https://github.com/ervandew/supertab
 Plugin 'raimondi/delimitmate' "auto close quote       https://github.com/raimondi/delimitmate
@@ -102,15 +101,20 @@ let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all sele
 hi SignatureMarkText guifg=Green guibg=#1E1E1E
 hi SignColumn guibg=#1E1E1E
 
-" Disable illuminate for nerdtree
-let g:Illuminate_ftblacklist = ['nerdtree']
-
 " gpg
 let g:GPGUseAgent=1
 let g:GPGPreferSymmetric=1
 let g:GPGPreferArmor=1
 let g:GPGUsePipes=1
 
+" netrw :Vex
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
+" nvim or vim?
 if has('nvim')
     " Escape terminal
     tnoremap <Esc> <C-\><C-n>
