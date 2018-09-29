@@ -1,5 +1,5 @@
 " plugins
-set rtp+=~/.vim/bundle/Vundle.vim
+set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'godlygeek/tabular' "align text                https://github.com/godlygeek/tabular
 Plugin 'plasticboy/vim-markdown' "markdown highlight  https://github.com/plasticboy/vim-markdown
@@ -23,6 +23,7 @@ Plugin 'lilydjwg/colorizer' "colorize all color texts https://github.com/lilydjw
 Plugin 'jamessan/vim-gnupg' "gpg encryption           https://github.com/jamessan/vim-gnupg
 Plugin 'blindFS/vim-taskwarrior' "taskwarrior :TW     https://github.com/blindFS/vim-taskwarrior
 Plugin 'tpope/vim-surround' "cs ds ysiw               https://github.com/tpope/vim-surround
+Plugin 'w0rp/ale' "synchronous Lint Engine            https://github.com/w0rp/ale
 call vundle#end()
 
 " theme & color
@@ -37,7 +38,7 @@ set guifont=Hack\ 9
 
 filetype plugin indent on
 filetype plugin on
-set nu
+set number
 set hlsearch
 set guicursor=a:blinkon0
 syntax on
@@ -57,12 +58,14 @@ set fileformats=unix
 set foldlevel=99
 
 " spell check
-autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
-autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
-autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
+augroup vimrc
+    autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
+    autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
+    autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
+augroup END
 
 " leader key mapping
-let mapleader = " "
+let mapleader = ' '
 
 " maintain undo history between sessions
 set undofile
@@ -115,6 +118,27 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
+" ale linters
+nmap <silent> <C-j> <Plug>(ale_previous_wrap)
+nmap <silent> <C-k> <Plug>(ale_next_wrap)
+let b:ale_linters = {
+\   'bash': ['shellcheck'],
+\   'css': ['stylelint'],
+\   'javascript': ['eslint'],
+\   'python': ['flake8'],
+\   'vim': ['vint']
+\}
+
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'css': ['prettier'],
+\   'javascript': ['eslint'],
+\   'python': ['autopep8'],
+\   'yaml': ['prettier'],
+\}
+
+let g:ale_fix_on_save = 1
+
 " nvim or vim?
 if has('nvim')
     " Escape terminal
@@ -125,7 +149,7 @@ if has('nvim')
     cnoremap w!! execute 'write suda://%'
 else
     " encryption
-    setlocal cm=blowfish2
+    setlocal cryptmethod=blowfish2
 
     " w!! write file with sudo
     cnoremap w!! execute 'write !sudo tee % >/dev/null' <bar> edit!
