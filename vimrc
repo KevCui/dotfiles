@@ -22,6 +22,7 @@ Plugin 'godlygeek/csapprox' "gui color for term       https://github.com/godlyge
 Plugin 'lilydjwg/colorizer' "colorize all color texts https://github.com/lilydjwg/colorizer
 Plugin 'jamessan/vim-gnupg' "gpg encryption           https://github.com/jamessan/vim-gnupg
 Plugin 'blindFS/vim-taskwarrior' "taskwarrior :TW     https://github.com/blindFS/vim-taskwarrior
+Plugin 'tpope/vim-surround' "cs ds ysiw               https://github.com/tpope/vim-surround
 call vundle#end()
 
 " theme & color
