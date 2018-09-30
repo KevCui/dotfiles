@@ -206,7 +206,7 @@ fi
 # History
 #------------------------------
 HISTFILE=~/.histfile
-HISTSIZE=1000
+HISTSIZE=10000
 SAVEHIST=10000
 h() { [ -z "$*" ] && history -i 1 || history -i 1 | egrep "$@" }
 
