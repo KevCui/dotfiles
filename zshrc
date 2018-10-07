@@ -101,8 +101,8 @@ rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 10
 # get YouTube RSS QR code
 youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e 's/\">.*//' | head -1`; echo $url; qr "$url"}
 
-# fetch currency exchange rate
-currency () { [ -z $3 ] && amount=1 || amount=$3; curl -s "https://www.xe.com/currencyconverter/convert/?Amount=$amount&From=$1&To=$2" | grep "uccResultUnit" | sed -e "s/.*uccFromResultAmount//" -e "s/resultRightArrow.*//" -e "s/<[^>]*>//g" -e "s/'>//" -e "s/&nbsp;//" -e "s/<span.*//"}
+# fetch currency exchange rate from 1forge
+currency () { [ -z $3 ] && amount=1 || amount=$3; curl "https://forex.1forge.com/1.0.3/convert?from=${1}&to=${2}&quantity=${amount}&api_key=%1forge%" }
 
 # get weather info
 weather () { curl "wttr.in/$1" }
