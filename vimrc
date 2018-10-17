@@ -24,6 +24,9 @@ Plugin 'jamessan/vim-gnupg' "gpg encryption           https://github.com/jamessa
 Plugin 'blindFS/vim-taskwarrior' "taskwarrior :TW     https://github.com/blindFS/vim-taskwarrior
 Plugin 'tpope/vim-surround' "cs ds ysiw               https://github.com/tpope/vim-surround
 Plugin 'w0rp/ale' "synchronous Lint Engine            https://github.com/w0rp/ale
+Plugin 'posva/vim-vue' "syntax for Vue.js components  https://github.com/posva/vim-vue
+Plugin 'udalov/kotlin-vim' "syntax for Kotlin         https://github.com/udalov/kotlin-vim
+Plugin 'keith/swift.vim' "syntax for swift            https://github.com/keith/swift.vim
 call vundle#end()
 
 " theme & color
