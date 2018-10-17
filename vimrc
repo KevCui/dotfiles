@@ -142,6 +142,9 @@ let g:ale_fixers = {
 
 let g:ale_fix_on_save = 1
 
+" vim-illuminate
+hi illuminatedWord ctermbg=238
+
 " nvim or vim?
 if has('nvim')
     " Escape terminal
