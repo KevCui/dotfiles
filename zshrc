@@ -124,7 +124,10 @@ lm () {
 }
 
 # clean unzip mess
-zipundo() { unzip -Z -1 "$1" | xargs -I{} rm -v {}}
+zipundo() { unzip -Z -1 "$1" | xargs -I{} rm -v {} }
+
+# kill process
+kp () { kill $(ps aux | fzf | awk '{print $2}') }
 
 #------------------------------
 # Alias
