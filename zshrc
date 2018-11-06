@@ -187,7 +187,6 @@ if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
     mount \
     mtr \
     netstat \
-    ping \
     ping6 \
     ps \
     traceroute \
