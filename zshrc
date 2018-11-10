@@ -8,7 +8,7 @@ RPROMPT="%F{yellow}\$(git rev-parse --abbrev-ref HEAD 2> /dev/null) %F{green}%B%
 #------------------------------
 # Variables
 #------------------------------
-export PATH="$PATH":${HOME}/Script:/opt/android-sdk/tools/bin/:/opt/android-sdk/platform-tools/:${HOME}/bin:${HOME}/.cabal/bin:${HOME}/.npm-global/bin
+export PATH="$PATH":${HOME}/Script:${HOME}/.cabal/bin:${HOME}/.npm-global/bin
 export TERM='xterm-256color'
 export BROWSER="firefox-nightly"
 export EDITOR="nvim"
@@ -19,7 +19,7 @@ GPG_TTY=$(tty)
 export GPG_TTY
 
 # Android SDK
-export ANDROID_SDK=/opt/android-sdk/
+export ANDROID_SDK=/opt/android-sdk
 export ANDROID_NDK=${HOME}/android-ndk-r9d
 export NDK_ROOT=${HOME}/android-ndk-r9d
 export JAVA_HOME=/usr/lib/jvm/default/
@@ -243,6 +243,7 @@ export HISTORY_SUBSTRING_SEARCH_FUZZY=1
 #------------------------------
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
+bindkey '^[[P' delete-char
 bindkey "^A" beginning-of-line
 bindkey "^B" backward-char
 bindkey '^E' end-of-line
