@@ -132,6 +132,9 @@ kp () { kill $(ps aux | fzf | awk '{print $2}') }
 # find last modified file in folder
 findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec sh -c "echo {}; /bin/ls -lrtp {} | grep -v / | tail -n 1 | awk '{\$1=\$2=\$3=\$4=\$5=\"\"; print \$0}'; echo" \; }
 
+# show PATH
+showpath () { awk -v RS=: '{print}' <<<$PATH }
+
 #------------------------------
 # Alias
 #------------------------------
