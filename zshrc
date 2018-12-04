@@ -64,7 +64,7 @@ extract () {
 mcd() { mkdir -p "$1" && cd "$1"; }
 
 # poweroff
-po() { sleep "$1" && sudo systemctl poweroff; }
+po() { sleep "$1" && systemctl poweroff; }
 
 # js compressor
 yuijs() { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type js "$1".js > "$1".min.js;}
@@ -150,13 +150,16 @@ alias ccat='pygmentize -g -O style=colorful,linenos=1'
 alias vi='nvim'
 alias vif='nvim $(fzf)'
 alias ls='exa -s mod --git'
+alias lsg='exa -s mod --git | rg "$@"'
 alias ll='exa -l -s mod --git --time-style=long-iso'
+alias llg='exa -l -s mod --git --time-style=long-iso | rg "$@"'
 alias y='yay'
 alias unplug='devmon -u'
 alias diff='colordiff'
 alias ping='prettyping --nolegend'
 alias top='htop'
 alias cat='bat --theme=iceberg'
+alias aik='aiksaurus'
 
 # git alias
 alias cdg='cd ~/git'
