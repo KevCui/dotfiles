@@ -42,6 +42,7 @@ set guifont=Hack\ 9
 filetype plugin indent on
 filetype plugin on
 set number
+set relativenumber
 set hlsearch
 set guicursor=a:blinkon0
 syntax on
