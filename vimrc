@@ -63,8 +63,6 @@ set guifont=Hack\ 9
 
 filetype plugin indent on
 filetype plugin on
-set number
-set relativenumber
 set hlsearch
 set guicursor=a:blinkon0
 syntax on
@@ -82,6 +80,15 @@ set tabstop=4
 set expandtab
 set fileformats=unix
 set foldlevel=99
+
+" line number
+set number relativenumber
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
 
 " spell check
 augroup vimrc
