@@ -1,33 +1,55 @@
 " plugins
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'godlygeek/tabular' "align text                https://github.com/godlygeek/tabular
-Plugin 'plasticboy/vim-markdown' "markdown highlight  https://github.com/plasticboy/vim-markdown
-Plugin 'wellle/targets.vim' "di'                      https://github.com/wellle/targets.vim
-Plugin 'cespare/vim-toml' "toml syntax                https://github.com/cespare/vim-toml
-Plugin 'elzr/vim-json' "json syntax                   https://github.com/elzr/vim-json
-Plugin 'tpope/vim-fugitive' "Gedit Gstatus Gdiff      https://github.com/tpope/vim-fugitive
-Plugin 'easymotion/vim-easymotion' "w f b s           https://github.com/easymotion/vim-easymotion
-Plugin 'ervandew/supertab' "tab completion            https://github.com/ervandew/supertab
-Plugin 'raimondi/delimitmate' "auto close quote       https://github.com/raimondi/delimitmate
-Plugin 'scrooloose/nerdcommenter' "ci cm cu           https://github.com/scrooloose/nerdcommenter
-Plugin 'kshenoy/vim-signature' "mx dmx m<space> m. m, https://github.com/kshenoy/vim-signature
-Plugin 'SearchComplete' "insert mode completion       https://github.com/vim-scripts/SearchComplete
-Plugin 'SirVer/ultisnips' "UltiSnips                  https://github.com/SirVer/ultisnips
-Plugin 'honza/vim-snippets' "snippets files           https://github.com/honza/vim-snippets
-Plugin 'RRethy/vim-illuminate' "illuminating select   https://github.com/RRethy/vim-illuminate
-Plugin 'itchyny/lightline.vim' "status line           https://github.com/itchyny/lightline.vim
-Plugin 'junegunn/goyo.vim' "free writing              https://github.com/junegunn/goyo.vim
-Plugin 'godlygeek/csapprox' "gui color for term       https://github.com/godlygeek/csapprox
-Plugin 'lilydjwg/colorizer' "colorize all color texts https://github.com/lilydjwg/colorizer
-Plugin 'jamessan/vim-gnupg' "gpg encryption           https://github.com/jamessan/vim-gnupg
-Plugin 'blindFS/vim-taskwarrior' "taskwarrior :TW     https://github.com/blindFS/vim-taskwarrior
-Plugin 'tpope/vim-surround' "cs ds ysiw               https://github.com/tpope/vim-surround
-Plugin 'w0rp/ale' "synchronous Lint Engine            https://github.com/w0rp/ale
-Plugin 'posva/vim-vue' "syntax for Vue.js components  https://github.com/posva/vim-vue
-Plugin 'udalov/kotlin-vim' "syntax for Kotlin         https://github.com/udalov/kotlin-vim
-Plugin 'keith/swift.vim' "syntax for swift            https://github.com/keith/swift.vim
-call vundle#end()
+call plug#begin('~/.vim/plugged')
+Plug 'godlygeek/tabular' "align text
+Plug 'plasticboy/vim-markdown' "markdown highlight
+Plug 'wellle/targets.vim' "di'
+Plug 'cespare/vim-toml' "toml syntax
+Plug 'elzr/vim-json' "json syntax
+Plug 'tpope/vim-fugitive' "Gedit Gstatus Gdiff
+Plug 'easymotion/vim-easymotion' "w f b s
+Plug 'ervandew/supertab' "tab completion
+Plug 'raimondi/delimitmate' "auto close quote
+Plug 'scrooloose/nerdcommenter' "ci cm cu
+Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
+Plug 'SirVer/ultisnips' "UltiSnips
+Plug 'honza/vim-snippets' "snippets files
+Plug 'RRethy/vim-illuminate' "illuminating select
+Plug 'itchyny/lightline.vim' "status line
+Plug 'junegunn/goyo.vim' "free writing
+Plug 'godlygeek/csapprox' "gui color for term
+Plug 'lilydjwg/colorizer' "colorize all color texts
+Plug 'jamessan/vim-gnupg' "gpg encryption
+Plug 'blindFS/vim-taskwarrior' "taskwarrior :TW
+Plug 'tpope/vim-surround' "cs ds ysiw
+Plug 'w0rp/ale' "synchronous Lint Engine
+Plug 'posva/vim-vue' "syntax for Vue.js components
+Plug 'udalov/kotlin-vim' "syntax for Kotlin
+Plug 'keith/swift.vim' "syntax for swift
+Plug 'zchee/deoplete-jedi' "deoplete for python
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' } "deoplete for js
+
+" nvim or vim?
+if has('nvim')
+    " Escape terminal
+    tnoremap <Esc> <C-\><C-n>
+
+    " w!! write file with sudo
+    Plug 'lambdalisue/suda.vim' "read write with sudo
+    cnoremap w!! execute 'write suda://%'
+
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    " encryption
+    setlocal cryptmethod=blowfish2
+
+    " w!! write file with sudo
+    cnoremap w!! execute 'write !sudo tee % >/dev/null' <bar> edit!
+
+    Plug 'roxma/nvim-yarp'
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+call plug#end()
 
 " theme & color
 set t_Co=256
@@ -83,6 +105,14 @@ nnoremap j k|xnoremap j k|onoremap j k|
 inoremap <C-v> <ESC>"+pa
 vnoremap <C-c> "+y
 vnoremap <C-d> "+d
+
+" tab
+imap <expr><TAB>
+\ neosnippet#expandable_or_jumpable() ? :
+\   "\<Plug>(neosnippet_expand_or_jump)" :
+\ pumvisible()? "\<C-y>" :
+\ <SID>check_back_space() ? "\<TAB>" :
+\ deoplete#mappings#manual_complete()
 
 " Grammar check
 let g:grammarous#languagetool_cmd = 'languagetool'
@@ -146,18 +176,13 @@ let g:ale_fix_on_save = 1
 " vim-illuminate
 hi illuminatedWord ctermbg=238
 
-" nvim or vim?
-if has('nvim')
-    " Escape terminal
-    tnoremap <Esc> <C-\><C-n>
+" supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
-    " w!! write file with sudo
-    Plugin 'lambdalisue/suda.vim' "read write with sudo   https://github.com/lambdalisue/suda.vim
-    cnoremap w!! execute 'write suda://%'
-else
-    " encryption
-    setlocal cryptmethod=blowfish2
+" deoplete
+let g:deoplete#enable_at_startup = 1
 
-    " w!! write file with sudo
-    cnoremap w!! execute 'write !sudo tee % >/dev/null' <bar> edit!
-endif
+" tunr off previewwindow
+set completeopt-=preview
+" automatically close the scratch window
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
