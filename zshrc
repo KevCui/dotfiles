@@ -8,7 +8,7 @@ RPROMPT="%F{yellow}\$(git rev-parse --abbrev-ref HEAD 2> /dev/null) %F{green}%B%
 #------------------------------
 # Variables
 #------------------------------
-export PATH="$PATH":${HOME}/Script:${HOME}/.cabal/bin:${HOME}/.npm-global/bin
+export PATH="$PATH":${HOME}/Script:${HOME}/.cabal/bin:${HOME}/.npm-global/bin:${HOME}/.local/bin
 export TERM='xterm-256color'
 export BROWSER="firefox-nightly"
 export EDITOR="nvim"
