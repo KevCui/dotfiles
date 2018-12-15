@@ -138,6 +138,9 @@ showpath () { awk -v RS=: '{print}' <<<$PATH }
 # find CPU info from PassMark: Name; Mark; Rank; Value; Price
 findCPU () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | rg 'cpu_lookup' | sed -e 's/<\/TD><\/TR>/\n/g' -e 's/<TR.*multi=\w">//g' -e 's/<\/A><\/TD><TD>/; /g' -e 's/<\/TD><TD>/; /g' -e 's/<a href.*<\/a>//g' -e 's/<TR.*;id=.*\">//g' | rg -i "$1"}
 
+# cheat sheet
+cht () { curl "cht.sh/$1/$2"}
+
 #------------------------------
 # Alias
 #------------------------------
