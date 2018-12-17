@@ -193,3 +193,6 @@ let g:deoplete#enable_at_startup = 1
 set completeopt-=preview
 " automatically close the scratch window
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" syntax folding
+setlocal foldmethod=syntax
