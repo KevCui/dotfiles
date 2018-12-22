@@ -236,6 +236,7 @@ CHR    01;38;5;137 # character device driver
 .odt  00;38;5;48
 .odp  00;38;5;48
 .epub 00;38;5;48
+.mobi 00;38;5;48
 
 # Source code files
 .pl     00;38;5;179
