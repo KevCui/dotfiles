@@ -59,8 +59,8 @@ keycode 100 = Super_L
 keycode 102 = Super_R
 
 ! DEL and BS
-keycode 22  = Delete
-keycode 119 = BackSpace
+! keycode 22  = Delete
+! keycode 119 = BackSpace
 
 ! Alt_R Mode_switch
 keycode 108 = Mode_switch
