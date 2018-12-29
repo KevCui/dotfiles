@@ -187,7 +187,6 @@ for_window [title="Preferences$"] floating enable
 for_window [class="(?i)mplayer"] floating enable
 for_window [class="feh"] floating enable
 for_window [class="Wine"] floating enable
-for_window [class="Viewnior"] floating enable
 for_window [class="Peek"] stacking enable
 
 # Volume
