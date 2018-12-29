@@ -27,6 +27,7 @@ Plug 'udalov/kotlin-vim' "syntax for Kotlin
 Plug 'keith/swift.vim' "syntax for swift
 Plug 'zchee/deoplete-jedi' "deoplete for python
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' } "deoplete for js
+Plug 'mhinz/vim-signify' "show changes
 
 " nvim or vim?
 if has('nvim')
