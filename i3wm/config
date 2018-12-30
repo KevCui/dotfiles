@@ -72,7 +72,7 @@ bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
+# change container layout (stacking, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
@@ -211,9 +211,11 @@ for_window [class="Nightly"] layout tabbed
 assign [class="Chromium"] $ws1
 for_window [class="Chromium"] layout tabbed
 
+assign [class="Viewnior"] $ws5
+for_window [class="Viewnior"] layout default
+
 assign [class="Daily"] $ws3
 assign [class="Darktable"] $ws3
-assign [class="Thunar"] $ws3
 assign [class="Gthumb"] $ws3
 assign [class="Gimp"] $ws4
 assign [class="VirtualBox"] $ws5
