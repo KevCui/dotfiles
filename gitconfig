@@ -1,11 +1,16 @@
 [user]
     name =
     email =
-[diff]
-    tool = vimdiff
-[difftool]
-    prompt = false
 [core]
     pager = diff-so-fancy | less --tabs=4 -RFX
+[diff]
+    tool = vimdiff
+[difftool "vimdiff"]
+    cmd = nvim -d $BASE $LOCAL
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+[mergetool "vimdiff"]
+    cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [include]
     path = ~/git/dotfiles/gitalias
