@@ -163,6 +163,7 @@ alias ping='prettyping --nolegend'
 alias top='htop'
 alias cat='bat --theme=iceberg'
 alias aik='aiksaurus'
+alias c='insect'
 
 # git alias
 alias cdg='cd ~/git'
