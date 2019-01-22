@@ -17,6 +17,7 @@ export libsys=/usr/lib/systemd/system
 export pkg=/var/cache/pacman/pkg
 GPG_TTY=$(tty)
 export GPG_TTY
+export GITREPO="%gitrepo%"
 
 # Android SDK
 export ANDROID_SDK=/opt/android-sdk
@@ -101,8 +102,8 @@ rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 10
 # get YouTube RSS QR code
 youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e 's/\">.*//' | head -1`; echo $url; qr "$url"}
 
-# fetch currency exchange rate from 1forge
-currency () { [ -z $3 ] && amount=1 || amount=$3; curl "https://forex.1forge.com/1.0.3/convert?from=${1}&to=${2}&quantity=${amount}&api_key=%1forge%" }
+# fetch currency exchange rate from XE
+currency () { node "$GITREPO"/xe-scraper/xe-scraper.js $1 $2 $3}
 
 # get weather info
 weather () { curl "wttr.in/$1" }
@@ -166,13 +167,13 @@ alias aik='aiksaurus'
 alias c='insect'
 
 # git alias
-alias cdg='cd ~/git'
-alias cdb='cd ~/git/blog'
+alias cdg="cd $GITREPO"
+alias cdb="cd $GITREPO/blog"
 alias gitundo='git reset -- $1'
 alias g='git $@'
 
 # hugo alias
-alias hugos='cd ~/git/blog; hugo server -D'
+alias hugos="cd $GITREPO/blog; hugo server -D"
 
 # python server
 alias python-server='python3 -m http.server 8000'
