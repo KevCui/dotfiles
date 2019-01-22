@@ -253,5 +253,6 @@ exec --no-startup-id st -n main
 exec --no-startup-id st -n tasksh -e zsh -c "task ls; $SHELL"
 exec --no-startup-id st -n small
 exec --no-startup-id xmodmap ~/.Xmodmap
-exec --no-startup-id "xcape -t 300 -e '%escape%=Escape'"
+exec --no-startup-id "xcape -t 300 -e 'Control_L=Escape'"
+%capslockescape%exec --no-startup-id "xcape -t 300 -e 'Caps_Lock=Escape'"
 exec --no-startup-id "xcape -t 300 -e 'Shift_R=BackSpace'"
