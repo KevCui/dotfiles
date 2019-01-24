@@ -89,10 +89,8 @@ dispoff () { xrandr --output HDMI-1 --off }
 
 # Print alphabet
 alpha () {
-    i=1
     for x in {a..z}; do
-        echo "$i\t$x"
-        i=$((i+1))
+        echo "$(($(printf "%d" "'$x")-96))\t$x"
     done
 }
 
