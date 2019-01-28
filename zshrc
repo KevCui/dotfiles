@@ -174,7 +174,7 @@ alias g='git $@'
 alias hugos="cd $GITREPO/blog; hugo server -D"
 
 # python server
-alias python-server='python3 -m http.server 8000'
+alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
 
 # run firefox with default GTK3 theme
 alias firefox='env GTK_THEME=Arc firefox-nightly'
