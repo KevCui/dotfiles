@@ -190,9 +190,9 @@ for_window [class="Wine"] floating enable
 for_window [class="Peek"] stacking enable
 
 # Volume
-bindsym %raisevol% exec "pamixer -i 5;notify-send -u low `pamixer --get-volume`"
-bindsym %lowervol% exec "pamixer -d 15;notify-send -u low `pamixer --get-volume`"
-bindsym %mute% exec "pamixer -t;notify-send -u low `if $(pamixer --get-mute); then echo 'mute'; else echo 'sound'; fi`"
+bindsym %raisevol% exec "pamixer -i 5;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym %lowervol% exec "pamixer -d 15;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym %mute% exec "pamixer -t; if $(pamixer --get-mute); then notify-send -u critical 'mute'; else notify-send -u normal 'sound '$(pamixer --get-volume)'%'; fi"
 
 # Brightness
 bindsym XF86MonBrightnessUp exec "light -A 10"
