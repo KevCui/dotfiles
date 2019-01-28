@@ -246,8 +246,8 @@ exec --no-startup-id "i3-msg 'workspace 2; append_layout ~/.config/i3/st-workspa
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
-%comment%exec --no-startup-id "env GTK_THEME=Arc firefox-nightly"
-%comment%exec --no-startup-id thunderbird-nightly
+%browser%exec --no-startup-id "env GTK_THEME=Arc firefox-nightly"
+%email%exec --no-startup-id thunderbird-nightly
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 exec --no-startup-id st -n main
 exec --no-startup-id st -n tasksh -e zsh -c "task ls; $SHELL"
