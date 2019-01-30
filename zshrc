@@ -140,6 +140,9 @@ findCPU () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | rg 'cpu_look
 # cheat sheet
 cht () { curl "cht.sh/$1/$2"}
 
+# dadjoke
+dadjoke () { echo $(curl -Ss -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
+
 #------------------------------
 # Alias
 #------------------------------
