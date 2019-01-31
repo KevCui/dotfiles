@@ -143,6 +143,9 @@ cht () { curl "cht.sh/$1/$2"}
 # dadjoke
 dadjoke () { echo $(curl -Ss -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
+# show running clock
+clock () { clear; while true; do echo -e \\b\\b\\b\\b\\b\\b\\b\\b`date +%T`\\c ; sleep 1; done }
+
 #------------------------------
 # Alias
 #------------------------------
