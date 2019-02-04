@@ -200,6 +200,7 @@ set completeopt-=preview
 setlocal foldmethod=syntax
 
 " notational-fzf-vim
+nnoremap <silent> <c-f> :NV<CR>
 let g:nv_create_note_key = 'ctrl-x'
 let g:nv_default_extension = '.md'
 let g:nv_search_paths = ['~/Notes', './content/post', './doc', './README.md', './TODO.md']
