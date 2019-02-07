@@ -174,7 +174,7 @@ alias c='insect'
 alias cdg="cd $GITREPO"
 alias cdb="cd $GITREPO/blog"
 alias gitundo='git reset -- $1'
-alias g='git $@'
+alias g='git'
 alias gita='python3 -m gita'
 
 # hugo alias
