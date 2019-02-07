@@ -175,6 +175,7 @@ alias cdg="cd $GITREPO"
 alias cdb="cd $GITREPO/blog"
 alias gitundo='git reset -- $1'
 alias g='git $@'
+alias gita='pip3 install -U gita'
 
 # hugo alias
 alias hugos="cd $GITREPO/blog; hugo server -D"
