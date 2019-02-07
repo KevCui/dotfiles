@@ -1,0 +1,57 @@
+From 2d430feac14be244f49d58179d89b9d4ceadff83 Mon Sep 17 00:00:00 2001
+From: Kevin Cui <krazycavin@gmail.com>
+Date: Thu, 7 Feb 2019 11:59:43 +0800
+Subject: [PATCH] Swap j <-> k and J <-> K key mapping
+
+---
+ src/hotkeys.cc         | 4 ++--
+ src/listview_curses.cc | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/hotkeys.cc b/src/hotkeys.cc
+index 5d9d4f2..5e5aef2 100644
+--- a/src/hotkeys.cc
++++ b/src/hotkeys.cc
+@@ -385,7 +385,7 @@ void handle_paging_key(int ch)
+             break;
+         }
+ 
+-        case 'J':
++        case 'K':
+             if (lnav_data.ld_last_user_mark.find(tc) ==
+                 lnav_data.ld_last_user_mark.end() ||
+                 !tc->is_line_visible(vis_line_t(lnav_data.ld_last_user_mark[tc]))) {
+@@ -416,7 +416,7 @@ void handle_paging_key(int ch)
+                     "to copy marked lines to the clipboard"));
+             break;
+ 
+-        case 'K':
++        case 'J':
+         {
+             int new_mark;
+ 
+diff --git a/src/listview_curses.cc b/src/listview_curses.cc
+index 224bf79..8b19de3 100644
+--- a/src/listview_curses.cc
++++ b/src/listview_curses.cc
+@@ -102,7 +102,7 @@ bool listview_curses::handle_key(int ch)
+         break;
+ 
+     case '\r':
+-    case 'j':
++    case 'k':
+     case KEY_DOWN:
+         if (this->is_selectable()) {
+             this->shift_selection(1);
+@@ -111,7 +111,7 @@ bool listview_curses::handle_key(int ch)
+         }
+         break;
+ 
+-    case 'k':
++    case 'j':
+     case KEY_UP:
+         if (this->is_selectable()) {
+             this->shift_selection(-1);
+-- 
+2.20.1
+
