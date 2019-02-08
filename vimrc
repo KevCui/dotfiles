@@ -84,6 +84,7 @@ set tabstop=4
 set expandtab
 set fileformats=unix
 set foldlevel=99
+set mouse+=a
 
 " line number
 set number relativenumber
