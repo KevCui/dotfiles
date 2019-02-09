@@ -110,8 +110,7 @@ set undofile
 set undodir=~/.vim/undodir
 
 " Switch j k key bindings
-nnoremap k j|xnoremap k j|onoremap k j|
-nnoremap j k|xnoremap j k|onoremap j k|
+set langmap=jk,kj
 
 " System clipboard
 inoremap <C-v> <ESC>"+pa
