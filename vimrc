@@ -112,6 +112,9 @@ set undodir=~/.vim/undodir
 " Switch j k key bindings
 set langmap=jk,kj
 
+" Clear search highlight
+nmap <silent> ,/ :nohlsearch<CR>
+
 " System clipboard
 inoremap <C-v> <ESC>"+pa
 vnoremap <C-c> "+y
