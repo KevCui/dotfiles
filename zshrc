@@ -36,6 +36,47 @@ export FZF_DEFAULT_OPTS='
 #------------------------------
 # Functions
 #------------------------------
+# calculator
+= () {
+    calc="${*//p/+}"
+    calc="${calc//x/*}"
+    calc $calc
+}
+
+# Print alphabet
+alpha () {
+    for x in {a..z}; do
+        echo "$(($(printf "%d" "'$x")-96))\t$x"
+    done
+}
+
+# sign apk
+buildapk() { cordova build --release; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "$1" android-release-unsigned.apk "$2";zipalign -v 4 android-release-unsigned.apk android-signed.apk;zipalign -c -v 4 android-signed.apk }
+
+# cheat sheet
+cht () { curl "cht.sh/$1/$2"}
+
+# show running clock
+clock () { clear; while true; do echo -e \\b\\b\\b\\b\\b\\b\\b\\b`date +%T`\\c ; sleep 1; done }
+
+# find CPU info from PassMark: Name; Mark; Rank; Value; Price
+cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | rg 'cpu_lookup' | sed -e 's/<\/TD><\/TR>/\n/g' -e 's/<TR.*multi=\w">//g' -e 's/<\/A><\/TD><TD>/; /g' -e 's/<\/TD><TD>/; /g' -e 's/<a href.*<\/a>//g' -e 's/<TR.*;id=.*\">//g' | rg -i "$1"}
+
+# fetch currency exchange rate from XE
+currency () { node "$GITREPO"/xe-scraper/xe-scraper.js $1 $2 $3}
+
+# dadjoke
+dadjoke () { echo $(curl -Ss -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
+
+# HDMI display screen on/off
+dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
+dispabove () { xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1 }
+dispoff () { xrandr --output HDMI-1 --off }
+
+# aria2c download
+dl () { aria2c -c -s 5 "$1" --all-proxy="" }
+dnl () { aria2c -c -s 5 "$1" }
+
 # all-in-one decompression
 extract () {
   if [ -f $1 ] ; then
@@ -61,57 +102,11 @@ extract () {
   fi
 }
 
-# mkdir + cd
-mcd() { mkdir -p "$1" && cd "$1"; }
+# find last modified file in folder
+findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec sh -c "echo {}; /bin/ls -lrtp {} | grep -v / | tail -n 1 | awk '{\$1=\$2=\$3=\$4=\$5=\"\"; print \$0}'; echo" \; }
 
-# poweroff
-po() { sleep "$1" && systemctl poweroff; }
-
-# js compressor
-yuijs() { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type js "$1".js > "$1".min.js;}
-# css compressor
-yuicss() { echo "$1".css; rm -f $1.min.css; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type css "$1".css > "$1".min.css;}
-
-# sign apk
-buildapk() { cordova build --release; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "$1" android-release-unsigned.apk "$2";zipalign -v 4 android-release-unsigned.apk android-signed.apk;zipalign -c -v 4 android-signed.apk }
-
-# take screenshot
-screenshot () { sleep 2; import -window root `date +%s`.jpg }
-
-# aria2c download
-dl () { aria2c -c -s 5 "$1" --all-proxy="" }
-dnl () { aria2c -c -s 5 "$1" }
-
-# HDMI display screen on/off
-dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
-dispabove () { xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1 }
-dispoff () { xrandr --output HDMI-1 --off }
-
-# Print alphabet
-alpha () {
-    for x in {a..z}; do
-        echo "$(($(printf "%d" "'$x")-96))\t$x"
-    done
-}
-
-# convert raw image to jpg
-rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
-
-# get YouTube RSS QR code
-youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e 's/\">.*//' | head -1`; echo $url; qr "$url"}
-
-# fetch currency exchange rate from XE
-currency () { node "$GITREPO"/xe-scraper/xe-scraper.js $1 $2 $3}
-
-# get weather info
-weather () { curl "wttr.in/$1" }
-
-# calculator
-= () {
-    calc="${*//p/+}"
-    calc="${calc//x/*}"
-    calc $calc
-}
+# kill process
+kp () { kill $(ps aux | fzf | awk '{print $2}') }
 
 # show last modified time of sites
 lm () {
@@ -122,29 +117,34 @@ lm () {
     done
 }
 
-# clean unzip mess
-zipundo () { unzip -Z -1 "$1" | xargs -I{} rm -v {} }
+# mkdir + cd
+mcd() { mkdir -p "$1" && cd "$1"; }
 
-# kill process
-kp () { kill $(ps aux | fzf | awk '{print $2}') }
+# poweroff
+po() { sleep "$1" && systemctl poweroff; }
 
-# find last modified file in folder
-findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec sh -c "echo {}; /bin/ls -lrtp {} | grep -v / | tail -n 1 | awk '{\$1=\$2=\$3=\$4=\$5=\"\"; print \$0}'; echo" \; }
+# convert raw image to jpg
+rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
+
+# take screenshot
+screenshot () { sleep 2; import -window root `date +%s`.jpg }
 
 # show PATH
 showpath () { awk -v RS=: '{print}' <<<$PATH }
 
-# find CPU info from PassMark: Name; Mark; Rank; Value; Price
-cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | rg 'cpu_lookup' | sed -e 's/<\/TD><\/TR>/\n/g' -e 's/<TR.*multi=\w">//g' -e 's/<\/A><\/TD><TD>/; /g' -e 's/<\/TD><TD>/; /g' -e 's/<a href.*<\/a>//g' -e 's/<TR.*;id=.*\">//g' | rg -i "$1"}
+# get weather info
+weather () { curl "wttr.in/$1" }
 
-# cheat sheet
-cht () { curl "cht.sh/$1/$2"}
+# get YouTube RSS QR code
+youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e 's/\">.*//' | head -1`; echo $url; qr "$url"}
 
-# dadjoke
-dadjoke () { echo $(curl -Ss -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
+# css compressor
+yuicss() { echo "$1".css; rm -f $1.min.css; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type css "$1".css > "$1".min.css;}
+# js compressor
+yuijs() { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type js "$1".js > "$1".min.js;}
 
-# show running clock
-clock () { clear; while true; do echo -e \\b\\b\\b\\b\\b\\b\\b\\b`date +%T`\\c ; sleep 1; done }
+# clean unzip mess
+zipundo () { unzip -Z -1 "$1" | xargs -I{} rm -v {} }
 
 #------------------------------
 # Alias
