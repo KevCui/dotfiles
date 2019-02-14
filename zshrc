@@ -36,48 +36,46 @@ export FZF_DEFAULT_OPTS='
 #------------------------------
 # Functions
 #------------------------------
-# calculator
+#/ = <expr>: calculator +-x/
 = () {
     calc="${*//p/+}"
     calc="${calc//x/*}"
     calc $calc
 }
 
-# Print alphabet
+#/ alpha: print alphabet
 alpha () {
     for x in {a..z}; do
         echo "$(($(printf "%d" "'$x")-96))\t$x"
     done
 }
 
-# sign apk
-buildapk() { cordova build --release; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "$1" android-release-unsigned.apk "$2";zipalign -v 4 android-release-unsigned.apk android-signed.apk;zipalign -c -v 4 android-signed.apk }
+#/ buildapk <keystore> <alias>: sign apk
+buildapk () { cordova build --release; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "$1" android-release-unsigned.apk "$2";zipalign -v 4 android-release-unsigned.apk android-signed.apk;zipalign -c -v 4 android-signed.apk }
 
-# cheat sheet
+#/ cht <language> <question>: cheat sheet
 cht () { curl "cht.sh/$1/$2"}
 
-# show running clock
+#/ clock: show running clock
 clock () { clear; while true; do echo -e \\b\\b\\b\\b\\b\\b\\b\\b`date +%T`\\c ; sleep 1; done }
 
-# find CPU info from PassMark: Name; Mark; Rank; Value; Price
+# cpu <keyword>: find CPU info from PassMark: Name; Mark; Rank; Value; Price
 cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | rg 'cpu_lookup' | sed -e 's/<\/TD><\/TR>/\n/g' -e 's/<TR.*multi=\w">//g' -e 's/<\/A><\/TD><TD>/; /g' -e 's/<\/TD><TD>/; /g' -e 's/<a href.*<\/a>//g' -e 's/<TR.*;id=.*\">//g' | rg -i "$1"}
 
-# fetch currency exchange rate from XE
+#/ currency <from_currency> <to_currency> <number>: fetch currency exchange rate from XE
 currency () { node "$GITREPO"/xe-scraper/xe-scraper.js $1 $2 $3}
 
-# dadjoke
+#/ dadjoke: show dadjoke
 dadjoke () { echo $(curl -Ss -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
-# HDMI display screen on/off
-dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
+#/ dispabove: put sencond display above
+#/ dispoff: HDMI display screen off
+#/ dispon: HDMI display screen on
 dispabove () { xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1 }
 dispoff () { xrandr --output HDMI-1 --off }
+dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 
-# aria2c download
-dl () { aria2c -c -s 5 "$1" --all-proxy="" }
-dnl () { aria2c -c -s 5 "$1" }
-
-# all-in-one decompression
+#/ extract <file_name>: all-in-one decompression
 extract () {
   if [ -f $1 ] ; then
     case $1 in
@@ -102,13 +100,16 @@ extract () {
   fi
 }
 
-# find last modified file in folder
+#/ findlast: find last modified file in folder
 findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec sh -c "echo {}; /bin/ls -lrtp {} | grep -v / | tail -n 1 | awk '{\$1=\$2=\$3=\$4=\$5=\"\"; print \$0}'; echo" \; }
 
-# kill process
+#/ help <keyword>: list functions
+help () { grep "^#/" ~/.zshrc | cut -c4- | rg -i "${@:-}" }
+
+#/ kp: kill process
 kp () { kill $(ps aux | fzf | awk '{print $2}') }
 
-# show last modified time of sites
+#/ lm: show last modified time of sites, defined in ~/.site
 lm () {
     for url in $(cat ~/.site); do
         echo "> $url"
@@ -117,33 +118,39 @@ lm () {
     done
 }
 
-# mkdir + cd
-mcd() { mkdir -p "$1" && cd "$1"; }
+#/ ls <keyword>: use exa to list directory contents
+ls () { exa -s mod --git | rg -i "${@:-}" }
 
-# poweroff
-po() { sleep "$1" && systemctl poweroff; }
+#/ ll <keyword>: use exa to list directory contents, long listing format
+ll () { exa -l -s mod --git --time-style=long-iso | rg -i "${@:-}" }
 
-# convert raw image to jpg
+#/ mcd <dir_name>: mkdir + cd
+mcd () { mkdir -p "$1" && cd "$1"; }
+
+#/ po <second>: poweroff in seconds
+po () { sleep "$1" && systemctl poweroff; }
+
+#/ rawtojpg <raw_file>: convert raw image to jpg
 rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
 
-# take screenshot
+#/ screenshot: take screenshot
 screenshot () { sleep 2; import -window root `date +%s`.jpg }
 
-# show PATH
+#/ showpath: show PATH
 showpath () { awk -v RS=: '{print}' <<<$PATH }
 
-# get weather info
+#/ weather <location>: get weather info
 weather () { curl "wttr.in/$1" }
 
-# get YouTube RSS QR code
+#/ youtuberss <url>: get YouTube RSS QR code
 youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e 's/\">.*//' | head -1`; echo $url; qr "$url"}
 
-# css compressor
-yuicss() { echo "$1".css; rm -f $1.min.css; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type css "$1".css > "$1".min.css;}
-# js compressor
-yuijs() { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type js "$1".js > "$1".min.js;}
+#/ yuicss <css_file>: css compressor
+yuicss () { echo "$1".css; rm -f $1.min.css; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type css "$1".css > "$1".min.css;}
+#/ yuijs <js_file>: js compressor
+yuijs () { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type js "$1".js > "$1".min.js;}
 
-# clean unzip mess
+#/ zipundo <zip_file>: clean unzip mess
 zipundo () { unzip -Z -1 "$1" | xargs -I{} rm -v {} }
 
 #------------------------------
@@ -157,10 +164,6 @@ alias grep='grep --color=auto'
 alias ccat='pygmentize -g -O style=colorful,linenos=1'
 alias vi='nvim'
 alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
-alias ls='exa -s mod --git'
-alias lsg='exa -s mod --git | rg -i "$@"'
-alias ll='exa -l -s mod --git --time-style=long-iso'
-alias llg='exa -l -s mod --git --time-style=long-iso | rg "$@"'
 alias y='yay'
 alias unplug='devmon -u'
 alias diff='colordiff'
