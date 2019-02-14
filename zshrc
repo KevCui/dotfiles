@@ -118,12 +118,6 @@ lm () {
     done
 }
 
-#/ ls <keyword>: use exa to list directory contents
-ls () { exa -s mod --git | rg -i "${@:-}" }
-
-#/ ll <keyword>: use exa to list directory contents, long listing format
-ll () { exa -l -s mod --git --time-style=long-iso | rg -i "${@:-}" }
-
 #/ mcd <dir_name>: mkdir + cd
 mcd () { mkdir -p "$1" && cd "$1"; }
 
@@ -164,6 +158,10 @@ alias grep='grep --color=auto'
 alias ccat='pygmentize -g -O style=colorful,linenos=1'
 alias vi='nvim'
 alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
+alias ls='exa -s mod --git'
+alias lsg='exa -s mod --git | rg -i "$@"'
+alias ll='exa -l -s mod --git --time-style=long-iso'
+alias llg='exa -l -s mod --git --time-style=long-iso | rg "$@"'
 alias y='yay'
 alias unplug='devmon -u'
 alias diff='colordiff'
