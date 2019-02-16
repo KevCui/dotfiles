@@ -1,0 +1,30 @@
+From e652d46d0248f2e128205fee0cbfbd636817aef2 Mon Sep 17 00:00:00 2001
+From: Kevin Cui <krazycavin@gmail.com>
+Date: Sat, 16 Feb 2019 09:09:04 +0100
+Subject: [PATCH] Swap k and j
+
+---
+ nnn.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/nnn.h b/nnn.h
+index e68f7cb..b780caa 100644
+--- a/nnn.h
++++ b/nnn.h
+@@ -82,11 +82,11 @@ static struct key bindings[] = {
+ 	{ KEY_RIGHT,      SEL_GOIN,      "",     "" },
+ 	{ 'l',            SEL_GOIN,      "",     "" },
+ 	/* Next */
+-	{ 'j',            SEL_NEXT,      "",     "" },
++	{ 'k',            SEL_NEXT,      "",     "" },
+ 	{ KEY_DOWN,       SEL_NEXT,      "",     "" },
+ 	{ CONTROL('N'),   SEL_NEXT,      "",     "" },
+ 	/* Previous */
+-	{ 'k',            SEL_PREV,      "",     "" },
++	{ 'j',            SEL_PREV,      "",     "" },
+ 	{ KEY_UP,         SEL_PREV,      "",     "" },
+ 	{ CONTROL('P'),   SEL_PREV,      "",     "" },
+ 	/* Page down */
+-- 
+2.20.1
+
