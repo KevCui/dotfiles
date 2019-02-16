@@ -1,0 +1,15 @@
+--- nnn.h	2019-02-16 09:26:06.777329308 +0100
++++ nnn.m	2019-02-16 09:26:03.630662673 +0100
+@@ -114,10 +114,10 @@
+ 	{ KEY_RIGHT,      SEL_NAV_IN },
+ 	{ 'l',            SEL_NAV_IN },
+ 	/* Next */
+-	{ 'j',            SEL_NEXT },
++	{ 'k',            SEL_NEXT },
+ 	{ KEY_DOWN,       SEL_NEXT },
+ 	/* Previous */
+-	{ 'k',            SEL_PREV },
++	{ 'j',            SEL_PREV },
+ 	{ KEY_UP,         SEL_PREV },
+ 	/* Page down */
+ 	{ KEY_NPAGE,      SEL_PGDN },
