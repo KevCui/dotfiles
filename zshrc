@@ -1,9 +1,19 @@
 #------------------------------
 # Prompt
 #------------------------------
-setopt prompt_subst
-PS1="%F{red}●%F{yellow}●%F{green}● %F{blue}%* %F{yellow}>>%f "
-RPROMPT="%F{yellow}\$(git rev-parse --abbrev-ref HEAD 2> /dev/null) %F{green}%B%~%b"
+autoload -U promptinit; promptinit
+prompt spaceship
+SPACESHIP_PROMPT_ORDER=(time char)
+SPACESHIP_RPROMPT_ORDER=(git dir)
+SPACESHIP_PROMPT_ADD_NEWLINE=false
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_TIME_COLOR="blue"
+SPACESHIP_DIR_TRUNC=0
+SPACESHIP_DIR_TRUNC_REPO=false
+SPACESHIP_DIR_COLOR="green"
+SPACESHIP_DIR_PREFIX=""
+SPACESHIP_GIT_BRANCH_COLOR="yellow"
+spaceship_vi_mode_enable
 
 #------------------------------
 # Variables
