@@ -198,6 +198,9 @@ alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\
 # run firefox with default GTK3 theme
 alias firefox='env GTK_THEME=Arc firefox-nightly'
 
+# run firefox in new instance
+alias newfox='firefox --new-instance --profile $(mktemp -d)'
+
 # grc alias
 if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
 
