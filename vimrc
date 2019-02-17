@@ -206,7 +206,7 @@ setlocal foldmethod=syntax
 nnoremap <silent> <c-f> :NV<CR>
 let g:nv_create_note_key = 'ctrl-x'
 let g:nv_default_extension = '.md'
-let g:nv_search_paths = ['~/Notes', './content/post', './doc', './README.md', './TODO.md']
+let g:nv_search_paths = ['~/SparkleShare', './content/post', './doc', './README.md', './TODO.md']
 let g:nv_keymap = {
 \ 'ctrl-s': 'split ',
 \ 'ctrl-b': 'vertical split ',
