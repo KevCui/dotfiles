@@ -226,6 +226,7 @@ assign [class="libreoffice-startcenter"] $ws4
 assign [class="libreoffice-writer"] $ws4
 assign [class="libreoffice-calc"] $ws4
 assign [class="Soffice"] $ws4
+assign [class="calibre"] $ws3
 
 # Theme
 # <colorclass> <border> <background> <text> <indicator> <child_border>
@@ -249,6 +250,7 @@ exec --no-startup-id fcitx
 %browser%exec --no-startup-id "env GTK_THEME=Arc firefox-nightly"
 %email%exec --no-startup-id thunderbird-nightly
 exec --no-startup-id fswatch.sh
+exec --no-startup-id blueman-applet
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 exec --no-startup-id st -n main
 exec --no-startup-id st -n tasksh -e zsh -c "task ls; $SHELL"
