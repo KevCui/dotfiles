@@ -31,6 +31,7 @@ Plug 'mhinz/vim-signify' "show changes
 Plug 'Alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
+Plug 'rbong/vim-flog' "Git branch viewer :Flog
 
 " nvim or vim?
 if has('nvim')
