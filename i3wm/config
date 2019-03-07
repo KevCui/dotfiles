@@ -30,7 +30,7 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec st
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 #bindsym $mod+Shift+q kill
@@ -177,6 +177,7 @@ bindsym $mod+Pause mode "$mode_system"
 # no border
 for_window [class="^.*$"] border none
 for_window [class="st-256color"] border 1pixel
+for_window [class="Alacritty"] border 1pixel
 for_window [class="XTerm"] border 1pixel
 hide_edge_borders none
 
@@ -243,7 +244,7 @@ focus_follows_mouse no
 no_focus [title="ranger"]
 no_focus [instance="tasksh"]
 no_focus [instance="additional"]
-exec --no-startup-id "i3-msg 'workspace 2; append_layout ~/.config/i3/st-workspace.json'"
+exec --no-startup-id "i3-msg 'workspace 2; append_layout ~/.config/i3/alacritty-workspace.json'"
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
@@ -252,8 +253,8 @@ exec --no-startup-id fcitx
 exec --no-startup-id fswatch.sh
 %bluetooth%exec --no-startup-id blueman-applet
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
-exec --no-startup-id st -n main
-exec --no-startup-id st -n tasksh -e zsh -c "task ls; $SHELL"
-exec --no-startup-id st -n small
+exec --no-startup-id alacritty -t main
+exec --no-startup-id alacritty -t tasksh -e zsh -c "task ls; $SHELL"
+exec --no-startup-id alacritty -t small
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id "xcape -t 300 -e 'Shift_R=BackSpace;Control_L=Escape'"
