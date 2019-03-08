@@ -72,3 +72,6 @@ chunkc set window_fade_duration          0.1
 chunkc core::load border.so
 chunkc core::load tiling.so
 chunkc core::load ffm.so
+
+# Deserialize layout
+# e.g.: chunkc tiling::desktop --deserialize ~/chunkwm/desktop_2.chunkwm
