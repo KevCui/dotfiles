@@ -1,0 +1,4 @@
+map j scroll up
+map k scroll down
+map <C-j> navigate previous
+map <C-k> navigate next
