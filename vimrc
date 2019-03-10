@@ -28,7 +28,7 @@ Plug 'keith/swift.vim' "syntax for swift
 Plug 'zchee/deoplete-jedi' "deoplete for python
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' } "deoplete for js
 Plug 'mhinz/vim-signify' "show changes
-Plug 'Alok/notational-fzf-vim' "Notational FZF
+Plug 'alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
 Plug 'rbong/vim-flog' "Git branch viewer :Flog
@@ -208,6 +208,7 @@ nnoremap <silent> <c-f> :NV<CR>
 let g:nv_create_note_key = 'ctrl-x'
 let g:nv_default_extension = '.md'
 let g:nv_search_paths = ['~/Notes', './content/post', './doc', './README.md', './TODO.md']
+let g:nv_ignore_pattern = ['.git']
 let g:nv_keymap = {
 \ 'ctrl-s': 'split ',
 \ 'ctrl-b': 'vertical split ',

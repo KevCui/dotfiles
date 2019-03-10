@@ -42,6 +42,9 @@ export FZF_DEFAULT_OPTS='
   --color fg:250,hl:221,fg+:232,bg+:111,hl+:221
   --color info:111,prompt:221,spinner:221,pointer:111,marker:221
 '
+# fzf ignores .git and node_modules
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 #------------------------------
 # Functions
