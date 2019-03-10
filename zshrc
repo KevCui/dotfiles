@@ -28,6 +28,7 @@ export pkg=/var/cache/pacman/pkg
 GPG_TTY=$(tty)
 export GPG_TTY
 export GITREPO="%gitrepo%"
+export SNIPPET="${HOME}/Notes/command-snippet.md"
 
 # Android SDK
 export ANDROID_SDK=/opt/android-sdk
@@ -45,6 +46,7 @@ export FZF_DEFAULT_OPTS='
 # fzf ignores .git and node_modules
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_S_COMMAND="cat $SNIPPET"
 
 #------------------------------
 # Functions
@@ -54,6 +56,13 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
     calc="${*//p/+}"
     calc="${calc//x/*}"
     calc $calc
+}
+
+#/ addpet: add command snippet to $SNIPPET
+addpet () {
+    read "?Command: " cmdinput
+    read "?Description: " desinput
+    echo "[$desinput]: $cmdinput" >> $SNIPPET
 }
 
 #/ alpha: print alphabet
@@ -269,6 +278,7 @@ source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/fzf/completion.zsh
 source ~/.zsh/fzf/key-bindings.zsh
+source ~/.zsh/fzf/command-snippet.zsh
 source ~/.zsh/up.sh
 source ~/.zsh/z.lua.plugin.zsh
 
@@ -318,4 +328,5 @@ ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
 #------------------------------
 # Other source
 #------------------------------
+stty -ixon # disable ^S
 source %othersource%
