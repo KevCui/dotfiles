@@ -48,7 +48,9 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_S_COMMAND="cat $SNIPPET"
 
-# fff keybindings
+# fff configurations
+export FFF_OPENER="rifle"
+export FFF_COL2="01;38;5;111"
 export FFF_KEY_SCROLL_DOWN1="k"
 export FFF_KEY_SCROLL_UP1="j"
 export FFF_FAV1="$GITREPO/fff/fav1"
