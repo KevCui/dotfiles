@@ -28,7 +28,7 @@ Plug 'keith/swift.vim' "syntax for swift
 Plug 'zchee/deoplete-jedi' "deoplete for python
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' } "deoplete for js
 Plug 'mhinz/vim-signify' "show changes
-Plug 'alok/notational-fzf-vim' "Notational FZF
+Plug 'Alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
 Plug 'rbong/vim-flog' "Git branch viewer :Flog
