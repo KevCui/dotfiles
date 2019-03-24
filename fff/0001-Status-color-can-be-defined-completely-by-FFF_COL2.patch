@@ -1,0 +1,25 @@
+From e2077a013f19aa110959943421cd97d9c9d5f191 Mon Sep 17 00:00:00 2001
+From: Kevin Cui <krazycavin@gmail.com>
+Date: Sun, 24 Mar 2019 11:48:37 +0100
+Subject: [PATCH] Status color can be defined completely by FFF_COL2
+
+---
+ fff | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fff b/fff
+index 39d0f82..2b9775e 100755
+--- a/fff
++++ b/fff
+@@ -176,7 +176,7 @@ status_line() {
+     # '\e[H\e[K':  Clear line below status_line.
+     # '\e8':       Restore cursor position.
+     #              This is more widely supported than '\e[u'.
+-    printf '\e7\e[%sH\e[30;4%sm%*s\r%s %s%s\e[m\e[%sH\e[K\e8' \
++    printf '\e7\e[%sH\e[%sm%*s\r%s %s%s\e[m\e[%sH\e[K\e8' \
+            "$((LINES-1))" \
+            "${FFF_COL2:-1}" \
+            "$COLUMNS" "" \
+-- 
+2.21.0
+
