@@ -44,12 +44,12 @@
                                     "border": "pixel",
                                     "current_border_width": 1,
                                     "floating": "auto_off",
-                                    "name": "ranger",
+                                    "name": "fff",
                                     "percent": 0.25,
                                     "swallows": [
                                        {
                                           "class": "Alacritty",
-                                          "title": "ranger"
+                                          "title": "fff"
                                        }
                                     ],
                                     "type": "con"
