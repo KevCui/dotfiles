@@ -24,7 +24,7 @@ Plug 'w0rp/ale' "synchronous Lint Engine
 Plug 'posva/vim-vue' "syntax for Vue.js components
 Plug 'udalov/kotlin-vim' "syntax for Kotlin
 Plug 'keith/swift.vim' "syntax for swift
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'mhinz/vim-signify' "show changes
 Plug 'Alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
@@ -197,6 +197,9 @@ let g:nv_keymap = {
 \ 'ctrl-b': 'vertical split ',
 \ 'ctrl-t': 'tabedit ',
 \ }
+
+" coc use compiled code
+let g:coc_force_debug = 1
 
 " coc tab keybinding
 inoremap <silent><expr> <TAB>

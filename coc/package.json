@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "coc-css": "^1.0.7",
+    "coc-json": "^1.0.12",
+    "coc-python": "^1.1.0",
+    "coc-snippets": "^2.0.5",
+    "coc-ultisnips": "^1.2.3",
+    "coc-yaml": "^1.0.0",
+    "jest-snippets": "https://github.com/andys8/vscode-jest-snippets.git#master"
+  }
+}
