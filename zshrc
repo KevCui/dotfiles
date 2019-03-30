@@ -18,7 +18,7 @@ spaceship_vi_mode_enable
 #------------------------------
 # Variables
 #------------------------------
-export PATH="$PATH":${HOME}/Script:${HOME}/.cabal/bin:${HOME}/.npm-global/bin:${HOME}/.local/bin
+export PATH="$PATH":${HOME}/Script:${HOME}/.cabal/bin:${HOME}/.npm-global/bin:${HOME}/.local/bin:${HOME}/go/bin
 export TERM='xterm-256color'
 export BROWSER="firefox-nightly"
 export EDITOR="nvim"
