@@ -96,7 +96,7 @@ cht () { curl "cht.sh/$1/$2"}
 #/ clock: show running clock
 clock () { clear; while true; do echo -e \\b\\b\\b\\b\\b\\b\\b\\b`date +%T`\\c ; sleep 1; done }
 
-# cpu <keyword>: find CPU info from PassMark: Name; Mark; Rank; Value; Price
+#/ cpu <keyword>: find CPU info from PassMark: Name; Mark; Rank; Value; Price
 cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | rg 'cpu_lookup' | sed -e 's/<\/TD><\/TR>/\n/g' -e 's/<TR.*multi=\w">//g' -e 's/<\/A><\/TD><TD>/; /g' -e 's/<\/TD><TD>/; /g' -e 's/<a href.*<\/a>//g' -e 's/<TR.*;id=.*\">//g' | rg -i "$1"}
 
 #/ currency <from_currency> <to_currency> <number>: fetch currency exchange rate from XE
@@ -142,6 +142,13 @@ findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec 
 
 #/ help <keyword>: list functions
 help () { grep "^#/" ~/.zshrc | cut -c4- | rg -i "${@:-}" }
+
+#/ httpstatus: show HTTP code explanation, $1 HTTP code
+httpstatus () { curl -i "https://httpstat.us/$1" }
+
+#/ httpstatuslist: show list of HTTP codes
+httpstatuslist () { curl -s 'http://httpstat.us/' | grep -v teapot | hxnormalize -x | hxselect -c 'dt a, dd' | sed -E 's/[0-9]{3}/\
+&/g'}
 
 #/ kp: kill process
 kp () { kill $(ps aux | fzf | awk '{print $2}') }
