@@ -171,6 +171,9 @@ lm () {
 #/ mcd <dir_name>: mkdir + cd
 mcd () { mkdir -p "$1" && cd "$1"; }
 
+#/ mytimezone: show my timezone
+mytimezone () { curl -s 'https://ipapi.co/timezone' }
+
 #/ po <second>: poweroff in seconds
 po () { sleep "$1" && systemctl poweroff; }
 
