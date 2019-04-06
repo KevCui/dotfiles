@@ -5,7 +5,7 @@ The sweet sweet home of my lovely dotfiles :honey_pot:
 
 ## How to configure
 
-You may or may not notice that there are some variables `%variable%` in dotfiles. For example, in `zshrc`:
+You may or may not notice that there are some variables `%variable%` in some dotfiles. For example, in `zshrc`:
 
 ```
 export GITREPO="%gitrepo%"
@@ -41,6 +41,6 @@ i3wm/config:
 ./build.sh <yaml_config_file>; source ~/.zshrc
 ```
 
-The final fines will be generated in `output` folder. Pay attention to create symbol link to the target files in `output` folder.
+The final files will be generated in `output` folder. Pay attention to create symbol links to the target files in `output` folder.
 
 :heart:
