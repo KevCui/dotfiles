@@ -96,6 +96,9 @@ cht () { curl "cht.sh/$1/$2"}
 #/ clock: show running clock
 clock () { clear; while true; do echo -e \\b\\b\\b\\b\\b\\b\\b\\b`date +%T`\\c ; sleep 1; done }
 
+#/ citytime <city_name>: show current time in city $1
+citytime () { zdump "$(fd -t f -d 2 "$1" /usr/share/zoneinfo/ | tail -1)" }
+
 #/ cpu <keyword>: find CPU info from PassMark: Name; Mark; Rank; Value; Price
 cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | rg 'cpu_lookup' | sed -e 's/<\/TD><\/TR>/\n/g' -e 's/<TR.*multi=\w">//g' -e 's/<\/A><\/TD><TD>/; /g' -e 's/<\/TD><TD>/; /g' -e 's/<a href.*<\/a>//g' -e 's/<TR.*;id=.*\">//g' | rg -i "$1"}
 
