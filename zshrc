@@ -143,6 +143,12 @@ findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec 
 #/ help <keyword>: list functions
 help () { grep "^#/" ~/.zshrc | cut -c4- | rg -i "${@:-}" }
 
+#/ holiday <country_code> <year>: list of public holidays in country $1 in year $2
+holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nager.at/Api/v2/PublicHolidays/$y/$1" | jq -r '.[] | "\(.date) \(.localName) - \(.name)"' }
+
+#/ holidayHH: list of next public holidays of this year in Hamburg
+holidayHH () { curl -s "https://date.nager.at/Api/v2/PublicHolidays/$(date "+%Y")/DE" | jq -r '.[] | select(((.counties | . and contains(["DE-HH"])) or .global) and .date >= "'$(date "+%Y-%m-%d")'") | "\(.date) \(.localName) - \(.name)"' }
+
 #/ httpstatus: show HTTP code explanation, $1 HTTP code
 httpstatus () { curl -i "https://httpstat.us/$1" }
 
