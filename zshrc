@@ -174,6 +174,9 @@ mcd () { mkdir -p "$1" && cd "$1"; }
 #/ po <second>: poweroff in seconds
 po () { sleep "$1" && systemctl poweroff; }
 
+#/ qotd: quote of the day
+qotd () { curl -s 'https://favqs.com/api/qotd' | jq -r '.quote | "\"\(.body)\" - \(.author)"'; echo }
+
 #/ rawtojpg <raw_file>: convert raw image to jpg
 rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
 
