@@ -35,10 +35,13 @@ Plug 'rbong/vim-flog' "Git branch viewer :Flog
 if has('nvim')
     " Escape terminal
     tnoremap <Esc> <C-\><C-n>
+    autocmd BufWinEnter,WinEnter term://* startinsert
+    autocmd BufLeave term://* stopinsert
 
     " w!! write file with sudo
     Plug 'lambdalisue/suda.vim' "read write with sudo
     cnoremap w!! execute 'write suda://%'
+    nnoremap <C-t> :tabe term://zsh<CR>
 else
     " encryption
     setlocal cryptmethod=blowfish2
