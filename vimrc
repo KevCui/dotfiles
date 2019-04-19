@@ -35,7 +35,7 @@ Plug 'rbong/vim-flog' "Git branch viewer :Flog
 if has('nvim')
     " Escape terminal
     tnoremap <Esc> <C-\><C-n>
-    autocmd BufWinEnter,WinEnter term://* startinsert
+    autocmd BufWinEnter,WinEnter term://* set norelativenumber nonumber | startinsert
     autocmd BufLeave term://* stopinsert
 
     " w!! write file with sudo
@@ -90,6 +90,7 @@ set number relativenumber
 augroup numbertoggle
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufEnter,FocusGained,InsertLeave term://* set norelativenumber
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
