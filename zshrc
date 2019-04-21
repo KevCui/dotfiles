@@ -175,7 +175,7 @@ lm () {
 mcd () { mkdir -p "$1" && cd "$1"; }
 
 #/ myip: show my ip address
-myip () { curl -4 'icanhazip.com' }
+myip () { curl -4 'icanhazip.com'; curl -6 'icanhazip.com' }
 
 #/ mytimezone: show my timezone
 mytimezone () { curl -s 'https://ipapi.co/timezone' }
