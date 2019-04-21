@@ -174,8 +174,17 @@ lm () {
 #/ mcd <dir_name>: mkdir + cd
 mcd () { mkdir -p "$1" && cd "$1"; }
 
+#/ myip: show my ip address
+myip () { curl -4 'icanhazip.com' }
+
 #/ mytimezone: show my timezone
 mytimezone () { curl -s 'https://ipapi.co/timezone' }
+
+#/ mytraceroute: returns a traceroute from my servers to my ip address
+mytraceroute () { curl 'icanhaztraceroute.com' }
+
+#/ mytrafficproxied : datetime if my taffic is proxied or not
+mytrafficproxied () { curl 'icanhazproxy.com' }
 
 #/ po <second>: poweroff in seconds
 po () { sleep "$1" && systemctl poweroff; }
