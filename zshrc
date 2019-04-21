@@ -183,7 +183,7 @@ mytimezone () { curl -s 'https://ipapi.co/timezone' }
 #/ mytraceroute: returns a traceroute from my servers to my ip address
 mytraceroute () { curl 'icanhaztraceroute.com' }
 
-#/ mytrafficproxied : datetime if my taffic is proxied or not
+#/ mytrafficproxied : determine if my taffic is proxied or not
 mytrafficproxied () { curl 'icanhazproxy.com' }
 
 #/ po <second>: poweroff in seconds
@@ -243,6 +243,7 @@ alias top='htop'
 alias cat='bat --theme=iceberg'
 alias aik='aiksaurus'
 alias c='insect'
+alias ts="torsocks"
 
 # git alias
 alias cdg="cd $GITREPO"
