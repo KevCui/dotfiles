@@ -207,6 +207,12 @@ showpath () { awk -v RS=: '{print}' <<<$PATH }
 #/ weather <location>: get weather info
 weather () { curl "wttr.in/$1" }
 
+#/ whatcms: show cms used by website $1
+whatcms () { curl -sS "https://whatcms.org/APIEndpoint/Detect?key=$(cat $WHATCMS_KEY_FILE | shuf | tail -1)&url=$1" | jq . }
+
+#/ whohosts: show host info of website $1
+whohosts () { curl -sS "https://www.who-hosts-this.com/APIEndpoint/Detect?key=$(cat $WHATCMS_KEY_FILE | shuf | tail -1)&url=$1" | jq . }
+
 #/ youtuberss <url>: get YouTube RSS QR code
 youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e 's/\">.*//' | head -1`; echo $url; qr "$url"}
 
