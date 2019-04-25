@@ -251,6 +251,7 @@ alias cat='bat --theme=iceberg'
 alias aik='aiksaurus'
 alias c='insect'
 alias ts="torsocks"
+alias u="/usr/bin/up"
 
 # git alias
 alias cdg="cd $GITREPO"
@@ -338,7 +339,7 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/fzf/completion.zsh
 source ~/.zsh/fzf/key-bindings.zsh
 source ~/.zsh/fzf/command-snippet.zsh
-source ~/.zsh/up.sh
+# source ~/.zsh/up.sh
 source ~/.zsh/z.lua.plugin.zsh
 
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
