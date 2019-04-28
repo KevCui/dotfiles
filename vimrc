@@ -30,6 +30,7 @@ Plug 'Alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
 Plug 'rbong/vim-flog' "Git branch viewer :Flog
+Plug 'mbbill/undotree' "Undo history visualizer
 
 " nvim or vim?
 if has('nvim')
@@ -233,3 +234,6 @@ let g:lightline = {
   \   'cocstatus': 'coc#status'
   \ },
 \ }
+
+" undotree
+nnoremap <F5> :UndotreeToggle<CR>
