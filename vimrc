@@ -1,7 +1,6 @@
 " plugins
 call plug#begin('~/.vim/plugged')
 Plug 'godlygeek/tabular' "align text
-Plug 'plasticboy/vim-markdown' "markdown highlight
 Plug 'wellle/targets.vim' "di'
 Plug 'cespare/vim-toml' "toml syntax
 Plug 'elzr/vim-json' "json syntax
@@ -31,6 +30,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
 Plug 'rbong/vim-flog' "Git branch viewer :Flog
 Plug 'mbbill/undotree' "Undo history visualizer
+Plug 'Yggdroot/indentLine' "display indention levels
+Plug 'arcticicestudio/nord-vim' " Nord theme
 
 " nvim or vim?
 if has('nvim')
@@ -58,8 +59,15 @@ call plug#end()
 " theme & color
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-colorscheme iceberg
 set laststatus=2
+
+" Nord theme
+let g:nord_italic = 1
+let g:nord_underline = 1
+let g:nord_italic_comments = 1
+let g:nord_uniform_status_lines = 1
+let g:nord_uniform_diff_background = 1
+colorscheme nord
 
 " gvim font
 set guifont=Hack\ 9
@@ -225,7 +233,7 @@ inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 let g:lightline = {
-  \ 'colorscheme': 'iceberg',
+  \ 'colorscheme': 'nord',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
   \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]

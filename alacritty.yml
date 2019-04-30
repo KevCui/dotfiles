@@ -156,62 +156,33 @@ draw_bold_text_with_bright_colors: true
 
 # Colors (Tomorrow Night Bright)
 colors:
-    # Default colors
     primary:
-        background: '0x1e1e1e'
-        foreground: '0xdcdccc'
+        background: '0x212121'
+        foreground: '0xc5cad4'
 
-        # Bright and dim foreground colors
-        #
-        # The dimmed foreground color is calculated automatically if it is not present.
-        # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-        # is `false`, the normal foreground color will be used.
-        #dim_foreground: '0x9a9a9a'
-        #bright_foreground: '0xffffff'
-
-    # Cursor colors
-    #
-    # Colors which should be used to draw the terminal cursor. If these are unset,
-    # the cursor color will be the inverse of the cell color.
     cursor:
-        text: '0xdcdccc'
-        cursor: '0x2b92db'
+        text: '0xc5cad4'
+        cursor: '0x5e81ac'
 
-    # Normal colors
     normal:
-        black: '0x171717'
-        red: '0xff5e5e'
-        green: '0x9ce82b'
-        yellow: '0xf0e68c'
-        blue: '0x008aff'
-        magenta: '0xe88cff'
-        cyan: '0x87cefa'
-        white: '0xdcdccc'
+        black: '0x3B4252'
+        red: '0xBF616A'
+        green: '0xA3BE8C'
+        yellow: '0xEBCB8B'
+        blue: '0x81A1C1'
+        magenta: '0xB48EAD'
+        cyan: '0x88C0D0'
+        white: '0xE5E9F0'
 
-    # Bright colors
     bright:
-        black: '0x737373'
-        red: '0xff7878'
-        green: '0x9acd32'
-        yellow: '0xeee8aa'
-        blue: '0x4f98ff'
-        magenta: '0xeda6ff'
-        cyan: '0xb0e2ff'
-        white: '0xffffff'
-
-    # Dim colors
-    #
-    # If the dim colors are not set, they will be calculated automatically based
-    # on the `normal` colors.
-    #dim:
-    #  black:   '0x000000'
-    #  red:     '0x8c3336'
-    #  green:   '0x7a8530'
-    #  yellow:  '0x97822e'
-    #  blue:    '0x506d8f'
-    #  magenta: '0x80638e'
-    #  cyan:    '0x497e7a'
-    #  white:   '0x9a9a9a'
+        black: '0x4C566A'
+        red: '0xBF616A'
+        green: '0xA3BE8C'
+        yellow: '0xEBCB8B'
+        blue: '0x81A1C1'
+        magenta: '0xB48EAD'
+        cyan: '0x8FBCBB'
+        white: '0xECEFF4'
 
     # Indexed Colors
     #
