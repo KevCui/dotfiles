@@ -1,0 +1,271 @@
+# snipMate Cypress Snippet
+# 1. Install Vim plugin [vim-snippets](https://github.com/honza/vim-snippets/)
+# 2. Put this file inside the folder: <runtimepath>/plugged/vim-snippets/javascript/
+
+snippet context "[cy] context('description', () => { ... })"
+context('${1}', () => {
+    $0
+})
+
+snippet describe "[cy] describe('description', () => { ... })"
+describe('${1}', () => {
+    $0
+})
+
+snippet it "[cy] it('should do', () => { ... })"
+it('${1}', () => {
+    ${0:${VISUAL}}
+})
+
+snippet befe "[cy] beforeEach(() => { ... })"
+beforeEach(() => {
+    ${0:${VISUAL}}
+})
+
+# Assertions
+# https://docs.cypress.io/guides/references/assertions.html
+
+# BDD Assertions
+snippet exp "[cy] expect(...)"
+expect(${0})
+
+snippet expeq "[cy] expect(...).to.equal(...)"
+expect(${1}).to.equal(${0})
+
+snippet expeqls "[cy] expect({ ... }).to.eql({ ... })"
+expect({ ${1} }).to.eql({ ${0} })
+
+snippet expne "[cy] expect(...).to.not.equal(...)"
+expect(${1}).to.not.equal(${0})
+
+snippet expdeq "[cy] expect(...).to.deep.equal(...)"
+expect(${1}).to.deep.equal(${0})
+
+snippet exphany "[cy] expect(...).to.have.any.keys(...)"
+expect(${1}).to.have.any.keys(${0})
+
+snippet exphall "[cy] expect(...).to.have.all.keys(...)"
+expect(${1}).to.have.all.keys(${0})
+
+snippet expbe "[cy] expect(...).to.be.a(...)"
+expect(${1}).to.be.a(${0})
+
+snippet expinclu "[cy] expect(...).to.include(...)"
+expect(${1}).to.include(${0})
+
+snippet expnotok "[cy] expect(...).to.not.be.ok"
+expect(${1}).to.not.be.ok
+
+snippet exptrue "[cy] expect(...).to.be.true"
+expect(${1}).to.be.true
+
+snippet expfalse "[cy] expect(...).to.be.false"
+expect(${1}).to.be.false
+
+snippet expnull "[cy] expect(...).to.be.null"
+expect(${1}).to.be.null
+
+snippet expundefined "[cy] expect(...).to.be.undefined"
+expect(${1}).to.be.undefined
+
+snippet expexist "[cy] expect(...).to.exist"
+expect(${1}).to.exist
+
+snippet expempty "[cy] expect(...).to.be.empty"
+expect(${1}).to.be.empty
+
+snippet exparg "[cy] expect(...).to.be.arguments"
+expect(${1}).to.be.arguments
+
+snippet expeto "[cy] expect(...).to.equal(...)"
+expect(${1}).to.equal(${0})
+
+snippet expgt "[cy] expect(...).to.be.greaterThan(...)"
+expect(${1}).to.be.greaterThan(${0})
+
+snippet expgte "[cy] expect(...).to.be.at.least(...)"
+expect(${1}).to.be.at.least(${0})
+
+snippet explt "[cy] expect(...).to.be.lessThan(...)"
+expect(${1}).to.be.lessThan(${0})
+
+snippet expmost "[cy] expect(...).to.have.length.of.at.most(...)"
+expect(${1}).to.have.length.of.at.most(${0})
+
+snippet expwithin "[cy] expect(...).to.be.within(...,...)"
+expect(${1}).to.be.within(${2},${0})
+
+snippet expinstanceof "[cy] expect([1, 2, 3]).to.be.instanceOf(Array)"
+expect(${1}).to.be.instanceOf(${0})
+
+snippet exphp "[cy] expect(...).to.have.property('...')"
+expect(${1}).to.have.property('${0}')
+
+snippet exphdp "[cy] expect(deepObj).to.have.deep.property('tests[1]', 'e2e')"
+expect(${1}).to.have.deep.property('${0}')
+
+snippet expown "[cy] expect(...).to.have.ownProperty('...')"
+expect(${1}).to.have.ownProperty('${0}')
+
+snippet expownd "[cy] expect({a: 1}).to.have.ownPropertyDescriptor('a')"
+expect(${1}).to.have.ownPropertyDescriptor('${0}')
+
+snippet explength "[cy] expect(...).to.have.lengthOf(...)"
+expect(${1}).to.have.lengthOf(${0})
+
+snippet expmatches "[cy] expect('testing').to.match(/^test/)"
+expect(${1}).to.match(/{0}/)
+
+snippet expstr "[cy] expect('...').to.have.string('...')"
+expect('${1}').to.have.string('${0}')
+
+snippet expkey "[cy] expect({ ... }).to.have.key('...')"
+expect({ ${1} }).to.have.key('${0}')
+
+snippet expthrow "[cy] expect(...).to.throw(...)"
+expect(${1}).to.throw(${0})
+
+snippet exprespondsto "[cy] expect(...).to.respondTo('...')"
+expect(${1}).to.respondTo('${0}')
+
+snippet expitself "[cy] expect(...).itself.to.respondTo('...')"
+expect(${1}).itself.to.respondTo('${0}')
+
+snippet expsatisfy "[cy] expect(1).to.satisfy((num) => { return num > 0 })"
+expect(${1}).to.satisfy((${2}) => { $0 })
+
+snippet expcloseto "[cy] expect(...).to.be.closeTo(...)"
+expect(${1}).to.be.closeTo($0)
+
+snippet expinclumembers "[cy] expect([...]).to.include.members([...])"
+expect([${1}]).to.include.members([${0}])
+
+snippet exponeof "[cy] expect(...).to.be.oneOf([...])"
+expect(${1}).to.be.oneOf([${0}])
+
+snippet expchange "[cy] expect(...).to.change(..., '...')"
+expect(${1}).to.change(${2}, '${0}')
+
+snippet expincrease "[cy] expect(...).to.increase(..., '...')"
+expect(${1}).to.increase(${2}, '${0}')
+
+snippet expdecrease "[cy] expect(...).to.decrease(..., '...')"
+expect(${1}).to.decrease(${2}, '${0}')
+
+# TDD Assertions
+snippet assertok "[cy] .isOk(object, [message])"
+assert.isOk(${1}, '${0}')
+
+snippet assertnok "[cy] .isNotOk(object, [message])"
+assert.isNotOk(${1}, '${0}')
+
+snippet asserteql "[cy] .equal(actual, expected, [message])"
+assert.equal(${1}, ${2}, '${0}')
+
+snippet assertneql "[cy] .notEqual(actual, expected, [message])"
+assert.notEqual(${1}, ${2}, '${0}')
+
+snippet assertseql "[cy] .strictEqual(actual, expected, [message])"
+assert.strictEqual(${1}, ${2}, '${0}')
+
+snippet assertnseql "[cy] .notStrictEqual(actual, expected, [message])"
+assert.notstrictEqual(${1}, ${2}, '${0}')
+
+snippet assertdeql "[cy] .deepEqual(actual, expected, [message])"
+assert.deepEqual(${1}, ${2}, '${0}')
+
+snippet assertndeql "[cy] .notDeepEqual(actual, expected, [message])"
+assert.notDeepEqual(${1}, ${2}, '${0}')
+
+snippet assertgt "[cy] .isAbove(valueToCheck, valueToBeAbove, [message])"
+assert.isAbove(${1}, ${2}, '${0}')
+
+snippet assertgte "[cy] .isAtLeast(valueToCheck, valueToBeAtLeast, [message])"
+assert.isAtLeast(${1}, ${2}, '${0}')
+
+snippet assertlt "[cy] .isBelow(valueToCheck, valueToBeBelow, [message])"
+assert.isBelow(${1}, ${2}, '${0}')
+
+snippet assertle "[cy] .isAtMost(valueToCheck, valueToBeAtMost, [message])"
+assert.isAtMost(${1}, ${2}, '${0}')
+
+snippet asserttrue "[cy] .isTrue(value, [message])"
+assert.isTrue(${1}, '${0}')
+
+snippet assertnottrue "[cy] .isNotTrue(value, [message])"
+assert.isNotTrue(${1}, '${0}')
+
+snippet assertfalse "[cy] .isFalse(value, [message])"
+assert.isFalse(${1}, '${0}')
+
+snippet assertnotfalse "[cy] .isNotFalse(value, [message])"
+assert.isNotFalse(${1}, '${0}')
+
+snippet asserstnull "[cy] .isNull(value, [message])"
+assert.isNull(${1}, '${0}')
+
+snippet assertnotnull "[cy] .isNotNull(value, [message])"
+assert.isNotNull(${1}, '${0}')
+
+snippet assertnan "[cy] .isNaN(value, [message])"
+assert.isNaN(${1}, '${0}')
+
+snippet assertnotnan "[cy] .isNotNaN(value, [message])"
+assert.isNotNaN(${1}, '${0}')
+
+snippet assertexists "[cy] .exists(value, [message])"
+assert.exists(${1}, '${0}')
+
+snippet assertnotexists "[cy] .notExists(value, [message])"
+assert.notExists(${1}, '${0}')
+
+snippet assertundefined "[cy] .isUndefined(value, [message])"
+assert.isUndefined(${1}, '${0}')
+
+snippet assertdefined "[cy] .isDefined(value, [message])"
+assert.isDefined(${1}, '${0}')
+
+snippet assertisfunction "[cy] .isFunction(value, [message])"
+assert.isFunction(${1}, '${0}')
+
+snippet assertisnotfunction "[cy] .isNotFunction(value, [message])"
+assert.isNotFunction(${1}, '${0}')
+
+snippet assertisobj "[cy] .isObject(value, [message])"
+assert.isObject(${1}, '${0}')
+
+snippet assertnotobj "[cy] .isNotObject(value, [message])"
+assert.isNotObject(${1}, '${0}')
+
+snippet assertisarr "[cy] .isArray(value, [message])"
+assert.isArray(${1}, '${0}')
+
+snippet assertnotarr "[cy] .isNotArray(value, [message])"
+assert.isNotArray(${1}, '${0}')
+
+snippet assertisstr "[cy] .isString(value, [message])"
+assert.isString(${1}, '${0}')
+
+snippet assertnotstr "[cy] .isNotString(value, [message])"
+assert.isNotString(${1}, '${0}')
+
+snippet assertisnum "[cy] .isNumber(value, [message])"
+assert.isNumber(${1}, '${0}')
+
+snippet assertnotnum "[cy] .isNotNumber(value, [message])"
+assert.isNotNumber(${1}, '${0}')
+
+snippet assertisfinite "[cy] .isFinite(value, [message])"
+assert.isFinite(${1}, '${0}')
+
+snippet assertisboolean "[cy] .isBoolean(value, [message])"
+assert.isBoolean(${1}, '${0}')
+
+snippet assertnotboolean "[cy] .isNotBoolean(value, [message])"
+assert.isNotBoolean(${1}, '${0}')
+
+snippet asserttypeof "[cy] .typeOf(value, name, [message])"
+assert.typeOf(${1}, ${2}, '${0}')
+
+snippet assertnottypeof "[cy] .notTypeOf(value, name, [message])"
+assert.notTypeOf(${1}, ${2}, '${0}')
