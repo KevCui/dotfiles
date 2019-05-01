@@ -1,0 +1,319 @@
+# Term Section
+TERM Eterm
+TERM ansi
+TERM color-xterm
+TERM con132x25
+TERM con132x30
+TERM con132x43
+TERM con132x60
+TERM con80x25
+TERM con80x28
+TERM con80x30
+TERM con80x43
+TERM con80x50
+TERM con80x60
+TERM cons25
+TERM console
+TERM cygwin
+TERM dtterm
+TERM dvtm
+TERM dvtm-256color
+TERM eterm-color
+TERM fbterm
+TERM gnome
+TERM gnome-256color
+TERM jfbterm
+TERM konsole
+TERM konsole-256color
+TERM kterm
+TERM linux
+TERM linux-c
+TERM mach-color
+TERM mlterm
+TERM putty
+TERM putty-256color
+TERM rxvt
+TERM rxvt-256color
+TERM rxvt-cygwin
+TERM rxvt-cygwin-native
+TERM rxvt-unicode
+TERM rxvt-unicode256
+TERM rxvt-unicode-256color
+TERM screen
+TERM screen-16color
+TERM screen-16color-bce
+TERM screen-16color-s
+TERM screen-16color-bce-s
+TERM screen-256color
+TERM screen-256color-bce
+TERM screen-256color-s
+TERM screen-256color-bce-s
+TERM screen-256color-italic
+TERM screen-bce
+TERM screen-w
+TERM screen.linux
+TERM screen.xterm-256color
+TERM st
+TERM st-meta
+TERM st-256color
+TERM st-meta-256color
+TERM tmux
+TERM tmux-256color
+TERM vt100
+TERM xterm
+TERM xterm-16color
+TERM xterm-256color
+TERM xterm-256color-italic
+TERM xterm-88color
+TERM xterm-color
+TERM xterm-debian
+TERM xterm-termite
+
+## Documentation
+#
+# standard colors
+#
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
+# 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+# Text color codes:
+# 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
+# Background color codes:
+# 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+#
+#
+# 256 color support
+# see here: http://www.mail-archive.com/bug-coreutils@gnu.org/msg11030.html)
+#
+# Text 256 color coding:
+# 38;5;COLOR_NUMBER
+# Background 256 color coding:
+# 48;5;COLOR_NUMBER
+
+# Special files
+NORMAL 00;38;5;253 # global default
+FILE   00;38;5;253 # normal file
+DIR    01;38;5;068 # directory
+LINK   07;38;5;114 # symbolic link. ('target'=the color for the file pointed to)
+ORPHAN 07;38;5;167 # symlink to nonexistent file
+FIFO   07;38;5;215 # pipe
+EXEC   00;38;5;167 # executable
+SOCK   01;38;5;143 # socket
+DOOR   01;38;5;143 # door
+BLK    01;38;5;179 # block device driver
+CHR    01;38;5;179 # character device driver
+
+# Archives or compressed
+.tar    00;38;5;183
+.tgz    00;38;5;183
+.arj    00;38;5;183
+.taz    00;38;5;183
+.lzh    00;38;5;183
+.lzma   00;38;5;183
+.tlz    00;38;5;183
+.txz    00;38;5;183
+.zip    00;38;5;183
+.z      00;38;5;183
+.Z      00;38;5;183
+.dz     00;38;5;183
+.gz     00;38;5;183
+.lz     00;38;5;183
+.xz     00;38;5;183
+.bz2    00;38;5;183
+.bz     00;38;5;183
+.tbz    00;38;5;183
+.tbz2   00;38;5;183
+.tz     00;38;5;183
+.deb    00;38;5;183
+.rpm    00;38;5;183
+.jar    00;38;5;183
+.rar    00;38;5;183
+.ace    00;38;5;183
+.zoo    00;38;5;183
+.cpio   00;38;5;183
+.7z     00;38;5;183
+.rz     00;38;5;183
+.apk    00;38;5;183
+.gem    00;38;5;183
+
+# Image formats
+.jpg    00;38;5;222
+.JPG    00;38;5;222
+.jpeg   00;38;5;222
+.gif    00;38;5;222
+.bmp    00;38;5;222
+.pbm    00;38;5;222
+.pgm    00;38;5;222
+.ppm    00;38;5;222
+.tga    00;38;5;222
+.xbm    00;38;5;222
+.xpm    00;38;5;222
+.tif    00;38;5;222
+.tiff   00;38;5;222
+.png    00;38;5;222
+.PNG    00;38;5;222
+.svg    00;38;5;222
+.svgz   00;38;5;222
+.mng    00;38;5;222
+.pcx    00;38;5;222
+.dl     00;38;5;222
+.xcf    00;38;5;222
+.xwd    00;38;5;222
+.yuv    00;38;5;222
+.cgm    00;38;5;222
+.emf    00;38;5;222
+.eps    00;38;5;222
+.CR2    00;38;5;222
+.ico    00;38;5;222
+
+# Video
+.mov    00;38;5;179
+.MOV    00;38;5;179
+.mpg    00;38;5;179
+.mpeg   00;38;5;179
+.m2v    00;38;5;179
+.mkv    00;38;5;179
+.ogm    00;38;5;179
+.mp4    00;38;5;179
+.m4v    00;38;5;179
+.mp4v   00;38;5;179
+.vob    00;38;5;179
+.qt     00;38;5;179
+.nuv    00;38;5;179
+.wmv    00;38;5;179
+.asf    00;38;5;179
+.rm     00;38;5;179
+.rmvb   00;38;5;179
+.flc    00;38;5;179
+.avi    00;38;5;179
+.fli    00;38;5;179
+.flv    00;38;5;179
+.gl     00;38;5;179
+.m2ts   00;38;5;179
+.divx   00;38;5;179
+.webm   00;38;5;179
+
+# Audio
+.aac    00;38;5;179
+.au     00;38;5;179
+.flac   00;38;5;179
+.mid    00;38;5;179
+.midi   00;38;5;179
+.mka    00;38;5;179
+.mp3    00;38;5;179
+.mpc    00;38;5;179
+.ogg    00;38;5;179
+.ra     00;38;5;179
+.wav    00;38;5;179
+.m4a    00;38;5;179
+
+# Documents/Readables
+.pdf  00;38;5;114
+.PDF  00;38;5;114
+.html 00;38;5;114
+.HTML 00;38;5;114
+.doc  00;38;5;114
+.docx 00;38;5;114
+.ppt  00;38;5;114
+.pptx 00;38;5;114
+.odt  00;38;5;114
+.odp  00;38;5;114
+.epub 00;38;5;114
+.mobi 00;38;5;114
+
+# Source code files
+.pl     00;38;5;114
+.PL     00;38;5;114
+.py     00;38;5;114
+.pm     00;38;5;114
+.tt     00;38;5;114
+.yml    00;38;5;114
+.sql    00;38;5;114
+.css    00;38;5;114
+.js     00;38;5;114
+.sh     00;38;5;114
+.R      00;38;5;114
+.r      00;38;5;114
+.hs     00;38;5;114
+.rb     00;38;5;114
+.cc     00;38;5;114
+.c      00;38;5;114
+.lua    00;38;5;114
+.vim    00;38;5;114
+.m      00;38;5;114
+
+# Libraries/Literates/Documentations
+.1      00;38;5;114
+.h      00;38;5;114
+.tex    00;38;5;114
+.bib    00;38;5;114
+.Rd     00;38;5;114
+.rmd    00;38;5;114
+.Rmd    00;38;5;114
+
+# Special sources/configs
+*Makefile 00;38;5;114
+*do       00;38;5;114
+*Doxyfile 00;38;5;114
+*config   00;38;5;114
+.conf     00;38;5;114
+.cfg      00;38;5;114
+.ini      00;38;5;114
+.rc       00;38;5;114
+*rc       00;38;5;114
+
+# Plain text
+.txt      00;38;5;253
+.md       00;38;5;253
+.markdown 00;38;5;253
+.srt      00;38;5;253
+
+# Other readables
+.xlm   00;38;5;114
+.xls   00;38;5;114
+.xlsx  00;38;5;114
+.csv   00;38;5;114
+.tsv   00;38;5;114
+.Rds   00;38;5;114
+.rds   00;38;5;114
+.RDS   00;38;5;114
+.Rdata 00;38;5;114
+.RData 00;38;5;114
+.RDATA 00;38;5;114
+.sav   00;38;5;114
+.mat   00;38;5;114
+.json  00;38;5;114
+
+# Special interest
+*README           07;38;5;253
+*README.txt       07;38;5;253
+*README.md        07;38;5;253
+*README.markdown  07;38;5;253
+*TODO             07;38;5;253
+*todo             07;38;5;253
+*NOTE             07;38;5;253
+*note             07;38;5;253
+
+# "unimportant" files (logs and backups)
+.log        00;38;5;245
+.bak        00;38;5;245
+.aux        00;38;5;245
+.lof        00;38;5;245
+.lol        00;38;5;245
+.lot        00;38;5;245
+.out        00;38;5;245
+.toc        00;38;5;245
+.bbl        00;38;5;245
+.blg        00;38;5;245
+*~          00;38;5;245
+*#          00;38;5;245
+.part       00;38;5;245
+.incomplete 00;38;5;245
+.swp        00;38;5;245
+.tmp        00;38;5;245
+.temp       00;38;5;245
+.o          00;38;5;245
+.pyc        00;38;5;245
+.class      00;38;5;245
+.cache      00;38;5;245
