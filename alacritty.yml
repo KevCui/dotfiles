@@ -158,7 +158,7 @@ draw_bold_text_with_bright_colors: true
 colors:
     primary:
         background: '0x212121'
-        foreground: '0xc5cad4'
+        foreground: '0xced2da'
 
     cursor:
         text: '0xc5cad4'
