@@ -31,7 +31,8 @@ Plug 'junegunn/fzf.vim' "fzf.vim
 Plug 'rbong/vim-flog' "Git branch viewer :Flog
 Plug 'mbbill/undotree' "Undo history visualizer
 Plug 'Yggdroot/indentLine' "display indention levels
-Plug 'arcticicestudio/nord-vim' " Nord theme
+Plug 'arcticicestudio/nord-vim' "Nord theme
+Plug 'makerj/vim-pdf' "read PDF
 
 " nvim or vim?
 if has('nvim')
