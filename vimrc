@@ -132,18 +132,8 @@ vnoremap <C-d> "+d
 " Grammar check
 let g:grammarous#languagetool_cmd = 'languagetool'
 
-" Markdown syntax hightlighting
-set conceallevel=2
-
 " Easymotion
 map <Leader> <Plug>(easymotion-prefix)
-
-" Front Matter
-let g:vim_markdown_toml_frontmatter = 1
-let g:vim_markdown_json_frontmatter = 1
-
-" markdown folding
-let g:vim_markdown_folding_disabled = 1
 
 " nerdcommenter
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
