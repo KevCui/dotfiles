@@ -110,6 +110,7 @@ augroup vimrc
     autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
     autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
 augroup END
+set spellfile=~/.vim/spell/en.utf-8.add
 
 " leader key mapping
 let mapleader = ' '
