@@ -17,7 +17,6 @@ Plug 'junegunn/goyo.vim' "free writing
 Plug 'godlygeek/csapprox' "gui color for term
 Plug 'lilydjwg/colorizer' "colorize all color texts
 Plug 'jamessan/vim-gnupg' "gpg encryption
-Plug 'blindFS/vim-taskwarrior' "taskwarrior :TW
 Plug 'tpope/vim-surround' "cs ds ysiw
 Plug 'w0rp/ale' "synchronous Lint Engine
 Plug 'posva/vim-vue' "syntax for Vue.js components
