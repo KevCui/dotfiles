@@ -111,29 +111,29 @@ augroup vimrc
 augroup END
 set spellfile=~/.vim/spell/en.utf-8.add
 
-" leader key mapping
-let mapleader = ' '
-
 " maintain undo history between sessions
 set undofile
 set undodir=~/.vim/undodir
 
-" Switch j k key bindings
+" key mapping
+let mapleader = ' '
+"   swap current char with next char
+nnoremap <silent> gc xph
+"   swap current char with previous char
+nnoremap <silent> gC Xp
+"   switch j k key bindings
 set langmap=jk,kj
-
-" Clear search highlight
+"   clear search highlight
 nmap <silent> ,/ :nohlsearch<CR>
-
-" System clipboard
+"   system clipboard
 inoremap <C-v> <ESC>"+pa
 vnoremap <C-c> "+y
 vnoremap <C-d> "+d
+"   easymotion
+map <Leader> <Plug>(easymotion-prefix)
 
 " Grammar check
 let g:grammarous#languagetool_cmd = 'languagetool'
-
-" Easymotion
-map <Leader> <Plug>(easymotion-prefix)
 
 " nerdcommenter
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
