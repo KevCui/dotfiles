@@ -25,7 +25,6 @@ Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
 Plug 'tpope/vim-surround' "cs ds ysiw
 Plug 'wellle/targets.vim' "di'
 Plug 'easymotion/vim-easymotion' "w f b s
-" Plug 'ervandew/supertab' "tab completion
 "   theme
 Plug 'arcticicestudio/nord-vim' "Nord theme
 Plug 'mhinz/vim-signify' "show changes
