@@ -60,23 +60,20 @@ call plug#end()
 set termguicolors
 set t_Co=256
 set laststatus=2
-
-" Nord theme
+filetype plugin indent on
+filetype plugin on
+set hlsearch
+set guicursor=a:blinkon0
+syntax on
+"   nord theme
 let g:nord_italic = 0
 let g:nord_underline = 1
 let g:nord_italic_comments = 1
 let g:nord_uniform_status_lines = 1
 let g:nord_uniform_diff_background = 1
 colorscheme nord
-
-" gvim font
+"   gvim font
 set guifont=Hack\ 9
-
-filetype plugin indent on
-filetype plugin on
-set hlsearch
-set guicursor=a:blinkon0
-syntax on
 
 " file coding utf-8
 set encoding=utf-8
@@ -95,7 +92,6 @@ set mouse+=a
 
 " line number
 set number relativenumber
-
 augroup numbertoggle
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
@@ -110,6 +106,9 @@ augroup vimrc
     autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
 augroup END
 set spellfile=~/.vim/spell/en.utf-8.add
+
+" grammar check
+let g:grammarous#languagetool_cmd = 'languagetool'
 
 " maintain undo history between sessions
 set undofile
@@ -132,15 +131,12 @@ vnoremap <C-d> "+d
 "   easymotion
 map <Leader> <Plug>(easymotion-prefix)
 
-" Grammar check
-let g:grammarous#languagetool_cmd = 'languagetool'
-
 " nerdcommenter
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
 let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all selected lines is commented or not
 
-" Mark highlight color
+" mark highlight color
 hi SignatureMarkText guifg=Green guibg=#212121
 hi SignColumn guibg=#212121
 
