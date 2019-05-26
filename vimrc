@@ -25,7 +25,7 @@ Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
 Plug 'tpope/vim-surround' "cs ds ysiw
 Plug 'wellle/targets.vim' "di'
 Plug 'easymotion/vim-easymotion' "w f b s
-Plug 'ervandew/supertab' "tab completion
+" Plug 'ervandew/supertab' "tab completion
 "   theme
 Plug 'arcticicestudio/nord-vim' "Nord theme
 Plug 'mhinz/vim-signify' "show changes
@@ -60,7 +60,6 @@ call plug#end()
 " theme & color
 set termguicolors
 set t_Co=256
-let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 set laststatus=2
 
 " Nord theme
@@ -183,9 +182,6 @@ let g:ale_fix_on_save = 1
 " vim-illuminate
 hi illuminatedWord ctermbg=238 guibg=#3a3a3a
 
-" supertab
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
 " turn off previewwindow
 set completeopt-=preview
 
@@ -209,10 +205,10 @@ let g:coc_force_debug = 1
 
 " coc tab keybinding
 inoremap <silent><expr> <TAB>
-  \ pumvisible() ? coc#_select_confirm() :
-  \ coc#expandableOrJumpable() ? coc#rpc#request('doKeymap', ['snippets-expand-jump','']) :
+  \ pumvisible() ? "\<C-n>" :
   \ <SID>check_back_space() ? "\<TAB>" :
   \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -220,9 +216,7 @@ function! s:check_back_space() abort
 endfunction
 
 " coc snippets
-let g:coc_snippet_next = '<tab>'
 autocmd FileType json syntax match Comment +\/\/.\+$+
-inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 let g:lightline = {
