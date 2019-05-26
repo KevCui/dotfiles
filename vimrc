@@ -241,3 +241,6 @@ nnoremap <F5> :UndotreeToggle<CR>
 
 " enable hexokinase color label
 let g:Hexokinase_ftAutoload = ['css', 'xml', 'md']
+
+" vim-json & indentLine syntax conceal
+let g:vim_json_syntax_conceal = 0
