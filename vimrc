@@ -1,37 +1,38 @@
 " plugins
 call plug#begin('~/.vim/plugged')
-Plug 'godlygeek/tabular' "align text
-Plug 'wellle/targets.vim' "di'
-Plug 'cespare/vim-toml' "toml syntax
-Plug 'elzr/vim-json' "json syntax
+Plug 'godlygeek/tabular' "align text :Tab /=
 Plug 'tpope/vim-fugitive' "Gedit Gstatus Gdiff
-Plug 'easymotion/vim-easymotion' "w f b s
-Plug 'ervandew/supertab' "tab completion
 Plug 'raimondi/delimitmate' "auto close quote
-Plug 'scrooloose/nerdcommenter' "ci cm cu
-Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
 Plug 'honza/vim-snippets' "snippets files
-Plug 'RRethy/vim-illuminate' "illuminating select
-Plug 'itchyny/lightline.vim' "status line
-Plug 'junegunn/goyo.vim' "free writing
-Plug 'godlygeek/csapprox' "gui color for term
-Plug 'lilydjwg/colorizer' "colorize all color texts
 Plug 'jamessan/vim-gnupg' "gpg encryption
-Plug 'tpope/vim-surround' "cs ds ysiw
-Plug 'w0rp/ale' "synchronous Lint Engine
-Plug 'posva/vim-vue' "syntax for Vue.js components
-Plug 'udalov/kotlin-vim' "syntax for Kotlin
-Plug 'keith/swift.vim' "syntax for swift
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'mhinz/vim-signify' "show changes
 Plug 'Alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
 Plug 'rbong/vim-flog' "Git branch viewer :Flog
 Plug 'mbbill/undotree' "Undo history visualizer
-Plug 'Yggdroot/indentLine' "display indention levels
-Plug 'arcticicestudio/nord-vim' "Nord theme
 Plug 'makerj/vim-pdf' "read PDF
+"   syntax
+Plug 'w0rp/ale' "synchronous Lint Engine
+Plug 'posva/vim-vue' "syntax for Vue.js components
+Plug 'udalov/kotlin-vim' "syntax for Kotlin
+Plug 'keith/swift.vim' "syntax for swift
+Plug 'cespare/vim-toml' "syntax for toml
+Plug 'elzr/vim-json' "syntax for json
+"   navigation
+Plug 'scrooloose/nerdcommenter' "ci cm cu
+Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
+Plug 'tpope/vim-surround' "cs ds ysiw
+Plug 'wellle/targets.vim' "di'
+Plug 'easymotion/vim-easymotion' "w f b s
+Plug 'ervandew/supertab' "tab completion
+"   theme
+Plug 'arcticicestudio/nord-vim' "Nord theme
+Plug 'mhinz/vim-signify' "show changes
+Plug 'Yggdroot/indentLine' "display indention levels
+Plug 'RRethy/vim-hexokinase' "display color label
+Plug 'RRethy/vim-illuminate' "illuminating select
+Plug 'itchyny/lightline.vim' "status line
 
 " nvim or vim?
 if has('nvim')
@@ -57,6 +58,7 @@ endif
 call plug#end()
 
 " theme & color
+set termguicolors
 set t_Co=256
 let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 set laststatus=2
@@ -141,8 +143,8 @@ let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace wh
 let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all selected lines is commented or not
 
 " Mark highlight color
-hi SignatureMarkText guifg=Green guibg=#1E1E1E
-hi SignColumn guibg=#1E1E1E
+hi SignatureMarkText guifg=Green guibg=#212121
+hi SignColumn guibg=#212121
 
 " gpg
 let g:GPGUseAgent=1
@@ -179,7 +181,7 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 
 " vim-illuminate
-hi illuminatedWord ctermbg=238
+hi illuminatedWord ctermbg=238 guibg=#3a3a3a
 
 " supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
@@ -236,3 +238,6 @@ let g:lightline = {
 
 " undotree
 nnoremap <F5> :UndotreeToggle<CR>
+
+" enable hexokinase color label
+let g:Hexokinase_ftAutoload = ['css', 'xml', 'md']
