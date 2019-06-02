@@ -205,7 +205,7 @@ screenshot () { sleep 2; import -window root `date +%s`.jpg }
 #/ showpath: show PATH
 showpath () { awk -v RS=: '{print}' <<<$PATH }
 
-#/ v: viu <img> [viu params]: display image in terminal
+#/ v <img> [viu params]: display image in terminal
 v () { [[ "$(echo $1 | tr '[a-z]' '[A-Z]')" =~ (CR2|DNG)$ ]] && dcraw -c -w "$1" | cjpeg | viu "${@:2}" || viu "$@" }
 
 #/ weather <location>: get weather info
