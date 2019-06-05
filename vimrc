@@ -90,6 +90,9 @@ set fileformats=unix
 set foldlevel=99
 set mouse+=a
 
+" modeline
+set nomodeline
+
 " line number
 set number relativenumber
 augroup numbertoggle
