@@ -351,6 +351,8 @@ export HISTORY_SUBSTRING_SEARCH_FUZZY=1
 #------------------------------
 # Keybindings
 #------------------------------
+bindkey -v
+export KEYTIMEOUT=10
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
 bindkey '^[[P' delete-char
