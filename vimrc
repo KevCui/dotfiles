@@ -25,6 +25,7 @@ Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
 Plug 'tpope/vim-surround' "cs ds ysiw
 Plug 'wellle/targets.vim' "di'
 Plug 'easymotion/vim-easymotion' "w f b s
+Plug 'machakann/vim-swap' "swap item g> g< gs
 "   theme
 Plug 'arcticicestudio/nord-vim' "Nord theme
 Plug 'mhinz/vim-signify' "show changes
@@ -44,6 +45,9 @@ if has('nvim')
     Plug 'lambdalisue/suda.vim' "read write with sudo
     cnoremap w!! execute 'write suda://%'
     nnoremap <C-t> :tabe term://zsh<CR>
+
+    " highlight in :s
+    set inccommand=nosplit
 else
     " encryption
     setlocal cryptmethod=blowfish2
@@ -90,8 +94,11 @@ set fileformats=unix
 set foldlevel=99
 set mouse+=a
 
-" modeline
+" settings
 set nomodeline
+set ignorecase
+set smartcase
+set lazyredraw
 
 " line number
 set number relativenumber
@@ -104,9 +111,10 @@ augroup END
 
 " spell check
 augroup vimrc
-    autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
-    autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
-    autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
+  autocmd!
+  autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
+  autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
+  autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
 augroup END
 set spellfile=~/.vim/spell/en.utf-8.add
 
