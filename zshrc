@@ -211,6 +211,22 @@ v () { [[ "$(echo $1 | tr '[a-z]' '[A-Z]')" =~ (CR2|DNG)$ ]] && dcraw -c -w "$1"
 #/ weather <location>: get weather info
 weather () { curl "wttr.in/$1" }
 
+#/ weatherhourly <location>: get hourly weather info
+weatherhourly () {
+    coordinate=$(curl -sS "http://www.mapquestapi.com/geocoding/v1/address?key=${MAP_QUEST_KEY}&location=$1" | jq -r '.results | .[].locations | .[] | select(.geocodeQuality=="CITY") | .latLng | "\(.lat),\(.lng)"' | head -1)
+
+    printf "%b: %b\n" "\e[33m$1" "$coordinate\e[0m"
+
+    result=$(curl -sS "https://api.darksky.net/forecast/${DARK_SKY_KEY}/$coordinate,$(date +%s)?exclude=daily,minutely,flags&units=si")
+    printf "\n\e[33mCURRENTLY\e[0m\n"
+    echo "$result" | jq -r '.currently | "\(.time | localtime | strftime("%m-%d %H:%M"))+\(.temperature)°C+\(.summary)+\(.precipProbability)"' | column -t -s'+'
+    printf "\n\e[33mTODAY HOURLY\e[0m\n"
+    echo "$result" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature)°C+\(.summary)+\(.precipProbability)"' | column -t -s'+'
+
+    printf "\n\e[33mTOMORROW HOURLY\e[0m\n"
+    curl -sS "https://api.darksky.net/forecast/${DARK_SKY_KEY}/$coordinate,$(date --date='next day' +%s)?exclude=daily,minutely,flags&units=si" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature)°C+\(.summary)+\(.precipProbability)"' | column -t -s'+'
+}
+
 #/ whatcms: show cms used by website $1
 whatcms () { curl -sS "https://whatcms.org/APIEndpoint/Detect?key=$(cat $WHATCMS_KEY_FILE | shuf | tail -1)&url=$1" | jq . }
 
