@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "coc-python": "^1.1.14",
-    "coc-snippets": "^2.0.16",
-    "coc-yaml": "^1.0.1",
+    "coc-snippets": "^2.1.0",
+    "coc-yaml": "^1.0.2",
     "jest-snippets": "https://github.com/andys8/vscode-jest-snippets.git#master"
   }
 }
