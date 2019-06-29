@@ -107,7 +107,7 @@ cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | rg 'cpu_lookup' 
 currency () { node "$GITREPO"/xe-scraper/xe-scraper.js $1 $2 $3}
 
 #/ dadjoke: show dadjoke
-dadjoke () { echo $(curl -Ss -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
+dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
 #/ dispabove: put sencond display above
 #/ dispoff: HDMI display screen off
@@ -213,7 +213,7 @@ weather () { curl "wttr.in/$1" }
 
 #/ weatherhourly <location>: get hourly weather info
 weatherhourly () {
-    coordinate=$(curl -Ss "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1]),\(.[0])"' )
+    coordinate=$(curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1]),\(.[0])"' )
 
     printf "%b: %b\n" "\e[33m$1" "$coordinate\e[0m"
 
