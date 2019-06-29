@@ -144,6 +144,9 @@ extract () {
 #/ findlast: find last modified file in folder
 findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec sh -c "echo {}; /bin/ls -lrtp {} 2> /dev/null | grep -v / | tail -n 1 | awk '{\$1=\$2=\$3=\$4=\$5=\"\"; print \$0}'; echo" \; }
 
+#/ geocode <address>: gecode an address
+geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1]),\(.[0])"' }
+
 #/ help <keyword>: list functions
 help () { grep "^#/" ~/.zshrc | cut -c4- | rg -i "${@:-}" }
 
@@ -213,7 +216,7 @@ weather () { curl "wttr.in/$1" }
 
 #/ weatherhourly <location>: get hourly weather info
 weatherhourly () {
-    coordinate=$(curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1]),\(.[0])"' )
+    coordinate=$(curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1]),\(.[0])"')
 
     printf "%b: %b\n" "\e[33m$1" "$coordinate\e[0m"
 
