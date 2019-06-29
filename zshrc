@@ -213,7 +213,7 @@ weather () { curl "wttr.in/$1" }
 
 #/ weatherhourly <location>: get hourly weather info
 weatherhourly () {
-    coordinate=$(curl -sS "http://www.mapquestapi.com/geocoding/v1/address?key=${MAP_QUEST_KEY}&location=$1" | jq -r '.results | .[].locations | .[] | select(.geocodeQuality=="CITY") | .latLng | "\(.lat),\(.lng)"' | head -1)
+    coordinate=$(curl -Ss "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1]),\(.[0])"' )
 
     printf "%b: %b\n" "\e[33m$1" "$coordinate\e[0m"
 
