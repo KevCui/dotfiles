@@ -227,12 +227,12 @@ weatherhourly () {
 
     result=$(curl -sS "https://api.darksky.net/forecast/${DARK_SKY_KEY}/$coordinate,$(date +%s)?exclude=daily,minutely,flags&units=si")
     printf "\n\e[33mCURRENTLY\e[0m\n"
-    echo "$result" | jq -r '.currently | "\(.time | localtime | strftime("%m-%d %H:%M"))+\(.temperature)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
+    echo "$result" | jq -r '.currently | "\(.time | localtime | strftime("%m-%d %H:%M"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
     printf "\n\e[33mTODAY HOURLY\e[0m\n"
-    echo "$result" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
+    echo "$result" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
 
     printf "\n\e[33mTOMORROW HOURLY\e[0m\n"
-    curl -sS "https://api.darksky.net/forecast/${DARK_SKY_KEY}/$coordinate,$(date --date='next day' +%s)?exclude=daily,minutely,flags&units=si" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
+    curl -sS "https://api.darksky.net/forecast/${DARK_SKY_KEY}/$coordinate,$(date --date='next day' +%s)?exclude=daily,minutely,flags&units=si" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
 }
 
 #/ whatcms: show cms used by website $1
