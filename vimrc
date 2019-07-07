@@ -27,7 +27,7 @@ Plug 'wellle/targets.vim' "di'
 Plug 'easymotion/vim-easymotion' "w f b s
 Plug 'machakann/vim-swap' "swap item g> g< gs
 "   theme
-Plug 'arcticicestudio/nord-vim' "Nord theme
+Plug 'Lokaltog/vim-monotone'
 Plug 'mhinz/vim-signify' "show changes
 Plug 'Yggdroot/indentLine' "display indention levels
 Plug 'RRethy/vim-hexokinase' "display color label
@@ -68,14 +68,11 @@ filetype plugin indent on
 filetype plugin on
 set hlsearch
 set guicursor=a:blinkon0
+set noshowmode
+let g:monotone_secondary_hue_offset = 25
+let g:monotone_contrast_factor=0.98
+colorscheme monotone
 syntax on
-"   nord theme
-let g:nord_italic = 0
-let g:nord_underline = 1
-let g:nord_italic_comments = 1
-let g:nord_uniform_status_lines = 1
-let g:nord_uniform_diff_background = 1
-colorscheme nord
 "   gvim font
 set guifont=Hack\ 9
 
@@ -148,8 +145,8 @@ let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace wh
 let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all selected lines is commented or not
 
 " mark highlight color
-hi SignatureMarkText guifg=Green guibg=#212121
-hi SignColumn guibg=#212121
+hi SignatureMarkText guifg=Green guibg=#161515
+hi SignColumn guibg=#161515
 
 " gpg
 let g:GPGUseAgent=1
