@@ -69,7 +69,8 @@ filetype plugin on
 set hlsearch
 set guicursor=a:blinkon0
 set noshowmode
-let g:monotone_secondary_hue_offset = 25
+let g:monotone_color=[100,3,80]
+let g:monotone_secondary_hue_offset=25
 let g:monotone_contrast_factor=0.98
 colorscheme monotone
 syntax on
