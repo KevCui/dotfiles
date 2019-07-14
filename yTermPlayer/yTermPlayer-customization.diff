@@ -1,0 +1,24 @@
+diff --git a/yTermPlayer/ui.py b/yTermPlayer/ui.py
+index 233f0db..e6004b5 100755
+--- a/yTermPlayer/ui.py
++++ b/yTermPlayer/ui.py
+@@ -178,7 +178,7 @@ class player_ui(YoutubePlayer):
+         txt2_2=urwid.Button("Load saved playlist")
+         urwid.connect_signal(txt2_2, 'click', self.load_list_screen)
+         txt2 = urwid.AttrMap(txt2_2,None,focus_map='reversed')
+-        start_list=urwid.SimpleFocusListWalker([txt1,txt2])
++        start_list=urwid.SimpleFocusListWalker([txt2,txt1])
+         box=urwid.ListBox(start_list)
+         selection=urwid.LineBox(
+                                 box, title='', title_align='center',
+@@ -286,8 +286,8 @@ class player_ui(YoutubePlayer):
+         if(key=='q'):
+             raise urwid.ExitMainLoop()
+         key_dict={
+-        'n':self.player_object.play_next,
+-        'p':self.player_object.play_prev,
++        'j':self.player_object.play_next,
++        'k':self.player_object.play_prev,
+         'h':self.player_object.play_first,
+         'e':self.player_object.play_last,
+         ' ':self.toggle_playing,
