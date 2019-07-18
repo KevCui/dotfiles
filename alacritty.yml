@@ -183,7 +183,7 @@ draw_bold_text_with_bright_colors: true
 # Colors (Tomorrow Night Bright)
 colors:
     primary:
-        background: '0x101010'
+        background: '0x1a1b1a'
         foreground: '0xd8dee9'
 
     cursor:
