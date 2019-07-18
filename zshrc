@@ -159,8 +159,7 @@ holidayHH () { curl -s "https://date.nager.at/Api/v2/PublicHolidays/$(date "+%Y"
 httpstatus () { curl -i "https://httpstat.us/$1" }
 
 #/ httpstatuslist: show list of HTTP codes
-httpstatuslist () { curl -s 'https://httpstat.us/' | grep -v teapot | hxnormalize -x | hxselect -c 'dt a, dd' | sed -E 's/[0-9]{3}/\
-&/g'}
+httpstatuslist () { curl -s 'https://httpstat.us/' | pup -p 'dl text{}' | sed -E '/^[[:space:]]*$/d' | awk 'NR%2{printf "%s ",$0;next}{print}' }
 
 #/ kp: kill process
 kp () { kill $(ps aux | fzf | awk '{print $2}') }
@@ -204,7 +203,7 @@ reversegeocode () {
 rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
 
 #/ rotd: show riddles of the day, with answers :)
-rotd () { echo -e $(curl -s 'https://www.riddles.com/riddle-of-the-day'| hxnormalize -x -i 0 -l 256 | hxselect -c -s '\\n' '.orange_dk_blockquote p, .dark_purple_blockquote' | sed -E 's/<p>/\\e\[30m/;s/<\/p>/\\e\[0m/') }
+rotd () { curl -s 'https://www.riddles.com/riddle-of-the-day'| pup -p '.panel-body p text{}' | awk 'NR%2 {print} !(NR%2) {printf "\033[02;30m%s\033[0m\n\n",$0}' }
 
 #/ screenshot: take screenshot
 screenshot () { sleep 2; import -window root `date +%s`.jpg }
