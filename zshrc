@@ -194,6 +194,9 @@ po () { sleep "$1" && systemctl poweroff; }
 #/ qotd: quote of the day
 qotd () { curl -s 'https://favqs.com/api/qotd' | jq -r '.quote | "\"\(.body)\" - \(.author)"'; echo }
 
+#/ randompwd <length>: generate random password
+randompwd() { </dev/urandom | tr -dc 'a-zA-Z0-9!@#$%^&*()[]{}_=+-?.,:;' | head -c$1; echo"" }
+
 #/ reversegeocode <lat,log>: reverse geocoding
 reversegeocode () {
     curl -sS "http://www.mapquestapi.com/geocoding/v1/reverse?key=${MAP_QUEST_KEY}&location=${1// /%20}" | jq -r '.results[0].locations[0] | "\(.street), \(.postalCode) \(.adminArea5)"'
