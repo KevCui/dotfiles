@@ -296,8 +296,9 @@ alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\
 # run firefox
 alias firefox='firefox-nightly'
 
-# run firefox in new instance
+# run firefox or chromium in new instance
 alias newfox='firefox --new-instance --profile $(mktemp -d)'
+alias newchromium='chromium --user-data-dir=$(mktemp -d)'
 
 # grc alias
 if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
