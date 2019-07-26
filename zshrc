@@ -291,7 +291,7 @@ alias gita='python3 -m gita'
 alias gitall='gita ls'
 
 # hugo alias
-alias hugos="cd $GITREPO/blog; hugo server -D"
+alias hugos="cd $GITREPO/blog; hugo server -D >/dev/null &"
 
 # python server
 alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
