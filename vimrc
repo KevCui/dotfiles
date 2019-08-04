@@ -259,7 +259,7 @@ endfunction
 "   format curl command
 command! FormatCurl call FormatCurl()
 function! FormatCurl()
-    %s/-X /\\\r  -X/g
-    %s/-H /\\\r  -H/g
-    %s/-d /\\\r  -d/g
+    %s/-X /\\\r  -X /g
+    %s/-H /\\\r  -H /g
+    %s/-d /\\\r  -d /g
 endfunction
