@@ -256,10 +256,16 @@ function! UnMinify()
     normal ggVG=
 endfunction
 
-"   format curl command
-command! FormatCurl call FormatCurl()
-function! FormatCurl()
+"   pretty curl
+command! PrettyCurl call PrettyCurl()
+function! PrettyCurl()
     %s/-X /\\\r  -X /g
     %s/-H /\\\r  -H /g
     %s/-d /\\\r  -d /g
+endfunction
+
+"   pretty json
+command! PrettyJson call PrettyJson()
+function! PrettyJson()
+	%!python -m json.tool
 endfunction
