@@ -1,4 +1,6 @@
-" plugins
+" -------
+" PLUGINS
+" -------
 call plug#begin('~/.vim/plugged')
 Plug 'godlygeek/tabular' "align text :Tab /=
 Plug 'tpope/vim-fugitive' "Gedit Gstatus Gdiff
@@ -16,18 +18,15 @@ Plug 'makerj/vim-pdf' "read PDF
 Plug 'w0rp/ale' "synchronous Lint Engine
 Plug 'posva/vim-vue' "syntax for Vue.js components
 Plug 'udalov/kotlin-vim' "syntax for Kotlin
-Plug 'keith/swift.vim' "syntax for swift
-Plug 'cespare/vim-toml' "syntax for toml
-Plug 'elzr/vim-json' "syntax for json
+Plug 'keith/swift.vim' "syntax for Swift
 "   navigation
 Plug 'scrooloose/nerdcommenter' "ci cm cu
 Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
-Plug 'tpope/vim-surround' "cs ds ysiw
 Plug 'wellle/targets.vim' "di'
 Plug 'easymotion/vim-easymotion' "w f b s
 Plug 'machakann/vim-swap' "swap item g> g< gs
 "   theme
-Plug 'Lokaltog/vim-monotone'
+Plug 'Lokaltog/vim-monotone' " monotone
 Plug 'mhinz/vim-signify' "show changes
 Plug 'Yggdroot/indentLine' "display indention levels
 Plug 'RRethy/vim-hexokinase' "display color label
@@ -60,12 +59,12 @@ else
 endif
 call plug#end()
 
-" theme & color
+" -------------
+" THEME & COLOR
+" -------------
 set termguicolors
 set t_Co=256
 set laststatus=2
-filetype plugin indent on
-filetype plugin on
 set hlsearch
 set guicursor=a:blinkon0
 set noshowmode
@@ -74,8 +73,24 @@ let g:monotone_secondary_hue_offset=25
 let g:monotone_contrast_factor=0.98
 colorscheme monotone
 syntax on
-"   gvim font
+filetype plugin indent on
+filetype plugin on
+
+" gvim font
 set guifont=Hack\ 9
+
+" mark highlight color
+hi SignatureMarkText guifg=Green guibg=#1a1b1a
+hi SignColumn guibg=#1a1b1a
+
+" vim-illuminate
+hi illuminatedWord ctermbg=238 guibg=#3a3a3a
+
+" disable MatchParen syntax in insert mode
+augroup matchparentoggle
+    au InsertEnter * NoMatchParen
+    au InsertLeave * DoMatchParen
+augroup END
 
 " file coding utf-8
 set encoding=utf-8
@@ -92,12 +107,6 @@ set fileformats=unix
 set foldlevel=99
 set mouse+=a
 
-" settings
-set nomodeline
-set ignorecase
-set smartcase
-set lazyredraw
-
 " line number
 set number relativenumber
 augroup numbertoggle
@@ -106,6 +115,53 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave term://* set norelativenumber
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
+
+" -----------
+" KEY MAPPING
+" -----------
+let mapleader = ' '
+"   swap current char with next char
+nnoremap <silent> gc xph
+"   swap current char with previous char
+nnoremap <silent> gC Xp
+"   switch j k key bindings
+set langmap=jk,kj
+"   clear search highlight
+nmap <silent> ,/ :nohlsearch<CR>
+"   system clipboard
+inoremap <C-v> <ESC>"+pa
+vnoremap <C-c> "+y
+vnoremap <C-d> "+d
+"   easymotion
+map <Leader> <Plug>(easymotion-prefix)
+"   undotree
+nnoremap <F5> :UndotreeToggle<CR>
+"   notational-fzf-vim
+nnoremap <silent> <c-f> :NV<CR>
+"   ale lineter
+nmap <silent> <C-j> <Plug>(ale_previous_wrap)
+nmap <silent> <C-k> <Plug>(ale_next_wrap)
+"   coc tab keybinding
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+"   toggle paste mode
+set pastetoggle=<F2>
+
+" --------
+" SETTINGS
+" --------
+set nomodeline
+set ignorecase
+set smartcase
+set lazyredraw
 
 " spell check
 augroup vimrc
@@ -123,31 +179,10 @@ let g:grammarous#languagetool_cmd = 'languagetool'
 set undofile
 set undodir=~/.vim/undodir
 
-" key mapping
-let mapleader = ' '
-"   swap current char with next char
-nnoremap <silent> gc xph
-"   swap current char with previous char
-nnoremap <silent> gC Xp
-"   switch j k key bindings
-set langmap=jk,kj
-"   clear search highlight
-nmap <silent> ,/ :nohlsearch<CR>
-"   system clipboard
-inoremap <C-v> <ESC>"+pa
-vnoremap <C-c> "+y
-vnoremap <C-d> "+d
-"   easymotion
-map <Leader> <Plug>(easymotion-prefix)
-
 " nerdcommenter
 let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
 let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDToggleCheckAllLines = 1 " Enable NERDCommenterToggle to check all selected lines is commented or not
-
-" mark highlight color
-hi SignatureMarkText guifg=Green guibg=#1a1b1a
-hi SignColumn guibg=#1a1b1a
 
 " gpg
 let g:GPGUseAgent=1
@@ -163,8 +198,6 @@ let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
 " ale linters
-nmap <silent> <C-j> <Plug>(ale_previous_wrap)
-nmap <silent> <C-k> <Plug>(ale_next_wrap)
 let b:ale_linters = {
 \   'bash': ['shellcheck'],
 \   'css': ['stylelint'],
@@ -172,7 +205,6 @@ let b:ale_linters = {
 \   'python': ['flake8'],
 \   'vim': ['vint']
 \}
-
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'css': ['prettier'],
@@ -181,11 +213,7 @@ let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \}
 let g:ale_python_autopep8_options = '--max-line-length 256'
-
 let g:ale_fix_on_save = 1
-
-" vim-illuminate
-hi illuminatedWord ctermbg=238 guibg=#3a3a3a
 
 " turn off previewwindow
 set completeopt-=preview
@@ -194,7 +222,6 @@ set completeopt-=preview
 setlocal foldmethod=syntax
 
 " notational-fzf-vim
-nnoremap <silent> <c-f> :NV<CR>
 let g:nv_create_note_key = 'ctrl-x'
 let g:nv_default_extension = '.md'
 let g:nv_search_paths = ['~/Notes', './content/post', './doc', './README.md', './TODO.md']
@@ -207,18 +234,6 @@ let g:nv_keymap = {
 
 " coc use compiled code
 let g:coc_force_debug = 1
-
-" coc tab keybinding
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 " coc snippets
 autocmd FileType json syntax match Comment +\/\/.\+$+
@@ -235,17 +250,13 @@ let g:lightline = {
   \ },
 \ }
 
-" undotree
-nnoremap <F5> :UndotreeToggle<CR>
-
 " enable hexokinase color label
 let g:Hexokinase_ftAutoload = ['css', 'xml', 'md']
 
-" vim-json & indentLine syntax conceal
-let g:vim_json_syntax_conceal = 0
-
-" function
-"   re-format for minified Javascript
+" --------
+" FUNCTION
+" --------
+" re-format for minified Javascript
 command! UnMinify call UnMinify()
 function! UnMinify()
     %s/{\ze[^\r\n]/{\r/g
@@ -256,7 +267,7 @@ function! UnMinify()
     normal ggVG=
 endfunction
 
-"   pretty curl
+" pretty curl
 command! PrettyCurl call PrettyCurl()
 function! PrettyCurl()
     %s/-X /\\\r  -X /g
@@ -264,7 +275,7 @@ function! PrettyCurl()
     %s/-d /\\\r  -d /g
 endfunction
 
-"   pretty json
+" pretty json
 command! PrettyJson call PrettyJson()
 function! PrettyJson()
 	%!python -m json.tool
