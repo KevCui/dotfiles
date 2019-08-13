@@ -88,6 +88,7 @@ hi illuminatedWord ctermbg=238 guibg=#3a3a3a
 
 " disable MatchParen syntax in insert mode
 augroup matchparentoggle
+    autocmd!
     au InsertEnter * NoMatchParen
     au InsertLeave * DoMatchParen
 augroup END
@@ -110,10 +111,10 @@ set mouse+=a
 " line number
 set number relativenumber
 augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufEnter,FocusGained,InsertLeave term://* set norelativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufEnter,FocusGained,InsertLeave term://* set norelativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
 " -----------
@@ -143,14 +144,14 @@ nmap <silent> <C-j> <Plug>(ale_previous_wrap)
 nmap <silent> <C-k> <Plug>(ale_next_wrap)
 "   coc tab keybinding
 inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 "   toggle paste mode
 set pastetoggle=<F2>
@@ -165,10 +166,10 @@ set lazyredraw
 
 " spell check
 augroup vimrc
-  autocmd!
-  autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
-  autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
-  autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
+    autocmd!
+    autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
+    autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
+    autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
 augroup END
 set spellfile=~/.vim/spell/en.utf-8.add
 
@@ -199,19 +200,19 @@ let g:netrw_winsize = 25
 
 " ale linters
 let b:ale_linters = {
-\   'bash': ['shellcheck'],
-\   'css': ['stylelint'],
-\   'javascript': ['eslint'],
-\   'python': ['flake8'],
-\   'vim': ['vint']
-\}
+            \   'bash': ['shellcheck'],
+            \   'css': ['stylelint'],
+            \   'javascript': ['eslint'],
+            \   'python': ['flake8'],
+            \   'vim': ['vint']
+            \}
 let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'css': ['prettier'],
-\   'javascript': ['eslint'],
-\   'python': ['autopep8'],
-\   'yaml': ['prettier'],
-\}
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'css': ['prettier'],
+            \   'javascript': ['eslint'],
+            \   'python': ['autopep8'],
+            \   'yaml': ['prettier'],
+            \}
 let g:ale_python_autopep8_options = '--max-line-length 256'
 let g:ale_fix_on_save = 1
 
@@ -227,10 +228,10 @@ let g:nv_default_extension = '.md'
 let g:nv_search_paths = ['~/Notes', './content/post', './doc', './README.md', './TODO.md']
 let g:nv_ignore_pattern = ['.git']
 let g:nv_keymap = {
-\ 'ctrl-s': 'split ',
-\ 'ctrl-b': 'vertical split ',
-\ 'ctrl-t': 'tabedit ',
-\ }
+            \ 'ctrl-s': 'split ',
+            \ 'ctrl-b': 'vertical split ',
+            \ 'ctrl-t': 'tabedit ',
+            \ }
 
 " coc use compiled code
 let g:coc_force_debug = 1
@@ -240,15 +241,15 @@ autocmd FileType json syntax match Comment +\/\/.\+$+
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 let g:lightline = {
-  \ 'colorscheme': 'nord',
-  \ 'active': {
-  \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
-  \ },
-  \ 'component_function': {
-  \   'cocstatus': 'coc#status'
-  \ },
-\ }
+            \ 'colorscheme': 'nord',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'cocstatus': 'coc#status'
+            \ },
+            \ }
 
 " enable hexokinase color label
 let g:Hexokinase_ftAutoload = ['css', 'xml', 'md']
@@ -278,5 +279,5 @@ endfunction
 " pretty json
 command! PrettyJson call PrettyJson()
 function! PrettyJson()
-	%!python -m json.tool
+    %!python -m json.tool
 endfunction
