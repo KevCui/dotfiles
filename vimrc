@@ -141,6 +141,15 @@ nnoremap <silent> <c-f> :NV<CR>
 "   ale lineter
 nmap <silent> <C-j> <Plug>(ale_previous_wrap)
 nmap <silent> <C-k> <Plug>(ale_next_wrap)
+"   fzf
+nmap <Leader>f :GFiles<CR>
+nmap <Leader>F :Files<CR>
+nmap <Leader>b :Buffers<CR>
+nmap <Leader>h :History<CR>
+nmap <Leader>H :Helptags!<CR>
+nmap <Leader>l :Lines<CR>
+nmap <Leader>c :Commands<CR>
+nmap <Leader>M :Maps<CR>
 "   coc tab keybinding
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? "\<C-n>" :
