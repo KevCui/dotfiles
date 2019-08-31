@@ -91,8 +91,14 @@ alpha () {
 #/ buildapk <keystore> <alias>: sign apk
 buildapk () { cordova build --release; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "$1" android-release-unsigned.apk "$2";zipalign -v 4 android-release-unsigned.apk android-signed.apk;zipalign -c -v 4 android-signed.apk }
 
+#/ calibreadd: add book to calibre db
+calibreadd () { calibredb add "$1" -T new }
+
+#/ calibreconvert: convert book to azw3 format
+calibreconvert () { file="$1"; ebook-convert "$file" "${file%.*}.azw3" --from-opf=metadata.opf --cover=cover.jpg --output-profile=kindle }
+
 #/ cht <language> <question>: cheat sheet
-cht () { curl "cht.sh/$1/$2"}
+cht () { curl "cht.sh/$1/$2" }
 
 #/ clock: show running clock
 clock () { clear; while true; do echo -e \\b\\b\\b\\b\\b\\b\\b\\b`date +%T`\\c ; sleep 1; done }
