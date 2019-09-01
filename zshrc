@@ -27,7 +27,7 @@ export libsys=/usr/lib/systemd/system
 export pkg=/var/cache/pacman/pkg
 GPG_TTY=$(tty)
 export GPG_TTY
-export GITREPO="%gitrepo%"
+export GITREPO="${HOME}/git"
 export SNIPPET="${HOME}/Notes/command-snippet.md"
 
 # Android SDK
@@ -401,8 +401,8 @@ bindkey "^P" up-history
 bindkey "^U" kill-whole-line
 bindkey "^W" backward-kill-word
 bindkey "^Y" yank
-%comment%bindkey -M vicmd 'j' history-substring-search-up
-%comment%bindkey -M vicmd 'k' history-substring-search-down
+bindkey -M vicmd 'j' history-substring-search-up
+bindkey -M vicmd 'k' history-substring-search-down
 
 #------------------------------
 # Completion
@@ -427,4 +427,4 @@ ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
 # Other source
 #------------------------------
 stty -ixon # disable ^S
-source %othersource%
+source ~/.czshrc
