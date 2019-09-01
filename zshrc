@@ -369,6 +369,8 @@ eval `dircolors ${HOME}/.dir_colors`
 #------------------------------
 # ZSH Plugins
 #------------------------------
+autoload -Uz compinit
+compinit
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -407,8 +409,6 @@ bindkey -M vicmd 'k' history-substring-search-down
 #------------------------------
 # Completion
 #------------------------------
-autoload -Uz compinit
-compinit
 zstyle ':completion:*' menu select
 setopt completealiases
 
