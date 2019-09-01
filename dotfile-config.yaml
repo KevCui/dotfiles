@@ -1,0 +1,32 @@
+Xresources:
+    font: Hack
+    size: 10
+    bgcolor: '#1E1E1E'
+    color0: '#171717'
+    color1: '#FF5E5E'
+    color2: '#9CE82B'
+    color3: '#F0E68C'
+    color4: '#008AFF'
+    color5: '#E88CFF'
+    color6: '#87CEFA'
+    color7: '#DCDCCC'
+    color8: '#737373'
+    color9: '#FF7878'
+    color10: '#9ACD32'
+    color11: '#EEE8AA'
+    color12: '#4F98FF'
+    color13: '#EDA6FF'
+    color14: '#B0E2FF'
+    color15: '#FFFFFF'
+
+i3wm/config:
+    comment: ''
+    raisevol: '\$mod+equal'
+    lowervol: '\$mod+minus'
+    mute: '\$mod+0'
+    browser: ''
+    email: ''
+    bluetooth: '#'
+
+alacritty.yml:
+    fontsize: '10.0'
