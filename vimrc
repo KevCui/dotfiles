@@ -7,7 +7,7 @@ Plug 'tpope/vim-fugitive' "Gedit Gstatus Gdiff
 Plug 'raimondi/delimitmate' "auto close quote
 Plug 'honza/vim-snippets' "snippets files
 Plug 'jamessan/vim-gnupg' "gpg encryption
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
@@ -241,9 +241,6 @@ let g:nv_keymap = {
     \ 'ctrl-b': 'vertical split ',
     \ 'ctrl-t': 'tabedit ',
     \ }
-
-" coc use compiled code
-let g:coc_force_debug = 1
 
 " coc snippets
 autocmd FileType json syntax match Comment +\/\/.\+$+
