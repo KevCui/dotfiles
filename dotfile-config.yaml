@@ -1,6 +1,6 @@
 Xresources:
     font: Hack
-    size: 10
+    size: 12
     bgcolor: '#1E1E1E'
     color0: '#171717'
     color1: '#FF5E5E'
@@ -29,4 +29,4 @@ i3wm/config:
     bluetooth: '#'
 
 alacritty.yml:
-    fontsize: '10.0'
+    fontsize: '12.0'
