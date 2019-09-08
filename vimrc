@@ -131,6 +131,7 @@ set langmap=jk,kj
 nmap <silent> ,/ :nohlsearch<CR>
 "   system clipboard
 inoremap <C-v> <ESC>"+pa
+cnoremap <C-v> <C-r>+
 vnoremap <C-c> "+y
 vnoremap <C-x> "+d
 "   easymotion
