@@ -207,6 +207,7 @@ CHR    01;38;5;179 # character device driver
 .ra     00;38;5;179
 .wav    00;38;5;179
 .m4a    00;38;5;179
+.opus   00;38;5;179
 
 # Documents/Readables
 .pdf  00;38;5;114
