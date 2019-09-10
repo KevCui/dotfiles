@@ -20,6 +20,7 @@ Xresources:
     color15: '#FFFFFF'
 
 i3wm/config:
+    mod: 'mod1'
     comment: ''
     raisevol: '\$mod+equal'
     lowervol: '\$mod+minus'
