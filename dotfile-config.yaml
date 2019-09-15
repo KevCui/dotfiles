@@ -21,7 +21,7 @@ Xresources:
 
 i3wm/config:
     fontsize: 5
-    mod: 'mod1'
+    mod: 'mod4'
     comment: ''
     raisevol: '\$mod+equal'
     lowervol: '\$mod+minus'
