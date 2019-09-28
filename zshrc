@@ -285,8 +285,9 @@ alias top='htop'
 alias cat='bat --theme=iceberg'
 alias aik='aiksaurus'
 alias c='insect'
-alias ts="torsocks"
-alias u="/usr/bin/up"
+alias ts='torsocks'
+alias u='/usr/bin/up'
+alias please='sudo $(fc -ln -1)'
 
 # git alias
 alias cdg="cd $GITREPO"
