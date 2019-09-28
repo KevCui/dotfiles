@@ -288,6 +288,7 @@ alias c='insect'
 alias ts='torsocks'
 alias u='/usr/bin/up'
 alias please='sudo $(fc -ln -1)'
+alias copy='xclip -selection clipboard'
 
 # git alias
 alias cdg="cd $GITREPO"
