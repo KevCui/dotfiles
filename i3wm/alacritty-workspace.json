@@ -44,12 +44,12 @@
                                     "border": "pixel",
                                     "current_border_width": 1,
                                     "floating": "auto_off",
-                                    "name": "fff",
+                                    "name": "tasksh",
                                     "percent": 0.25,
                                     "swallows": [
                                        {
                                           "class": "Alacritty",
-                                          "title": "fff"
+                                          "title": "tasksh"
                                        }
                                     ],
                                     "type": "con"
@@ -58,12 +58,12 @@
                                     "border": "pixel",
                                     "current_border_width": 1,
                                     "floating": "auto_off",
-                                    "name": "tasksh",
+                                    "name": "terminal",
                                     "percent": 0.25,
                                     "swallows": [
                                        {
                                           "class": "Alacritty",
-                                          "title": "tasksh"
+                                          "title": "tiny"
                                        }
                                     ],
                                     "type": "con"

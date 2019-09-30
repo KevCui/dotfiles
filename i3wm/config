@@ -261,7 +261,7 @@ exec --no-startup-id fswatch.sh
 exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 exec --no-startup-id alacritty -t main
 exec --no-startup-id alacritty -t small
+exec --no-startup-id alacritty -t tiny
 exec --no-startup-id alacritty -t tasksh -e zsh -c "task ls; $SHELL"
-exec --no-startup-id alacritty -t fff -e zsh -c "source ~/.zshrc; fff"
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id "xcape -t 300 -e 'Shift_R=BackSpace;Control_L=Escape'"
