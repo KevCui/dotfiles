@@ -125,6 +125,9 @@ dispabove () { xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1 }
 dispoff () { xrandr --output HDMI-1 --off }
 dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 
+#/ emptytrash: remove files in local trash folder
+emptytrash() { rm -rf "$HOME/.local/share/Trash"}
+
 #/ extract <file_name>: all-in-one decompression
 extract () {
   if [ -f $1 ] ; then
