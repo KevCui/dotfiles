@@ -391,6 +391,7 @@ source ~/.zsh/fzf/key-bindings.zsh
 source ~/.zsh/fzf/command-snippet.zsh
 source ~/.zsh/up.sh
 source ~/.zsh/z.lua.plugin.zsh
+source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
