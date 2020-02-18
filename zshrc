@@ -32,6 +32,7 @@ export SNIPPET="${HOME}/Notes/command-snippet.md"
 
 # Android SDK
 export ANDROID_SDK=/opt/android-sdk
+export ANDROID_SDK_ROOT="$ANDROID_SDK"
 export ANDROID_NDK=${HOME}/android-ndk-r9d
 export NDK_ROOT=${HOME}/android-ndk-r9d
 export JAVA_HOME=/usr/lib/jvm/default/
