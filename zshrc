@@ -385,6 +385,16 @@ compinit
 setopt completealiases
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+export FZF_TAB_OPTS=(
+    --ansi
+    --expect='$continuous_trigger'
+    '--color=hl:$(( $#headers == 0 ? 108 : 255 ))'
+    --nth=2,3 --delimiter='\x00'
+    --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
+    --tiebreak=begin -m --bind=tab:down,btab:up,ctrl-j:accept,change:top,alt-space:toggle,space:accept --cycle
+    '--query=$query'
+    '--header-lines=$#headers'
+)
 
 #------------------------------
 # ZSH Plugins
