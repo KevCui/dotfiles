@@ -20,7 +20,7 @@ spaceship_vi_mode_enable
 #------------------------------
 export PATH="$PATH":${HOME}/Script:${HOME}/.cabal/bin:${HOME}/.npm-global/bin:${HOME}/.local/bin:${HOME}/go/bin:${HOME}/.cargo/bin
 export TERM='xterm-256color'
-export BROWSER="firefox-nightly"
+export BROWSER="firefox"
 export EDITOR="nvim"
 export sys=/etc/systemd/system
 export libsys=/usr/lib/systemd/system
@@ -315,9 +315,6 @@ alias hugos="cd $GITREPO/blog; hugo server -D >/dev/null &"
 
 # python server
 alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
-
-# run firefox
-alias firefox='firefox-nightly'
 
 # run firefox or chromium in new instance
 alias newfox='firefox --profile $(mktemp -d)'
