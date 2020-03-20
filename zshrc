@@ -378,10 +378,17 @@ setopt inc_append_history
 eval `dircolors ${HOME}/.dir_colors`
 
 #------------------------------
-# ZSH Plugins
+# Completion
 #------------------------------
 autoload -Uz compinit
 compinit
+setopt completealiases
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+#------------------------------
+# ZSH Plugins
+#------------------------------
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -391,6 +398,7 @@ source ~/.zsh/fzf/command-snippet.zsh
 source ~/.zsh/up.sh
 source ~/.zsh/z.lua.plugin.zsh
 source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
 
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
@@ -417,17 +425,6 @@ bindkey "^W" backward-kill-word
 bindkey "^Y" yank
 bindkey -M vicmd 'j' history-substring-search-up
 bindkey -M vicmd 'k' history-substring-search-down
-
-#------------------------------
-# Completion
-#------------------------------
-zstyle ':completion:*' menu select
-setopt completealiases
-
-zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
-zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 #------------------------------
 # SSH
