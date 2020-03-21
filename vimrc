@@ -259,6 +259,9 @@ let g:lightline = {
 " enable hexokinase color label
 let g:Hexokinase_ftAutoload = ['css', 'xml', 'md']
 
+" json.vim: set conceal level, to remove conflict with indentLine
+let g:vim_json_conceal = 0
+
 " --------
 " FUNCTION
 " --------
