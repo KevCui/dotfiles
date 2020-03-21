@@ -17,8 +17,6 @@ Plug 'makerj/vim-pdf' "read PDF
 "   syntax
 Plug 'w0rp/ale' "synchronous Lint Engine
 Plug 'posva/vim-vue' "syntax for Vue.js components
-Plug 'udalov/kotlin-vim' "syntax for Kotlin
-Plug 'keith/swift.vim' "syntax for Swift
 "   navigation
 Plug 'scrooloose/nerdcommenter' "ci cm cu
 Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
