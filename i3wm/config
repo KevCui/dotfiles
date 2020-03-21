@@ -254,7 +254,7 @@ exec --no-startup-id "i3-msg 'workspace 2; append_layout ~/.config/i3/alacritty-
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx
-%browser%exec --no-startup-id "env GTK_THEME=Arc firefox"
+%browser%exec --no-startup-id "GTK_THEME=Arc-Dark firefox"
 %email%exec --no-startup-id thunderbird
 exec --no-startup-id fswatch.sh
 %bluetooth%exec --no-startup-id blueman-applet
