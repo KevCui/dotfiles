@@ -386,6 +386,7 @@ setopt completealiases
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 export FZF_TAB_OPTS=(
+    --no-info
     --ansi
     --expect='$continuous_trigger'
     '--color=hl:$(( $#headers == 0 ? 108 : 255 ))'
