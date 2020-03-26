@@ -417,28 +417,40 @@ export HISTORY_SUBSTRING_SEARCH_FUZZY=1
 #------------------------------
 # Widgets
 #------------------------------
-show_args_in_prev_command() {
-    last_command=$history[$[HISTCMD-1]]
-    last_command_array=("${(s/ /)last_command}")
-    sel=$(printf '%s\n' "${last_command_array[@]:1}" | fzf --no-info --ansi -1 --reverse --height=40% --bind=ctrl-j:up,ctrl-k:down,space:accept,tab:down,btab:up)
-    zle redisplay
-    [[ -n "$sel" ]] && LBUFFER="${LBUFFER}${sel} "
-    return 0
-}
-zle -N show_args_in_prev_command
-
-show_args_in_prev_five_commands() {
-    for (( i = 1; i < 6; i++ )); do
+fetch_history_commands() {
+    # $1: nth command in history
+    local n command command_array=() all_command_array=()
+    n="$1"
+    for (( i = 1; i < $((n+1)); i++ )); do
         command=$history[$[HISTCMD-$i]]
         command_array=("${(s/ /)command}")
         all_command_array=("${all_command_array[@]}" "${command_array[@]:1}")
     done
-    sel=$(printf '%s\n' "${all_command_array[@]}" | sort -u | fzf --no-info --ansi -1 --reverse --height=40% --bind=ctrl-j:up,ctrl-k:down,space:accept,tab:down,btab:up)
+
+    printf '%s\n' "${all_command_array[@]}" | sort -u | sed -E '/^[[:space:]]*$/d'
+}
+
+fzf_in_widget() {
+    fzf --no-info --ansi -0 -1 --reverse --height=40% --bind=ctrl-j:up,ctrl-k:down,space:accept,tab:down,btab:up
+}
+
+show_args_in_prev_command() {
+    local sel
+    sel=$(fetch_history_commands 1 | fzf_in_widget)
     zle redisplay
     [[ -n "$sel" ]] && LBUFFER="${LBUFFER}${sel} "
     return 0
 }
-zle -N show_args_in_prev_five_commands
+
+show_args_in_prev_ten_commands() {
+    sel=$(fetch_history_commands 10 | fzf_in_widget)
+    zle redisplay
+    [[ -n "$sel" ]] && LBUFFER="${LBUFFER}${sel} "
+    return 0
+}
+
+zle -N show_args_in_prev_command
+zle -N show_args_in_prev_ten_commands
 
 #------------------------------
 # Keybindings
@@ -461,7 +473,7 @@ bindkey "^U" kill-whole-line
 bindkey "^W" backward-kill-word
 bindkey "^Y" yank
 bindkey "^[1" show_args_in_prev_command
-bindkey "^[2" show_args_in_prev_five_commands
+bindkey "^[2" show_args_in_prev_ten_commands
 bindkey -M vicmd 'j' history-substring-search-up
 bindkey -M vicmd 'k' history-substring-search-down
 
