@@ -392,7 +392,7 @@ export FZF_TAB_OPTS=(
     '--color=hl:$(( $#headers == 0 ? 108 : 255 ))'
     --nth=2,3 --delimiter='\x00'
     --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
-    --tiebreak=begin -m --bind=tab:down,btab:up,ctrl-j:accept,change:top,alt-space:toggle,space:accept --cycle
+    --tiebreak=begin -m --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,space:accept --cycle
     '--query=$query'
     '--header-lines=$#headers'
 )
@@ -415,6 +415,30 @@ export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
 
 #------------------------------
+# Widgets
+#------------------------------
+show_args_in_prev_command() {
+    last_command=$history[$[HISTCMD-1]]
+    last_command_array=("${(s/ /)last_command}")
+    sel=$(printf '%s\n' "${last_command_array[@]:1}" | fzf --no-info --ansi -1 --reverse --height=40% --bind=ctrl-j:up,ctrl-k:down,space:accept,tab:down,btab:up)
+    zle redisplay
+    [[ -n "$sel" ]] && printf '%s ' $sel
+}
+zle -N show_args_in_prev_command
+
+show_args_in_prev_five_commands() {
+    for (( i = 1; i < 6; i++ )); do
+        command=$history[$[HISTCMD-$i]]
+        command_array=("${(s/ /)command}")
+        all_command_array=("${all_command_array[@]}" "${command_array[@]:1}")
+    done
+    sel=$(printf '%s\n' "${all_command_array[@]}" | sort -u | fzf --no-info --ansi -1 --reverse --height=40% --bind=ctrl-j:up,ctrl-k:down,space:accept,tab:down,btab:up)
+    zle redisplay
+    [[ -n "$sel" ]] && printf '%s ' $sel
+}
+zle -N show_args_in_prev_five_commands
+
+#------------------------------
 # Keybindings
 #------------------------------
 bindkey -v
@@ -434,6 +458,8 @@ bindkey "^P" up-history
 bindkey "^U" kill-whole-line
 bindkey "^W" backward-kill-word
 bindkey "^Y" yank
+bindkey "^[1" show_args_in_prev_command
+bindkey "^[2" show_args_in_prev_five_commands
 bindkey -M vicmd 'j' history-substring-search-up
 bindkey -M vicmd 'k' history-substring-search-down
 
