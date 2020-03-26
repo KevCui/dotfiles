@@ -422,7 +422,8 @@ show_args_in_prev_command() {
     last_command_array=("${(s/ /)last_command}")
     sel=$(printf '%s\n' "${last_command_array[@]:1}" | fzf --no-info --ansi -1 --reverse --height=40% --bind=ctrl-j:up,ctrl-k:down,space:accept,tab:down,btab:up)
     zle redisplay
-    [[ -n "$sel" ]] && printf '%s ' $sel
+    [[ -n "$sel" ]] && LBUFFER="${LBUFFER}${sel} "
+    return 0
 }
 zle -N show_args_in_prev_command
 
@@ -434,7 +435,8 @@ show_args_in_prev_five_commands() {
     done
     sel=$(printf '%s\n' "${all_command_array[@]}" | sort -u | fzf --no-info --ansi -1 --reverse --height=40% --bind=ctrl-j:up,ctrl-k:down,space:accept,tab:down,btab:up)
     zle redisplay
-    [[ -n "$sel" ]] && printf '%s ' $sel
+    [[ -n "$sel" ]] && LBUFFER="${LBUFFER}${sel} "
+    return 0
 }
 zle -N show_args_in_prev_five_commands
 
