@@ -320,6 +320,7 @@ alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\
 alias newfox='firefox --profile $(mktemp -d)'
 alias newchromium='chromium --user-data-dir=$(mktemp -d)'
 alias newchromiumwithproxy='http_proxy="localhost:8080" https_proxy="localhost:8080" chromium --user-data-dir=$(mktemp -d)'
+alias newchromiumwithtor='chromium --user-data-dir=$(mktemp -d) --proxy-server="socks5://127.0.0.1:9050" --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE localhost"'
 
 # grc alias
 if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
