@@ -105,6 +105,7 @@ set expandtab
 set fileformats=unix
 set foldlevel=99
 set mouse+=a
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2
 
 " line number
 set number relativenumber
