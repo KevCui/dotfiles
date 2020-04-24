@@ -127,6 +127,10 @@ dispabove () { xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1 }
 dispoff () { xrandr --output HDMI-1 --off }
 dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 
+#/ douban <movie_name>: douban movie search
+douban () { $GITREPO/pUtility/pUtility.js "https://search.douban.com/movie/subject_search?search_text=$1" -c html -w 100 | pup '.sc-bZQynM' | sed -E '/<\/div>/d;/<span/d;/<\/span>/d;/<a/d;/<\/a>/d;/<img/d' | sed -E '/<div class="meta abstract/{n;d}' | sed -E '/class="meta/d;/class="item-root"/d;/class="title"/d;/class="detail"/d;/class="rating/d' | sed -E 's/^\s+//' | awk '{if ($0 ~ /sc-bxivhb/) printf "\n"; else printf " - %s", $0}'
+}
+
 #/ emptytrash: remove files in local trash folder
 emptytrash() { rm -rf "$HOME/.local/share/Trash"}
 
@@ -175,6 +179,24 @@ httpstatus () { curl -i "https://httpstat.us/$1" }
 #/ httpstatuslist: show list of HTTP codes
 httpstatuslist () { curl -s 'https://httpstat.us/' | pup -p 'dl text{}' | sed -E '/^[[:space:]]*$/d' | awk 'NR%2{printf "%s ",$0;next}{print}' }
 
+#/ imdb <title>: imdb search
+imdb () {
+    while read -r i; do
+        if [[ "$i" == "tt"* ]]; then
+            s=$(curl -sS "https://www.imdb.com/title/$i/")
+            t=$(pup 'h1 text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf $0}')
+            st=$(pup '.subtext text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//' | awk '{printf $0}')
+            r=$(pup '.ratingValue text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d' | head -1)
+            rc=$(pup 'span[itemprop="ratingCount"] text{}' <<< "$s")
+            if [[ "$r" == "" ]]; then
+                printf "%b\n" '\033[32m'$t'\033[0m - '$st
+            else
+                printf "%b\n" '\033[33m['$r' ('$rc')]\033[0m \033[32m'$t'\033[0m - '$st
+            fi
+        fi
+    done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${1:0:1}/$1.json" | jq -r '.d[].id')
+}
+
 #/ kp: kill process
 kp () { kill $(ps aux | fzf | awk '{print $2}') }
 
@@ -189,6 +211,9 @@ lm () {
 
 #/ mcd <dir_name>: mkdir + cd
 mcd () { mkdir -p "$1" && cd "$1"; }
+
+#/ myanimelist <anime_name>: search anime info
+myanimelist () { curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=$1&v=1" | jq -r '.categories[] | select (.type == "anime") | .items[] | "[\(.payload.score)]+\(.name)++\(.payload.media_type)+\(.payload.aired)"' | column -t -s '+' }
 
 #/ myip: show my ip address
 myip () { curl -4 'icanhazip.com'; curl -6 'icanhazip.com' }
