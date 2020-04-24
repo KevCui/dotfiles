@@ -128,7 +128,22 @@ dispoff () { xrandr --output HDMI-1 --off }
 dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 
 #/ douban <movie_name>: douban movie search
-douban () { $GITREPO/pUtility/pUtility.js "https://search.douban.com/movie/subject_search?search_text=$1" -c html -w 100 | pup '.sc-bZQynM' --charset utf-8 | sed -E '/<\/div>/d;/<span/d;/<\/span>/d;/<a/d;/<\/a>/d;/<img/d' | sed -E '/<div class="meta abstract/{n;d}' | sed -E '/class="meta/d;/class="item-root"/d;/class="title"/d;/class="detail"/d;/class="rating/d' | sed -E 's/^\s+//' | awk '{if ($0 ~ /sc-bxivhb/) printf "\n"; else printf " - %s", $0}'
+douban () {
+    o=$($GITREPO/putility/putility.js "https://search.douban.com/movie/subject_search?search_text=$1" -w 100)
+    m=$(grep -o sc-bZQynM <<< "$o" | wc -l)
+    for ((i=0; i<m; i++)); do
+        s=$(pup '.sc-bZQynM:nth-child('$((i+1))')' <<< "$o")
+        if [[ "$s" ]]; then
+            t=$(pup '.title-text text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//' | sed -E "s/\&#39;/\'/g")
+            r=$(pup '.rating_nums text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//')
+            rc=$(pup '.pl text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//')
+            if [[ "$r" ]]; then
+                printf "%b\n" '\033[33m['"$r"' '"$rc"']\033[0m '"$t"
+            else
+                printf "%b\n" "$t"
+            fi
+        fi
+    done
 }
 
 #/ emptytrash: remove files in local trash folder
@@ -169,10 +184,10 @@ goodreads () {
     o=$(curl -sS "https://www.goodreads.com/search?q=${1// /+}")
     m=$(grep "role='heading'" <<< "$o" | wc -l)
     for ((i=0; i<m; i++)); do
-        s=$(pup 'tr:nth-child('$((i+1))')' <<< "$o")
-        t=$(pup '.bookTitle text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//')
-        st=$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | pup '.smallText text{}' --charset utf-8 | sed -E  '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings —/\)/;s/ — / \(/;s/ —$//' | sed -E 's/^[[:space:]]+//')
-        a=$(pup '.authorName text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf " %s", $0}' | sed -E 's/^[[:space:]]+//')
+        s=$(pup 'tr:nth-child('$((i+1))')' --charset utf-8 <<< "$o")
+        t=$(pup '.bookTitle text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | sed -E "s/\&#39;/\'/g")
+        st='\033[33m'$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | pup '.smallText text{}' --charset utf-8 | sed -E  '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings —/\)\\033\[0m/;s/ — / \(/;s/ —$//' | sed -E 's/^[[:space:]]+//' | sed -E "s/\&#39;/\'/g")
+        a=$(pup '.authorName text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf " %s", $0}' | sed -E 's/^[[:space:]]+//' | sed -E "s/\&#39;/\'/g")
         printf "%b\n" '\033[32m'"$t"'\033[0m by '"$a"' -'" $st"
     done
 }
@@ -197,14 +212,14 @@ imdb () {
     while read -r i; do
         if [[ "$i" == "tt"* ]]; then
             s=$(curl -sS "https://www.imdb.com/title/$i/")
-            t=$(pup 'h1 text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf $0}')
-            st=$(pup '.subtext text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//' | awk '{printf $0}')
+            t=$(pup 'h1 text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
+            st=$(pup '.subtext text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//' | awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
             r=$(pup '.ratingValue text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d' | head -1)
             rc=$(pup 'span[itemprop="ratingCount"] text{}' <<< "$s")
-            if [[ "$r" == "" ]]; then
-                printf "%b\n" '\033[32m'"$t"'\033[0m - '"$st"
-            else
+            if [[ "$r" ]]; then
                 printf "%b\n" '\033[33m['"$r"' ('"$rc"')]\033[0m \033[32m'"$t"'\033[0m - '"$st"
+            else
+                printf "%b\n" '\033[32m'"$t"'\033[0m - '"$st"
             fi
         fi
     done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${1:0:1}/$1.json" | jq -r '.d[].id')
@@ -226,7 +241,7 @@ lm () {
 mcd () { mkdir -p "$1" && cd "$1"; }
 
 #/ myanimelist <anime_name>: search anime info
-myanimelist () { curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=$1&v=1" | jq -r '.categories[] | select (.type == "anime") | .items[] | "[\(.payload.score)]+\(.name)++\(.payload.media_type)+\(.payload.aired)"' | column -t -s '+' }
+myanimelist () { o=$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=$1&v=1" | jq -r '.categories[] | select (.type == "anime") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)"' | column -t -s '+'); printf '%b' "$o"}
 
 #/ myip: show my ip address
 myip () { curl -4 'icanhazip.com'; curl -6 'icanhazip.com' }
@@ -461,7 +476,7 @@ fetch_history_commands() {
     # $1: nth command in history
     local n command command_array=() all_command_array=()
     n="$1"
-    for (( i = 1; i < $((n+1)); i++ )); do
+    for ((i=1; i<$((n+1)); i++)); do
         command=$history[$[HISTCMD-$i]]
         command_array=("${(s/ /)command}")
         all_command_array=("${all_command_array[@]}" "${command_array[@]:1}")
