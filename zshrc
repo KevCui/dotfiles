@@ -165,7 +165,17 @@ findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec 
 geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1] | tostring | split(".") | .[0]).\(.[1] | tostring | split(".") | .[1][0:6]),\(.[0] | tostring | split(".") | .[0]).\(.[0] | tostring | split(".") | .[1][0:6])"'}
 
 #/ goodreads <book>: goodreads search
-goodreads () {}
+goodreads () {
+    o=$(curl -sS "https://www.goodreads.com/search?q=${1// /+}")
+    m=$(grep "role='heading'" <<< "$o" | wc -l)
+    for ((i=0; i<m; i++)); do
+        s=$(pup 'tr:nth-child('$((i+1))')' <<< "$o")
+        t=$(pup '.bookTitle text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//')
+        st=$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | pup '.smallText text{}' --charset utf-8 | sed -E  '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings —/\)/;s/ — / \(/;s/ —$//' | sed -E 's/^[[:space:]]+//')
+        a=$(pup '.authorName text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf " %s", $0}' | sed -E 's/^[[:space:]]+//')
+        printf "%b\n" '\033[32m'"$t"'\033[0m by '"$a"' -'" $st"
+    done
+}
 
 #/ help <keyword>: list functions
 help () { grep "^#/" ~/.zshrc | cut -c4- | rg -i "${@:-}" }
