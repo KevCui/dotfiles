@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -9,5 +9,10 @@
   "rules": {
     "semi": "error",
     "indent": ["error", 2]
-  }
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "extends": "eslint:recommended"
 }
