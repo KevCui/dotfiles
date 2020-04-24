@@ -128,7 +128,7 @@ dispoff () { xrandr --output HDMI-1 --off }
 dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 
 #/ douban <movie_name>: douban movie search
-douban () { $GITREPO/pUtility/pUtility.js "https://search.douban.com/movie/subject_search?search_text=$1" -c html -w 100 | pup '.sc-bZQynM' | sed -E '/<\/div>/d;/<span/d;/<\/span>/d;/<a/d;/<\/a>/d;/<img/d' | sed -E '/<div class="meta abstract/{n;d}' | sed -E '/class="meta/d;/class="item-root"/d;/class="title"/d;/class="detail"/d;/class="rating/d' | sed -E 's/^\s+//' | awk '{if ($0 ~ /sc-bxivhb/) printf "\n"; else printf " - %s", $0}'
+douban () { $GITREPO/pUtility/pUtility.js "https://search.douban.com/movie/subject_search?search_text=$1" -c html -w 100 | pup '.sc-bZQynM' --charset utf-8 | sed -E '/<\/div>/d;/<span/d;/<\/span>/d;/<a/d;/<\/a>/d;/<img/d' | sed -E '/<div class="meta abstract/{n;d}' | sed -E '/class="meta/d;/class="item-root"/d;/class="title"/d;/class="detail"/d;/class="rating/d' | sed -E 's/^\s+//' | awk '{if ($0 ~ /sc-bxivhb/) printf "\n"; else printf " - %s", $0}'
 }
 
 #/ emptytrash: remove files in local trash folder
@@ -164,6 +164,9 @@ findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec 
 #/ geocode <address>: gecode an address
 geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1] | tostring | split(".") | .[0]).\(.[1] | tostring | split(".") | .[1][0:6]),\(.[0] | tostring | split(".") | .[0]).\(.[0] | tostring | split(".") | .[1][0:6])"'}
 
+#/ goodreads <book>: goodreads search
+goodreads () {}
+
 #/ help <keyword>: list functions
 help () { grep "^#/" ~/.zshrc | cut -c4- | rg -i "${@:-}" }
 
@@ -184,14 +187,14 @@ imdb () {
     while read -r i; do
         if [[ "$i" == "tt"* ]]; then
             s=$(curl -sS "https://www.imdb.com/title/$i/")
-            t=$(pup 'h1 text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf $0}')
-            st=$(pup '.subtext text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//' | awk '{printf $0}')
+            t=$(pup 'h1 text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf $0}')
+            st=$(pup '.subtext text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//' | awk '{printf $0}')
             r=$(pup '.ratingValue text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d' | head -1)
             rc=$(pup 'span[itemprop="ratingCount"] text{}' <<< "$s")
             if [[ "$r" == "" ]]; then
-                printf "%b\n" '\033[32m'$t'\033[0m - '$st
+                printf "%b\n" '\033[32m'"$t"'\033[0m - '"$st"
             else
-                printf "%b\n" '\033[33m['$r' ('$rc')]\033[0m \033[32m'$t'\033[0m - '$st
+                printf "%b\n" '\033[33m['"$r"' ('"$rc"')]\033[0m \033[32m'"$t"'\033[0m - '"$st"
             fi
         fi
     done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${1:0:1}/$1.json" | jq -r '.d[].id')
