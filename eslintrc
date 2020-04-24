@@ -15,5 +15,8 @@
     "node": true,
     "es6": true
   },
+  "golbal": {
+      "_": false
+  },
   "extends": "eslint:recommended"
 }
