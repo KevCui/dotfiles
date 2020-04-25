@@ -67,6 +67,98 @@ export FFF_FAV8="$GITREPO/fff/fav8"
 export FFF_FAV9="$GITREPO/fff/fav9"
 
 #------------------------------
+# Alias
+#------------------------------
+# general alias
+alias rm='rm -i'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias rg='rg -i'
+alias ccat='pygmentize -g -O style=colorful,linenos=1'
+alias vi='nvim'
+alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
+alias cdf='cd "$(find * -type d | fzf --preview="ls {}" --preview-window=right:70%:wrap)"'
+alias nv='$EDITOR -c NV'
+alias ls='exa -s mod --git'
+alias lsg='exa -s mod --git | rg "$@"'
+alias ll='exa -l -s mod --git --time-style=long-iso'
+alias llg='exa -l -s mod --git --time-style=long-iso | rg "$@"'
+alias s='export lst=$(ls | tail -1); export fst=$(ls | head -1)'
+alias y='yay'
+alias unplug='devmon -u'
+alias diff='colordiff'
+alias ping='prettyping --nolegend'
+alias top='htop'
+alias cat='bat --theme=iceberg'
+alias aik='aiksaurus'
+alias c='insect'
+alias ts='torsocks'
+alias u='/usr/bin/up'
+alias please='sudo $(fc -ln -1)'
+alias copy='xclip -selection clipboard'
+alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//'"
+
+# git alias
+alias cdg="cd $GITREPO"
+alias cdb="cd $GITREPO/blog"
+alias gitundo='git reset -- $1'
+alias g='git'
+alias gita='python3 -m gita'
+alias gitall='gita ls'
+
+# hugo alias
+alias hugos="cd $GITREPO/blog; hugo server -D >/dev/null &"
+
+# python server
+alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
+
+# run firefox or chromium in new instance
+alias newfox='firefox --profile $(mktemp -d)'
+alias newchromium='chromium --user-data-dir=$(mktemp -d)'
+alias newchromiumwithproxy='http_proxy="localhost:8080" https_proxy="localhost:8080" chromium --user-data-dir=$(mktemp -d)'
+alias newchromiumwithtor='chromium --user-data-dir=$(mktemp -d) --proxy-server="socks5://127.0.0.1:9050" --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE localhost"'
+
+# grc alias
+if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
+  # Supported commands
+  cmds=(
+    cc \
+    configure \
+    cvs \
+    df \
+    dig \
+    gcc \
+    gmake \
+    ifconfig \
+    ip \
+    last \
+    ldap \
+    make \
+    mount \
+    mtr \
+    netstat \
+    ping6 \
+    ps \
+    traceroute \
+    traceroute6 \
+    wdiff \
+    whois \
+    iwconfig \
+  );
+
+  # Set alias for available commands.
+  for cmd in $cmds ; do
+    if (( $+commands[$cmd] )) ; then
+      alias $cmd="grc --colour=auto $(whence $cmd)"
+    fi
+  done
+
+  # Clean up variables
+  unset cmds cmd
+fi
+
+#------------------------------
 # Functions
 #------------------------------
 #/ = <expr>: calculator +-x/
@@ -134,9 +226,9 @@ douban () {
     for ((i=0; i<m; i++)); do
         s=$(pup '.sc-bZQynM:nth-child('$((i+1))')' <<< "$o")
         if [[ "$s" ]]; then
-            t=$(pup '.title-text text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//' | sed -E "s/\&#39;/\'/g")
-            r=$(pup '.rating_nums text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//')
-            rc=$(pup '.pl text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//')
+            t=$(pup '.title-text text{}' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
+            r=$(pup '.rating_nums text{}' <<< "$s" | sedremovespace)
+            rc=$(pup '.pl text{}' <<< "$s" | sedremovespace)
             if [[ "$r" ]]; then
                 printf "%b\n" '\033[33m['"$r"' '"$rc"']\033[0m '"$t"
             else
@@ -185,9 +277,9 @@ goodreads () {
     m=$(grep "role='heading'" <<< "$o" | wc -l)
     for ((i=0; i<m; i++)); do
         s=$(pup 'tr:nth-child('$((i+1))')' --charset utf-8 <<< "$o")
-        t=$(pup '.bookTitle text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | sed -E "s/\&#39;/\'/g")
-        st='\033[33m'$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | pup '.smallText text{}' --charset utf-8 | sed -E  '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings —/\)\\033\[0m/;s/ — / \(/;s/ —$//' | sed -E 's/^[[:space:]]+//' | sed -E "s/\&#39;/\'/g")
-        a=$(pup '.authorName text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf " %s", $0}' | sed -E 's/^[[:space:]]+//' | sed -E "s/\&#39;/\'/g")
+        t=$(pup '.bookTitle text{}' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
+        st='\033[33m'$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | pup '.smallText text{}' --charset utf-8 | sedremovespace | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings —/\)\\033\[0m/;s/ — / \(/;s/ —$//' | sedremovespace | sed -E "s/\&#39;/\'/g")
+        a=$(pup '.authorName text{}' <<< "$s" | sedremovespace | awk '{printf " %s", $0}' | sedremovespace | sed -E "s/\&#39;/\'/g")
         printf "%b\n" '\033[32m'"$t"'\033[0m by '"$a"' -'" $st"
     done
 }
@@ -205,16 +297,16 @@ holidayHH () { curl -s "https://date.nager.at/Api/v2/PublicHolidays/$(date "+%Y"
 httpstatus () { curl -i "https://httpstat.us/$1" }
 
 #/ httpstatuslist: show list of HTTP codes
-httpstatuslist () { curl -s 'https://httpstat.us/' | pup -p 'dl text{}' | sed -E '/^[[:space:]]*$/d' | awk 'NR%2{printf "%s ",$0;next}{print}' }
+httpstatuslist () { curl -s 'https://httpstat.us/' | pup -p 'dl text{}' | sedremovespace | awk 'NR%2{printf "%s ",$0;next}{print}' }
 
 #/ imdb <title>: imdb search
 imdb () {
     while read -r i; do
         if [[ "$i" == "tt"* ]]; then
             s=$(curl -sS "https://www.imdb.com/title/$i/")
-            t=$(pup 'h1 text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//' | awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
-            st=$(pup '.subtext text{}' --charset utf-8 <<< "$s" | sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//' | awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
-            r=$(pup '.ratingValue text{}' <<< "$s" | sed -E '/^[[:space:]]*$/d' | head -1)
+            t=$(pup 'h1 text{}' --charset utf-8 <<< "$s" | sedremovespace |  awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
+            st=$(pup '.subtext text{}' --charset utf-8 <<< "$s" | sedremovespace | awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
+            r=$(pup '.ratingValue text{}' <<< "$s" | sedremovespace | head -1)
             rc=$(pup 'span[itemprop="ratingCount"] text{}' <<< "$s")
             if [[ "$r" ]]; then
                 printf "%b\n" '\033[33m['"$r"' ('"$rc"')]\033[0m \033[32m'"$t"'\033[0m - '"$st"
@@ -324,98 +416,6 @@ yuijs () { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor
 zipundo () { unzip -Z -1 "$1" | xargs -I{} rm -v {} }
 
 #------------------------------
-# Alias
-#------------------------------
-# general alias
-alias rm='rm -i'
-alias dir='dir --color=auto'
-alias vdir='vdir --color=auto'
-alias grep='grep --color=auto'
-alias rg='rg -i'
-alias ccat='pygmentize -g -O style=colorful,linenos=1'
-alias vi='nvim'
-alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
-alias cdf='cd "$(find * -type d | fzf --preview="ls {}" --preview-window=right:70%:wrap)"'
-alias nv='$EDITOR -c NV'
-alias ls='exa -s mod --git'
-alias lsg='exa -s mod --git | rg "$@"'
-alias ll='exa -l -s mod --git --time-style=long-iso'
-alias llg='exa -l -s mod --git --time-style=long-iso | rg "$@"'
-alias s='export lst=$(ls | tail -1); export fst=$(ls | head -1)'
-alias y='yay'
-alias unplug='devmon -u'
-alias diff='colordiff'
-alias ping='prettyping --nolegend'
-alias top='htop'
-alias cat='bat --theme=iceberg'
-alias aik='aiksaurus'
-alias c='insect'
-alias ts='torsocks'
-alias u='/usr/bin/up'
-alias please='sudo $(fc -ln -1)'
-alias copy='xclip -selection clipboard'
-
-# git alias
-alias cdg="cd $GITREPO"
-alias cdb="cd $GITREPO/blog"
-alias gitundo='git reset -- $1'
-alias g='git'
-alias gita='python3 -m gita'
-alias gitall='gita ls'
-
-# hugo alias
-alias hugos="cd $GITREPO/blog; hugo server -D >/dev/null &"
-
-# python server
-alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
-
-# run firefox or chromium in new instance
-alias newfox='firefox --profile $(mktemp -d)'
-alias newchromium='chromium --user-data-dir=$(mktemp -d)'
-alias newchromiumwithproxy='http_proxy="localhost:8080" https_proxy="localhost:8080" chromium --user-data-dir=$(mktemp -d)'
-alias newchromiumwithtor='chromium --user-data-dir=$(mktemp -d) --proxy-server="socks5://127.0.0.1:9050" --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE localhost"'
-
-# grc alias
-if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
-
-  # Supported commands
-  cmds=(
-    cc \
-    configure \
-    cvs \
-    df \
-    dig \
-    gcc \
-    gmake \
-    ifconfig \
-    ip \
-    last \
-    ldap \
-    make \
-    mount \
-    mtr \
-    netstat \
-    ping6 \
-    ps \
-    traceroute \
-    traceroute6 \
-    wdiff \
-    whois \
-    iwconfig \
-  );
-
-  # Set alias for available commands.
-  for cmd in $cmds ; do
-    if (( $+commands[$cmd] )) ; then
-      alias $cmd="grc --colour=auto $(whence $cmd)"
-    fi
-  done
-
-  # Clean up variables
-  unset cmds cmd
-fi
-
-#------------------------------
 # History
 #------------------------------
 HISTFILE=~/.histfile
@@ -482,7 +482,7 @@ fetch_history_commands() {
         all_command_array=("${all_command_array[@]}" "${command_array[@]:1}")
     done
 
-    printf '%s\n' "${all_command_array[@]}" | sort -u | sed -E '/^[[:space:]]*$/d'
+    printf '%s\n' "${all_command_array[@]}" | sort -u | sedremovespace
 }
 
 fzf_in_widget() {
