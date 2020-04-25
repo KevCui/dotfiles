@@ -301,6 +301,7 @@ httpstatuslist () { curl -s 'https://httpstat.us/' | pup -p 'dl text{}' | sedrem
 
 #/ imdb <title>: imdb search
 imdb () {
+    tt=$(awk '{print tolower($0)}' <<< "$1")
     while read -r i; do
         if [[ "$i" == "tt"* ]]; then
             s=$(curl -sS "https://www.imdb.com/title/$i/")
@@ -314,7 +315,7 @@ imdb () {
                 printf "%b\n" '\033[32m'"$t"'\033[0m - '"$st"
             fi
         fi
-    done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${1:0:1}/$1.json" | jq -r '.d[].id')
+    done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/$tt.json" | jq -r '.d[].id')
 }
 
 #/ kp: kill process
