@@ -29,6 +29,8 @@ i3wm/config:
     browser: ''
     email: ''
     bluetooth: '#'
+    execi3: '#'
+    execalacritty: ''
 
 alacritty.yml:
     fontsize: '12.0'

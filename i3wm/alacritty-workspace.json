@@ -49,7 +49,7 @@
                                     "swallows": [
                                        {
                                           "class": "Alacritty",
-                                          "title": "tasksh"
+                                          "title": "tiny1"
                                        }
                                     ],
                                     "type": "con"
@@ -63,7 +63,7 @@
                                     "swallows": [
                                        {
                                           "class": "Alacritty",
-                                          "title": "tiny"
+                                          "title": "tiny2"
                                        }
                                     ],
                                     "type": "con"
@@ -77,7 +77,7 @@
                                     "swallows": [
                                        {
                                           "class": "Alacritty",
-                                          "title": "small"
+                                          "title": "medium"
                                        }
                                     ],
                                     "type": "con"
