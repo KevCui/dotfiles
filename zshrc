@@ -368,6 +368,15 @@ rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 10
 #/ rotd: show riddles of the day, with answers :)
 rotd () { curl -s 'https://www.riddles.com/riddle-of-the-day'| pup -p '.panel-body p text{}' | awk 'NR%2 {print} !(NR%2) {printf "\033[02;30m%s\033[0m\n\n",$0}' }
 
+#/ rottentomatoes <title>: rottentomatoes search
+rottentomatoes () {
+    o=$(curl -sS "https://www.rottentomatoes.com/napi/search/?limit=30&query=${1// /%20}")
+    r=$(jq -r '.movies[] | "\\033[33m[\(.meterScore)]\\033[0m+++\(.year)+++\(.name)"' <<< "$o")"\n"
+    r="$r"$(jq -r '.tvSeries[] | "\\033[33m[\(.meterScore)]\\033[0m+++\(.startYear)-\(.endYear)+++\(.title)"' <<< "$o")
+    r=$(sed -E 's/\[null\]/\[n\/a\]/;s/-null\+\+\+/-\+\+\+/;s/\+\+\+null-/\+\+\+-/' <<< "$r")
+    printf '%b' "$r" | column -t -s '+++'
+}
+
 #/ screenshot: take screenshot
 screenshot () { sleep 2; import -window root `date +%s`.jpg }
 
