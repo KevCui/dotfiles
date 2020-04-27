@@ -20,7 +20,8 @@ Xresources:
     color15: '#FFFFFF'
 
 i3wm/config:
-    fontsize: 8
+    font: Terminus
+    fontsize: 12
     mod: 'mod4'
     comment: ''
     raisevol: '\$mod+equal'
