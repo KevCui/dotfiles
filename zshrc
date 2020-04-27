@@ -529,6 +529,7 @@ bindkey "^A" beginning-of-line
 bindkey "^B" backward-char
 bindkey '^E' end-of-line
 bindkey "^F" forward-char
+bindkey "^[l" forward-char
 bindkey "^H" backward-delete-char
 bindkey "^K" kill-line
 bindkey "^L" clear-screen
