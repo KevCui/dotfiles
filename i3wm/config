@@ -256,7 +256,7 @@ no_focus [instance="additional"]
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; append_layout ~/.config/i3/alacritty-workspace.json'
 exec --no-startup-id devmon
 exec --no-startup-id dunst
-exec --no-startup-id fcitx
+exec --no-startup-id fcitx5
 %browser%exec --no-startup-id "GTK_THEME=Arc-Dark firefox"
 %email%exec --no-startup-id thunderbird
 exec --no-startup-id fswatch.sh
