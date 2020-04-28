@@ -194,6 +194,23 @@ calibreadd () { calibredb add "$1" -T new }
 #/ calibreconvert: convert book to azw3 format
 calibreconvert () { file="$1"; ebook-convert "$file" "${file%.*}.azw3" --from-opf=metadata.opf --cover=cover.jpg --output-profile=kindle }
 
+#/ chartable <title>: chartable podcast search
+chartable () {
+    h="https://chartable.com"
+    o="$(curl -sS "$h/search?q=${1// /+}" | jq -r '.[]')"
+    m=$(jq 'length' <<< "$o")
+    for (( i = 0; i < m; i++ )); do
+        s=$(jq -r '.[($index|tonumber)].slug' --arg index "$i" <<< "$o")
+        t=$(jq -r '.[($index|tonumber)].title' --arg index "$i" <<< "$o")
+        r=$(curl -sS "$h/podcasts/$s" | grep "class='gray'" | sed -E 's/stars from /\(/;s/ ratings/\)/' | sed -E "s/<div class='gray'>//;s/<\/div>//")
+        if [[ "$r" ]]; then
+            printf '%b\n' "\033[33m[$r]\033[0m $t"
+        else
+            printf '%b\n' "$t"
+        fi
+    done
+}
+
 #/ cht <language> <question>: cheat sheet
 cht () { curl "cht.sh/$1/$2" }
 
@@ -223,7 +240,7 @@ dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 douban () {
     o=$($GITREPO/putility/putility.js "https://search.douban.com/movie/subject_search?search_text=$1" -w 100)
     m=$(grep -o sc-bZQynM <<< "$o" | wc -l)
-    for ((i=0; i<m; i++)); do
+    for (( i = 0; i < m; i++ )); do
         s=$(pup '.sc-bZQynM:nth-child('$((i+1))')' <<< "$o")
         if [[ "$s" ]]; then
             t=$(pup '.title-text text{}' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
@@ -275,7 +292,7 @@ geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// 
 goodreads () {
     o=$(curl -sS "https://www.goodreads.com/search?q=${1// /+}")
     m=$(grep "role='heading'" <<< "$o" | wc -l)
-    for ((i=0; i<m; i++)); do
+    for (( i = 0; i < m; i++ )); do
         s=$(pup 'tr:nth-child('$((i+1))')' --charset utf-8 <<< "$o")
         t=$(pup '.bookTitle text{}' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
         st='\033[33m'$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | sed -E '/class="staticStar p10"/{n;d}' | pup '.smallText text{}' --charset utf-8 | sedremovespace | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings* —/\)\\033\[0m/;s/ — / \(/;s/ —$//' | sedremovespace | sed -E "s/\&#39;/\'/g")
@@ -486,7 +503,7 @@ fetch_history_commands() {
     # $1: nth command in history
     local n command command_array=() all_command_array=()
     n="$1"
-    for ((i=1; i<$((n+1)); i++)); do
+    for (( i = 1; i < $((n+1)); i++ )); do
         command=$history[$[HISTCMD-$i]]
         command_array=("${(s/ /)command}")
         all_command_array=("${all_command_array[@]}" "${command_array[@]:1}")
