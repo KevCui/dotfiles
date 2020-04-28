@@ -29,7 +29,7 @@ GPG_TTY=$(tty)
 export GPG_TTY
 export GITREPO="${HOME}/git"
 export SNIPPET="${HOME}/Notes/command-snippet.md"
-export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
+export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>|"
 
 # Android SDK
 export ANDROID_SDK=/opt/android-sdk
