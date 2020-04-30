@@ -194,6 +194,11 @@ bang() {
     fi
 }
 
+#/ brainyquote <word>: search brainyquote
+brainyquote () {
+    curl -sS "https://www.brainyquote.com/search_results?q=${1// /+}" | pup '.clearfix text{}' | sedremovespace | sed -E "s/\&#39;/\'/g" | awk 'NR % 2 {print} !(NR % 2) {printf "- %s\n\n",$0 }'
+}
+
 #/ buildapk <keystore> <alias>: sign apk
 buildapk () { cordova build --release; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "$1" android-release-unsigned.apk "$2";zipalign -v 4 android-release-unsigned.apk android-signed.apk;zipalign -c -v 4 android-signed.apk }
 
