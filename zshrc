@@ -365,7 +365,7 @@ lm () {
 mcd () { mkdir -p "$1" && cd "$1"; }
 
 #/ myanimelist <anime_name>: search anime info
-myanimelist () { o=$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)"' | column -t -s '+'); printf '%b' "$o"}
+myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime" or .type == "manga") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)+\(.payload.published)"' | sed -E 's/\+null//' | column -t -s '+')" }
 
 #/ myip: show my ip address
 myip () { curl -4 'icanhazip.com'; curl -6 'icanhazip.com' }
