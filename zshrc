@@ -361,6 +361,20 @@ lm () {
     done
 }
 
+
+#/ mangaupdate <manga_name>: search mangaupdate
+mangaupdate () {
+    o=$(curl -sS "https://www.mangaupdates.com/series.html?search=${1// /+}&display=list&type=manga&perpage=20" | pup 'div.p-2:nth-child(2) > div:nth-child(2)')
+    m=$(grep -c 'py-1' <<< "$o")
+    for (( i = 0; i < m; i++ )); do
+        t=$(pup 'div.py-1:nth-child('"$((i*4+6))"') text{}' <<< "$o" | sedremovespace)
+        y=$(pup 'div.col-1:nth-child('"$((i*4+8))"') text{}' <<< "$o" | sedremovespace)
+        r=$(pup 'div.col-1:nth-child('"$((i*4+9))"') text{}' <<< "$o" | sedremovespace)
+        [[ ! "$r" ]] && r="n/a "
+        printf '%b\n' "\033[33m[$r]\033[0m $y $t"
+    done
+}
+
 #/ mcd <dir_name>: mkdir + cd
 mcd () { mkdir -p "$1" && cd "$1"; }
 
