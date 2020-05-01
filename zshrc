@@ -210,6 +210,7 @@ calibreconvert () { file="$1"; ebook-convert "$file" "${file%.*}.azw3" --from-op
 
 #/ chartable <title>: chartable podcast search
 chartable () {
+    local h o m s t r
     h="https://chartable.com"
     o="$(curl -sS "$h/search?q=${1// /+}" | jq -r '.[]')"
     m=$(jq 'length' <<< "$o")
@@ -252,6 +253,7 @@ dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 
 #/ douban <movie_name>: douban movie search
 douban () {
+    local o m s t r rc
     o=$($GITREPO/putility/putility.js "https://search.douban.com/movie/subject_search?search_text=$1" -w 100)
     m=$(grep -o sc-bZQynM <<< "$o" | wc -l)
     for (( i = 0; i < m; i++ )); do
@@ -304,6 +306,7 @@ geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// 
 
 #/ goodreads <book>: goodreads search
 goodreads () {
+    local o m s t st a
     o=$(curl -sS "https://www.goodreads.com/search?q=${1// /+}")
     m=$(grep "role='heading'" <<< "$o" | wc -l)
     for (( i = 0; i < m; i++ )); do
@@ -332,8 +335,10 @@ httpstatuslist () { curl -s 'https://httpstat.us/' | pup -p 'dl text{}' | sedrem
 
 #/ imdb <title>: imdb search
 imdb () {
+    local tt i s t st r rc
     tt=$(awk '{print tolower($0)}' <<< "$1")
     while read -r i; do
+            echo "$i"
         if [[ "$i" == "tt"* ]]; then
             s=$(curl -sS "https://www.imdb.com/title/$i/")
             t=$(pup 'h1 text{}' --charset utf-8 <<< "$s" | sedremovespace |  awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
@@ -346,7 +351,7 @@ imdb () {
                 printf "%b\n" '\033[32m'"$t"'\033[0m - '"$st"
             fi
         fi
-    done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/$tt.json" | jq -r '.d[].id')
+    done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/${tt// /_}.json" | jq -r '.d[].id')
 }
 
 #/ kp: kill process
@@ -364,6 +369,7 @@ lm () {
 
 #/ mangaupdate <manga_name>: search mangaupdate
 mangaupdate () {
+    local o m t y r
     o=$(curl -sS "https://www.mangaupdates.com/series.html?search=${1// /+}&display=list&type=manga&perpage=20" | pup 'div.p-2:nth-child(2) > div:nth-child(2)')
     m=$(grep -c 'py-1' <<< "$o")
     for (( i = 0; i < m; i++ )); do
