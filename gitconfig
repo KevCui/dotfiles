@@ -2,8 +2,9 @@
     name =
     email =
 [core]
-    pager = diff-so-fancy | less --tabs=4 -RFX
-    ; pager = delta --theme=iceberg
+    pager = delta --theme=iceberg
+[interactive]
+    diffFilter = delta --color-only
 [diff]
     tool = vimdiff
 [difftool "vimdiff"]
