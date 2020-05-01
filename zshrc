@@ -338,7 +338,6 @@ imdb () {
     local tt i s t st r rc
     tt=$(awk '{print tolower($0)}' <<< "$1")
     while read -r i; do
-            echo "$i"
         if [[ "$i" == "tt"* ]]; then
             s=$(curl -sS "https://www.imdb.com/title/$i/")
             t=$(pup 'h1 text{}' --charset utf-8 <<< "$s" | sedremovespace |  awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
