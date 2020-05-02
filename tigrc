@@ -4,8 +4,13 @@ bind generic <C-J> find-prev
 bind generic k move-down
 bind generic K next
 bind generic <C-K> find-next
+bind diff g move-first-line
+bind diff G move-last-line
+bind diff J move-page-up
+bind diff K move-page-down
 
 bind generic a !git commit --amend
 bind generic <C-F> !?it checkout %(commit) %(file)
 bind generic 9 !@sh -c "echo -n %(commit) | xclip -selection c"
 bind status P !git push origin
+bind main <F4> !git reset --hard origin/master
