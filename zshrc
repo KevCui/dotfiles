@@ -25,8 +25,7 @@ export EDITOR="nvim"
 export sys=/etc/systemd/system
 export libsys=/usr/lib/systemd/system
 export pkg=/var/cache/pacman/pkg
-GPG_TTY=$(tty)
-export GPG_TTY
+export GPG_TTY=$(tty)
 export GITREPO="${HOME}/git"
 export SNIPPET="${HOME}/Notes/command-snippet.md"
 export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>|"
