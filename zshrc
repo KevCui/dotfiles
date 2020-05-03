@@ -563,8 +563,16 @@ show_args_in_prev_ten_commands() {
     return 0
 }
 
+show_args_in_prev_hundred_commands() {
+    sel=$(fetch_history_commands 100 | fzf_in_widget)
+    zle redisplay
+    [[ -n "$sel" ]] && LBUFFER="${LBUFFER}${sel} "
+    return 0
+}
+
 zle -N show_args_in_prev_command
 zle -N show_args_in_prev_ten_commands
+zle -N show_args_in_prev_hundred_commands
 
 #------------------------------
 # Keybindings
@@ -589,6 +597,7 @@ bindkey "^W" backward-kill-word
 bindkey "^Y" yank
 bindkey "^[1" show_args_in_prev_command
 bindkey "^[2" show_args_in_prev_ten_commands
+bindkey "^[3" show_args_in_prev_hundred_commands
 bindkey -M vicmd 'j' history-substring-search-up
 bindkey -M vicmd 'k' history-substring-search-down
 
