@@ -506,7 +506,7 @@ export FZF_TAB_OPTS=(
     '--color=hl:$(( $#headers == 0 ? 108 : 255 ))'
     --nth=2,3 --delimiter='\x00'
     --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
-    --tiebreak=begin -m --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,space:accept --cycle
+    --tiebreak=begin -m --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,space:accept,ctrl-a:select-all,ctrl-u:deselect-all --cycle
     '--query=$query'
     '--header-lines=$#headers'
 )
