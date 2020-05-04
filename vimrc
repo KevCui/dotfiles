@@ -179,6 +179,7 @@ augroup vimrc
     autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en_us
     autocmd BufNewFile,BufRead *.md setlocal spell spelllang=en_us
     autocmd BufNewFile,BufRead *.markdown setlocal spell spelllang=en_us
+    autocmd BufNewFile,BufRead COMMIT_EDITMSG setlocal spell spelllang=en_us
 augroup END
 set spellfile=~/.vim/spell/en.utf-8.add
 
