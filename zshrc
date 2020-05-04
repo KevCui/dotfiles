@@ -427,7 +427,7 @@ rottentomatoes () {
 }
 
 #/ screenshot: take screenshot
-screenshot () { sleep 2; import -window root `date +%s`.jpg }
+screenshot () { import -quiet -pause 2 `date +%s`.jpg }
 
 #/ showpath: show PATH
 showpath () { awk -v RS=: '{print}' <<<$PATH }
