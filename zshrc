@@ -262,7 +262,7 @@ douban () {
             r=$(pup '.rating_nums text{}' <<< "$s" | sedremovespace)
             rc=$(pup '.pl text{}' <<< "$s" | sedremovespace)
             if [[ "$r" ]]; then
-                printf "%b\n" '\033[33m['"$r"' '"$rc"']\033[0m '"$t"
+                printf "%b\n" "\033[33m[$r $rc]\033[0m $t"
             else
                 printf "%b\n" "$t"
             fi
@@ -313,7 +313,7 @@ goodreads () {
         t=$(pup '.bookTitle text{}' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
         st='\033[33m'$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | sed -E '/class="staticStar p10"/{n;d}' | pup '.smallText text{}' --charset utf-8 | sedremovespace | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings* —/\)\\033\[0m/;s/ — / \(/;s/ —$//' | sedremovespace | sed -E "s/\&#39;/\'/g")
         a=$(pup '.authorName text{}' <<< "$s" | sedremovespace | awk '{printf " %s", $0}' | sedremovespace | sed -E "s/\&#39;/\'/g")
-        printf "%b\n" '\033[32m'"$t"'\033[0m by '"$a"' -'" $st"
+        printf "%b\n" "\033[32m$t\033[0m by $a - $st"
     done
 }
 
@@ -344,9 +344,9 @@ imdb () {
             r=$(pup '.ratingValue text{}' <<< "$s" | sedremovespace | head -1)
             rc=$(pup 'span[itemprop="ratingCount"] text{}' <<< "$s")
             if [[ "$r" ]]; then
-                printf "%b\n" '\033[33m['"$r"' ('"$rc"')]\033[0m \033[32m'"$t"'\033[0m - '"$st"
+                printf "%b\n" "\033[33m[$r ($rc)]\033[0m \033[32m$t\033[0m - $st"
             else
-                printf "%b\n" '\033[32m'"$t"'\033[0m - '"$st"
+                printf "%b\n" "\033[32m$t\033[0m - $st"
             fi
         fi
     done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/${tt// /_}.json" | jq -r '.d[].id')
@@ -364,6 +364,26 @@ lm () {
     done
 }
 
+# letterboxd <film_name>: search film on letterboxd
+letterboxd() {
+    local o m t y l j g r
+    o=$(curl -sS "https://letterboxd.com/search/films/${1// /+}/" | pup '.results')
+    m=$(grep -c 'class="film-detail-content"' <<< "$o")
+    [[ "$m" -gt "10" ]] && m=10
+    for (( i = 0; i < m; i++ )); do
+        t=$(pup 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > a:nth-child(1) text{}' <<< "$o" | sedremovespace)
+        y=$(pup 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > small:nth-child(2) > a:nth-child(1) text{}' <<< "$o" | sedremovespace)
+        l=$(pup 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > a:nth-child(1) attr{href}' <<< "$o" | sedremovespace)
+        if [[ $l ]]; then
+            j=$(curl -sS "https://letterboxd.com${l}" | grep ratingValue)
+            g=$(jq -r '.genre | join(", ")' <<< "$j")
+            r=$(jq -r '.aggregateRating | "\(.ratingValue) (\(.ratingCount))"' <<< "$j")
+            printf '%b\n' "$y $t \033[33m$r\033[0m $g"
+        else
+            printf '%b\n' "$y $t"
+        fi
+    done
+}
 
 #/ mangaupdate <manga_name>: search mangaupdate
 mangaupdate () {
