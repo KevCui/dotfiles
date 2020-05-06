@@ -64,7 +64,6 @@ set termguicolors
 set t_Co=256
 set laststatus=2
 set hlsearch
-set guicursor=a:blinkon0
 set noshowmode
 let g:monotone_color=[100,1,84]
 let g:monotone_secondary_hue_offset=25
@@ -73,6 +72,10 @@ colorscheme monotone
 syntax on
 filetype plugin indent on
 filetype plugin on
+
+" cursor shape
+set guicursor=i-c-ci-cr-sm:ver1,n-r-v-ve:hor20
+autocmd VimLeave * set guicursor=a:hor20
 
 " gvim font
 set guifont=Hack\ 9
