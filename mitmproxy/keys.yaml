@@ -10,3 +10,7 @@
   key: l
   ctx: ["flowlist"]
   cmd: console.nav.select
+-
+  key: c
+  ctx: ["global"]
+  cmd: export.clip curl @focus
