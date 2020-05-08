@@ -74,8 +74,8 @@ filetype plugin indent on
 filetype plugin on
 
 " cursor shape
-set guicursor=i-c-ci-cr-sm:ver1,n-r-v-ve:hor20
-autocmd VimLeave * set guicursor=a:hor20
+set guicursor=i-c-ci-cr-sm:ver20,n-r-v-ve:hor20
+autocmd VimLeave * set guicursor=a:ver20
 
 " gvim font
 set guifont=Hack\ 9

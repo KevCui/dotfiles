@@ -594,6 +594,24 @@ zle -N show_args_in_prev_command
 zle -N show_args_in_prev_ten_commands
 zle -N show_args_in_prev_hundred_commands
 
+function zle-keymap-select zle-line-finish {
+    case $KEYMAP in
+        vicmd) print -n -- "\e[4 q";;
+        viins) pinrt -n -- "\e[4 q";;
+        main)  print -n -- "\e[6 q";;
+    esac
+    zle reset-prompt
+    zle -R
+}
+
+function zle-line-init {
+    print -n -- "\e[6 q"
+}
+
+zle -N zle-line-init
+zle -N zle-line-finish
+zle -N zle-keymap-select
+
 #------------------------------
 # Keybindings
 #------------------------------
