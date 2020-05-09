@@ -101,7 +101,7 @@ alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+
 # git alias
 alias cdg="cd $GITREPO"
 alias cdb="cd $GITREPO/blog"
-alias gitundo='git reset -- $1'
+alias gitundo='git reset -- '
 alias g='git'
 alias gita='python3 -m gita'
 alias gitall='gita ls'
@@ -482,6 +482,15 @@ whatcms () { curl -sS "https://whatcms.org/APIEndpoint/Detect?key=$(cat $WHATCMS
 
 #/ whohosts: show host info of website $1
 whohosts () { curl -sS "https://www.who-hosts-this.com/APIEndpoint/Detect?key=$(cat $WHATCMS_KEY_FILE | shuf | tail -1)&url=$1" | jq . }
+
+#/ yd <url>: download youtube video
+yd () { youtube-dl $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
+
+#/ yda <url>: download youtube audio
+yda () { youtube-dl -x $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
+
+#/ yds <url>: download youtube with subtitle
+yds () { youtube-dl --write-auto-sub --convert-subs=srt $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
 
 #/ youtuberss <url>: get YouTube RSS QR code
 youtuberss () { url=`curl -s "$1" | grep RSS | sed -e 's/.*href=\"//' | sed -e 's/\">.*//' | head -1`; echo $url; qr "$url"}
