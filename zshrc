@@ -355,15 +355,6 @@ imdb () {
 #/ kp: kill process
 kp () { kill $(ps aux | fzf | awk '{print $2}') }
 
-#/ lm: show last modified time of sites, defined in ~/.site
-lm () {
-    for url in $(cat ~/.site); do
-        echo "> $url"
-        time=$(curl -Is "$url" | grep last | cut -c16-)
-        echo "\t"$(date -d $time)
-    done
-}
-
 # letterboxd <film_name>: search film on letterboxd
 letterboxd() {
     local o m t y l j g r
@@ -382,6 +373,32 @@ letterboxd() {
         else
             printf '%b\n' "$y $t"
         fi
+    done
+}
+
+#/ lm: show last modified time of sites, defined in ~/.site
+lm () {
+    for url in $(cat ~/.site); do
+        echo "> $url"
+        time=$(curl -Is "$url" | grep last | cut -c16-)
+        echo "\t"$(date -d $time)
+    done
+}
+
+#/ lyrics <word>: search lyrics
+lyrics () {
+    local o m s t a l
+    o=$(curl -sS "https://www.lyrics.com/lyrics/${1// /%20}" | sed -E 's/\r$/---/g' | pup '.sec-lyric')
+    m=$(grep -c '.sec-lyric' <<< "$o")
+    [[ "$m" -gt 11 ]] && m=10
+
+    for (( i = 0; i < m; i++ )); do
+        s=$(pup 'div.sec-lyric:nth-child('"$((i+1))"')' <<< "$o")
+        t=$(pup '.lyric-meta-title text{}' <<< "$s" | sedremovespace)
+        a=$(pup '.lyric-meta-album-artist text{}' <<< "$s" | sedremovespace)
+        [[ "$a" == "" ]] && a=$(pup '.lyric-meta-artists text{}' <<< "$s" | sedremovespace)
+        l=$(pup --charset utf-8 '.lyric-body text{}' <<< "$s" | sedremovespace | awk '{printf "%s ",$0}' | sed -E 's/---/\n/g' | sedremovespace)
+        printf '\n%b\n' "\033[32m$t\033[0m - $a\n$l" | sed -E "s/\&#39;/\'/g"
     done
 }
 
