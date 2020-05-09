@@ -423,6 +423,9 @@ po () { sleep "$1" && systemctl poweroff; }
 #/ qotd: quote of the day
 qotd () { curl -s 'https://favqs.com/api/qotd' | jq -r '.quote | "\"\(.body)\" - \(.author)"'; echo }
 
+#/ quodb <quote>: movie quote search
+quodb () { printf "$(curl -sS "http://api.quodb.com/search/${1// /%20}?page=1&titles_per_page=50&phrases_per_title=1" | jq -r '.docs[] | "\\033[32m\(.phrase)\\033[0m - \(.title) \(.year)"')" }
+
 #/ randompwd <length>: generate random password
 randompwd() { </dev/urandom | tr -dc 'a-zA-Z0-9!@#$%^&*()[]{}_=+-?.,:;' | head -c$1; echo"" }
 
