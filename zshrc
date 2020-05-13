@@ -164,6 +164,8 @@ fi
 = () {
     calc="${*//p/+}"
     calc="${calc//x/*}"
+    calc="${calc//./}"
+    calc="${calc//,/.}"
     calc $calc
 }
 
