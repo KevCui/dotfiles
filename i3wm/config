@@ -144,7 +144,7 @@ bindsym $mod+z mode "resize"
 # finds out, if available)
 bar {
   binding_mode_indicator yes
-    status_command i3status -c ~/.config/i3/i3status.config
+    status_command i3status -c ${HOME}/.config/i3/i3status.config
     position top
   colors {
     separator #666666
@@ -252,16 +252,16 @@ no_focus [title="ranger"]
 no_focus [title="fff"]
 no_focus [instance="tasksh"]
 no_focus [instance="additional"]
-%execi3%exec --no-startup-id i3-msg 'workspace 2; append_layout ~/.config/i3/st-workspace.json'
-%execalacritty%exec --no-startup-id i3-msg 'workspace 2; append_layout ~/.config/i3/alacritty-workspace.json'
+%execi3%exec --no-startup-id i3-msg 'workspace 2; append_layout ${HOME}/.config/i3/st-workspace.json'
+%execalacritty%exec --no-startup-id i3-msg 'workspace 2; append_layout ${HOME}/.config/i3/alacritty-workspace.json'
 exec --no-startup-id devmon
 exec --no-startup-id dunst
 exec --no-startup-id fcitx5
 %browser%exec --no-startup-id "GTK_THEME=Arc-Dark firefox"
 %email%exec --no-startup-id thunderbird
-exec --no-startup-id fswatch.sh
+exec --no-startup-id ${HOME}/Script/fswatch.sh
 %bluetooth%exec --no-startup-id blueman-applet
-exec --no-startup-id ~/.config/systemd/user/changepaper.sh
+exec --no-startup-id ${HOME}/.config/systemd/user/changepaper.sh
 %execi3%exec --no-startup-id i3-msg 'workspace 2; exec st -n main'
 %execi3%exec --no-startup-id i3-msg 'workspace 2; exec st -n medium'
 %execi3%exec --no-startup-id i3-msg 'workspace 2; exec st -n small'
@@ -269,5 +269,5 @@ exec --no-startup-id ~/.config/systemd/user/changepaper.sh
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t medium'
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t tiny1'
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t tiny2'
-exec --no-startup-id xmodmap ~/.Xmodmap
+exec --no-startup-id xmodmap ${HOME}/.Xmodmap
 exec --no-startup-id "xcape -t 300 -e 'Shift_R=BackSpace;Control_L=Escape'"
