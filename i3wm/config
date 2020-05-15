@@ -30,7 +30,7 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-%execi3%bindsym $mod+Return exec st
+%execst%bindsym $mod+Return exec st
 %execalacritty%bindsym $mod+Return exec alacritty
 
 # kill focused window
@@ -252,7 +252,7 @@ no_focus [title="ranger"]
 no_focus [title="fff"]
 no_focus [instance="tasksh"]
 no_focus [instance="additional"]
-%execi3%exec --no-startup-id i3-msg 'workspace 2; append_layout ${HOME}/.config/i3/st-workspace.json'
+%execst%exec --no-startup-id i3-msg 'workspace 2; append_layout ${HOME}/.config/i3/st-workspace.json'
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; append_layout ${HOME}/.config/i3/alacritty-workspace.json'
 exec --no-startup-id devmon
 exec --no-startup-id dunst
@@ -262,9 +262,9 @@ exec --no-startup-id fcitx5
 exec --no-startup-id ${HOME}/Script/fswatch.sh
 %bluetooth%exec --no-startup-id blueman-applet
 exec --no-startup-id ${HOME}/.config/systemd/user/changepaper.sh
-%execi3%exec --no-startup-id i3-msg 'workspace 2; exec st -n main'
-%execi3%exec --no-startup-id i3-msg 'workspace 2; exec st -n medium'
-%execi3%exec --no-startup-id i3-msg 'workspace 2; exec st -n small'
+%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n main'
+%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n medium'
+%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n small'
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t main'
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t medium'
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t tiny1'

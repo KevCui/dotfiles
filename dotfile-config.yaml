@@ -30,7 +30,7 @@ i3wm/config:
     browser: ''
     email: ''
     bluetooth: '#'
-    execi3: '#'
+    execst: '#'
     execalacritty: ''
 
 alacritty.yml:
