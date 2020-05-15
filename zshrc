@@ -164,8 +164,10 @@ fi
 = () {
     calc="${*//p/+}"
     calc="${calc//x/*}"
-    calc="${calc//./}"
-    calc="${calc//,/.}"
+    if [[ "$calc" = *","* ]]; then
+        calc="${calc//./}"
+        calc="${calc//,/.}"
+    fi
     calc $calc
 }
 
