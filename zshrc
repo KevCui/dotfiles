@@ -441,6 +441,9 @@ mytrafficproxied () { curl 'icanhazproxy.com' }
 #/ po <second>: poweroff in seconds
 po () { sleep "$1" && systemctl poweroff; }
 
+#/ port <port_number>: port lookup
+port () { curl -sS 'https://www.portcheckers.com/port-number-assignment' --data-raw port="$1" | grep '<tr><td>' | sed -E 's/<[\/]?t[rd]>/ /g' | sedremovespace }
+
 #/ qotd: quote of the day
 qotd () { curl -s 'https://favqs.com/api/qotd' | jq -r '.quote | "\"\(.body)\" - \(.author)"'; echo }
 
