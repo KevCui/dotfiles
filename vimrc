@@ -21,7 +21,7 @@ Plug 'posva/vim-vue' "syntax for Vue.js components
 Plug 'scrooloose/nerdcommenter' "ci cm cu
 Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
 Plug 'wellle/targets.vim' "di'
-Plug 'easymotion/vim-easymotion' "w f b s
+Plug 'easymotion/vim-easymotion' "w s
 Plug 'machakann/vim-swap' "swap item g> g< gs
 "   theme
 Plug 'Lokaltog/vim-monotone' " monotone
@@ -137,7 +137,9 @@ cnoremap <C-v> <C-r>+
 vnoremap <C-c> "+y
 vnoremap <C-x> "+d
 "   easymotion
-map <Leader> <Plug>(easymotion-prefix)
+map  <Leader>  <Plug>(easymotion-prefix)
+map  <Leader>s <Plug>(easymotion-bd-f)
+nmap <Leader>s <Plug>(easymotion-overwin-f)
 "   undotree
 nnoremap <F5> :UndotreeToggle<CR>
 "   notational-fzf-vim
