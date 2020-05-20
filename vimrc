@@ -2,7 +2,7 @@
 " PLUGINS
 " -------
 call plug#begin('~/.vim/plugged')
-Plug 'godlygeek/tabular' "align text :Tab /=
+Plug 'godlygeek/tabular' "align text :Tabularize /=
 Plug 'tpope/vim-fugitive' "Gedit Gstatus Gdiff
 Plug 'raimondi/delimitmate' "auto close quote
 Plug 'honza/vim-snippets' "snippets files
