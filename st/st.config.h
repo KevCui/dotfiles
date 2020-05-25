@@ -177,7 +177,7 @@ static MouseShortcut mshortcuts[] = {
 #define TERMMOD (ControlMask|ShiftMask)
 
 static char *openurlcmd[] = { "/bin/sh", "-c",
-    "xurls | dmenu -l 10 -w $WINDOWID | xargs -r firefox", "externalpipe", NULL };
+    "xurls | dmenu -l 10 -w $WINDOWID -fn '-xos4-terminus-medium-r-*-*-13-*' | xargs -r firefox", "externalpipe", NULL };
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
