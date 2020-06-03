@@ -9,7 +9,7 @@
     df = ! git diff $@ --name-only | fzf -m --ansi --preview-window=right:80 --preview 'git diff {} | delta' --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up --cycle
 	diff = difftool
     dump = cat-file -p
-    hist = log --pretty=format:\"%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]\" --graph --date=short
+    h = log --pretty=format:\"%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]\" --graph --date=short
     i = init
     l = log
     m = merge
