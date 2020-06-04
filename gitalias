@@ -6,8 +6,8 @@
     cm = commit -m
     co = checkout
     d = diff
-    df = ! git diff --name-only | fzf -m --ansi --preview-window=right:80 --preview 'git diff {} | delta' --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up --cycle
-    dfs = ! git diff --name-only --cached | fzf -m --ansi --preview-window=right:80 --preview 'git diff --cached {} | delta' --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up --cycle
+    df = ! git diff --name-only | fzf -m --ansi --preview-window=right:80:wrap --preview 'git diff {} | delta' --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up --cycle
+    dfs = ! git diff --name-only --cached | fzf -m --ansi --preview-window=right:80:wrap --preview 'git diff --cached {} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git commit)' --cycle
 	diff = difftool
     dump = cat-file -p
     ff = "! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short $1 | fzf --preview 'git diff-tree -p {1} | delta' --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up --cycle\" -"
@@ -21,6 +21,7 @@
     pll = pull
     rst = reset --
     rsthard = reset --hard origin/master
+    rsthead = reset HEAD~
     s = status
     type = cat-file -t
     undo = checkout --
