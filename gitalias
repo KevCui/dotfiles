@@ -10,11 +10,11 @@
     dfs = ! git diff --name-only --cached | fzf -m --ansi --preview-window=right:80:wrap --preview 'git diff --cached {} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git commit)' --cycle
 	diff = difftool
     dump = cat-file -p
-    ff = "! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short $1 | fzf --preview 'git diff-tree -p {1} | delta' --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up --cycle\" -"
+    ff = "! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short $1 | fzf --preview-window=wrap --preview 'git diff-tree -p {1} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta)' --cycle\" -"
     h = log --pretty=format:'%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]' --graph --date=short
     i = init
     l = log
-    lf = ! git log --pretty=format:'%h %ad %s%d' --date=short | fzf --preview 'git diff-tree -p {1} | delta' --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up --cycle
+    lf = ! git log --pretty=format:'%h %ad %s%d' --date=short | fzf --preview-window=wrap --preview 'git diff-tree -p {1} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta)' --cycle
     m = merge
     p = push
     P = push origin
