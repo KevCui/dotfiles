@@ -1,5 +1,6 @@
 [alias]
     a = add
+    af = ! git add \"$(git status -s | fzf -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle | cut -c4- | sed -E \"s/[[:space:]]/\\\\\\ /g\" | sed -E \"s/\\(/\\\\\\(/g\" | sed -E \"s/\\)/\\\\\\)/g\" | awk '{printf \"%s \",$0}' | sed -E \"s/[[:space:]]$//\")\"
     b = branch
     c = commit
     ca = commit --amend
@@ -10,10 +11,10 @@
     di = diff
 	diff = difftool
     dump = cat-file -p
-    f = "! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short $1 | fzf --preview-window=wrap --preview 'git diff-tree -p {1} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta)' --cycle\" -"
+    f = "! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short $1 | fzf -m --preview-window=wrap --preview 'git diff-tree -p {1} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta)' --cycle\" -"
     h = log --pretty=format:'%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]' --graph --date=short
     i = init
-    l = ! git log --pretty=format:'%h %ad %s%d' --date=short | fzf --preview-window=wrap --preview 'git diff-tree -p {1} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta)' --cycle
+    l = ! git log --pretty=format:'%h %ad %s%d' --date=short | fzf -m --preview-window=wrap --preview 'git diff-tree -p {1} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta)' --cycle
     m = merge
     p = push
     P = push origin
