@@ -1,6 +1,6 @@
 [alias]
     a = add
-    af = ! git add \"$(git status -s | fzf -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle | cut -c4- | sed -E \"s/[[:space:]]/\\\\\\ /g\" | sed -E \"s/\\(/\\\\\\(/g\" | sed -E \"s/\\)/\\\\\\)/g\" | awk '{printf \"%s \",$0}' | sed -E \"s/[[:space:]]$//\")\"
+    af = ! cd $GIT_PREFIX && git add $(git status -s | fzf -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle | cut -c4- | sed -E \"s/[[:space:]]/\\\\\\ /g\" | sed -E \"s/\\(/\\\\\\(/g\" | sed -E \"s/\\)/\\\\\\)/g\" | awk '{printf \"%s \",$0}' | sed -E \"s/[[:space:]]$//\")
     b = branch
     c = commit
     ca = commit --amend
