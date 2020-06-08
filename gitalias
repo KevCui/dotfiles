@@ -6,7 +6,7 @@
     ca = commit --amend
     cm = commit -m
     co = checkout
-    d = ! git diff --name-only | fzf -m --ansi --preview-window=right:80:wrap --preview 'git diff {} | delta' --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up --cycle
+    d = ! git diff --name-only | fzf -m --ansi --preview-window=right:80:wrap --preview 'git diff {} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff {1} | delta)' --cycle
     ds = ! git diff --name-only --cached | fzf -m --ansi --preview-window=right:80:wrap --preview 'git diff --cached {} | delta' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git commit)' --cycle
     di = diff
 	diff = difftool
