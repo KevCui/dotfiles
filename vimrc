@@ -108,7 +108,12 @@ set expandtab
 set fileformats=unix
 set foldlevel=99
 set mouse+=a
-autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2
+augroup tabstop2
+    autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2
+    autocmd FileType json setlocal shiftwidth=2 softtabstop=2
+    autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
+    autocmd FileType markdown setlocal shiftwidth=2 softtabstop=2
+augroup END
 
 " line number
 set number relativenumber
