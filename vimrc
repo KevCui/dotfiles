@@ -227,6 +227,8 @@ let g:ale_fixers = {
     \   'javascript': ['eslint'],
     \   'python': ['autopep8'],
     \   'yaml': ['prettier'],
+    \   'markdown': ['prettier'],
+    \   'json': ['prettier']
     \}
 let g:ale_python_autopep8_options = '--max-line-length 256'
 let g:ale_fix_on_save = 1
