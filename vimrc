@@ -173,6 +173,8 @@ function! s:check_back_space() abort
 endfunction
 "   toggle paste mode
 set pastetoggle=<F2>
+"   open file in browser
+nnoremap <Leader>O :exe ':silent !$BROWSER %'<CR>
 
 " --------
 " SETTINGS
