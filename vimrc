@@ -13,7 +13,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
 Plug 'rbong/vim-flog' "Git branch viewer :Flog
 Plug 'mbbill/undotree' "Undo history visualizer
-Plug 'suan/vim-instant-markdown', {'for': 'markdown'} "md preview
 "   syntax
 Plug 'w0rp/ale' "synchronous Lint Engine
 Plug 'posva/vim-vue' "syntax for Vue.js components
@@ -275,9 +274,6 @@ let g:Hexokinase_ftAutoload = ['css', 'xml', 'md']
 
 " indentLine
 let g:indentLine_fileTypeExclude = ['markdown']
-
-" instant-markdown
-let g:instant_markdown_autostart = 0
 
 " --------
 " FUNCTION
