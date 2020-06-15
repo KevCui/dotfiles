@@ -97,6 +97,7 @@ alias u='/usr/bin/up'
 alias please='sudo $(fc -ln -1)'
 alias copy='xclip -selection clipboard'
 alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//'"
+alias convpdftotxt="pdftotext -layout -nopgbrk"
 
 # git alias
 alias cdg="cd $GITREPO"
