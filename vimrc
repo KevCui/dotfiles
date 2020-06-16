@@ -174,7 +174,7 @@ endfunction
 "   toggle paste mode
 set pastetoggle=<F2>
 "   open file in browser
-nnoremap <Leader>O :exe ':silent !$BROWSER %'<CR>
+nnoremap gO :exe ':silent !$BROWSER %'<CR>
 
 " --------
 " SETTINGS
