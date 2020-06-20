@@ -140,10 +140,6 @@ inoremap <C-v> <ESC>"+pa
 cnoremap <C-v> <C-r>+
 vnoremap <C-c> "+y
 vnoremap <C-x> "+d
-"   easymotion
-map  <Leader>  <Plug>(easymotion-prefix)
-map  <Leader>s <Plug>(easymotion-bd-f)
-nmap <Leader>s <Plug>(easymotion-overwin-f)
 "   undotree
 nnoremap <F5> :UndotreeToggle<CR>
 "   notational-fzf-vim
