@@ -277,6 +277,9 @@ let g:Hexokinase_ftAutoload = ['css', 'xml', 'md']
 " indentLine
 let g:indentLine_fileTypeExclude = ['markdown']
 
+" easymotion
+let g:EasyMotion_smartcase = 1
+
 " --------
 " FUNCTION
 " --------
