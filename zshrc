@@ -483,6 +483,23 @@ showpath () { awk -v RS=: '{print}' <<<$PATH }
 #/ synonym <word>: search for synonym of a word
 synonym() { curl -sS https://www.thesaurus.com/browse/$1| pup 'script text{}' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g' | jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .synonyms | sort_by (.term) | .[] | select((.similarity | tonumber)>49) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
 
+#/ toc <file.md>: add table of coentents in markdown file
+toc() {
+    local t out
+    t=$(cat "$1" | grep -v "# Table of Contents" | grep -E '^#' | sed -E 's/# /- [/' | sed -E 's/#/  /g' | sed -E 's/$/]/' | sed -E 's/\[(.*)\]/\[\1](#\L\1/')
+    while grep -q '#.* ' <<< "$t"; do
+        t=$(sed -E 's/(.*#.*)\s+/\1-/' <<< "$t")
+    done
+    while grep -q '#.*[^a-zA-Z0-9-]' <<< "$t"; do
+        t=$(sed -E 's/(.*#.*)[^a-zA-Z0-9-]+/\1/' <<< "$t")
+    done
+    t=$(sed -E 's/$/)/' <<< "$t")
+    out=$(mktemp)
+    echo -e "# Table of Contents\n\n$t\n" > "$out"
+    cat "$1" >> "$out"
+    mv "$out" "$1"
+}
+
 #/ unshorten <url>: reveal shortened URL
 unshorten() { curl -sSL -I "$1" | grep 'Location: ' | awk -F ': ' '{print $2}' }
 
