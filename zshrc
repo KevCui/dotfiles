@@ -490,8 +490,8 @@ toc() {
     while grep -q '#.* ' <<< "$t"; do
         t=$(sed -E 's/(.*#.*)\s+/\1-/' <<< "$t")
     done
-    while grep -q '#.*[^a-zA-Z0-9-]' <<< "$t"; do
-        t=$(sed -E 's/(.*#.*)[^a-zA-Z0-9-]+/\1/' <<< "$t")
+    while grep -q '#.*[^a-zA-Z0-9_-]' <<< "$t"; do
+        t=$(sed -E 's/(.*#.*)[^a-zA-Z0-9_-]+/\1/' <<< "$t")
     done
     t=$(sed -E 's/$/)/' <<< "$t")
     out=$(mktemp)
