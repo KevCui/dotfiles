@@ -105,7 +105,6 @@ set shiftwidth=4
 set tabstop=4
 set expandtab
 set fileformats=unix
-set foldlevel=99
 set mouse+=a
 augroup tabstop2
     autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2
@@ -113,6 +112,11 @@ augroup tabstop2
     autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2
     autocmd FileType markdown setlocal shiftwidth=2 softtabstop=2
 augroup END
+
+" folding
+set foldlevel=2
+set nofoldenable
+let g:markdown_folding=1
 
 " line number
 set number relativenumber
