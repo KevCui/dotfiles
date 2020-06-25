@@ -1,28 +1,46 @@
 [alias]
-    a = ! cd "$(pwd)/$GIT_PREFIX" && git add $(git status -s | fzf -0 -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle | cut -c4- | sed -E \"s/[[:space:]]/\\\\\\ /g\" | sed -E \"s/\\(/\\\\\\(/g\" | sed -E \"s/\\)/\\\\\\)/g\" | awk '{printf \"%s \",$0}' | sed -E \"s/[[:space:]]$//\")
+    a = add
     alias = config --get-regexp alias
     b = branch
     c = commit
     ca = commit --amend
+    ci = commit -m
     cm = commit -m
     co = checkout
-    d = ! git diff --name-only | fzf -0 -m --ansi --preview-window=right:80:wrap --preview 'git diff {} | delta --theme=iceberg' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff {1} | delta --theme=iceberg)' --cycle
-    ds = ! git diff --name-only --cached | fzf -0 -m --ansi --preview-window=right:80:wrap --preview 'git diff --cached {} | delta --theme=iceberg' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git commit)' --cycle
-    di = diff
 	df = difftool
-    dump = cat-file -p
-    f = "! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short $1 | fzf -0 -m --preview-window=wrap --preview 'git diff-tree -p {1} | delta --theme=iceberg' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta --theme=iceberg)' --cycle\" -"
-    h = log --pretty=format:'%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]' --graph --date=short
-    i = init
-    l = ! git log --pretty=format:'%h %ad %s%d' --date=short | fzf -0 -m --preview-window=wrap --preview 'git diff-tree -p {1} | delta --theme=iceberg' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta --theme=iceberg)' --cycle
-    ls = ! git log --pretty=format:'%h %ad %s%d' --date=short | fzf -0 -m --preview-window=wrap --preview 'git show --color --compact-summary {1}' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git show --compact-summary {1})' --cycle
-    m = ! cd "$(pwd)/$GIT_PREFIX" && git add $(git diff --name-only --diff-filter=M | fzf -0 -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle)
+    di = diff
     p = push
     P = push origin
+    pl = pull
     pll = pull
     rst = reset --
-    rsthard = reset --hard origin/master
-    rsthead = reset HEAD~
+    rsthd = reset HEAD~
+    rsthrd = reset --hard origin/master
     s = status
-    type = cat-file -t
-    undo = checkout --
+
+    # add modified files with fzf
+    ac = ! cd "$(pwd)/$GIT_PREFIX" && git add $(git diff --name-only --diff-filter=M | fzf -0 -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle)
+
+    # add unstaged files with fzf
+    au = ! cd "$(pwd)/$GIT_PREFIX" && git add $(git status -s | fzf -0 -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle | cut -c4- | sed -E \"s/[[:space:]]/\\\\\\ /g\" | sed -E \"s/\\(/\\\\\\(/g\" | sed -E \"s/\\)/\\\\\\)/g\" | awk '{printf \"%s \",$0}' | sed -E \"s/[[:space:]]$//\")
+
+    # show unstaged changes, enter to see file change details
+    d = ! git diff --name-only | fzf -0 -m --ansi --preview-window=right:80:wrap --preview 'git diff {} | delta --theme=iceberg' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff {1} | delta --theme=iceberg)' --cycle
+
+    # show staged changes, enter to commit
+    ds = ! git diff --name-only --cached | fzf -0 -m --ansi --preview-window=right:80:wrap --preview 'git diff --cached {} | delta --theme=iceberg' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git commit)' --cycle
+
+    # f <file>: show file change history with fzf
+    f = "! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short $1 | fzf -0 -m --preview-window=wrap --preview 'git diff-tree -p {1} | delta --theme=iceberg' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta --theme=iceberg)' --cycle\" -"
+
+    # show commit graph history
+    h = log --pretty=format:'%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]' --graph --date=short
+
+    # list chanege details of commit with fzf
+    l = ! git log --pretty=format:'%h %ad %s%d' --date=short | fzf -0 -m --preview-window=wrap --preview 'git diff-tree -p {1} | delta --theme=iceberg' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git diff-tree -p {1} | delta --theme=iceberg)' --cycle
+
+    # list summary of commit with fzf
+    ls = ! git log --pretty=format:'%h %ad %s%d' --date=short | fzf -0 -m --preview-window=wrap --preview 'git show --color --compact-summary {1}' --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all,alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up,enter:abort+execute(git show --compact-summary {1})' --cycle
+
+    # unstage file with fzf
+    ua = ! cd "$(pwd)/$GIT_PREFIX" && git restore --staged $(git diff --name-only --cached | fzf -0 -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle)
