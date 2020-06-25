@@ -77,6 +77,8 @@ alias rg='rg -i --no-ignore'
 alias ccat='pygmentize -g -O style=colorful,linenos=1'
 alias vi='nvim'
 alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
+alias cdb="cd $GITREPO/blog"
+alias cdg="cd $GITREPO"
 alias cdf='cd "$(find * -type d | fzf --preview="ls {}" --preview-window=right:70%:wrap)"'
 alias nv='$EDITOR -c NV'
 alias ls='exa -s mod --git'
@@ -98,14 +100,6 @@ alias please='sudo $(fc -ln -1)'
 alias copy='xclip -selection clipboard'
 alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//'"
 alias convpdftotxt="pdftotext -layout -nopgbrk"
-
-# git alias
-alias cdg="cd $GITREPO"
-alias cdb="cd $GITREPO/blog"
-alias gitundo='git reset -- '
-alias g='git'
-alias gita='python3 -m gita'
-alias gitall='gita ls'
 
 # hugo alias
 alias hugos="cd $GITREPO/blog; hugo server -D >/dev/null &"
@@ -304,6 +298,15 @@ extract () {
 
 #/ findlast: find last modified file in folder
 findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec sh -c "echo {}; /bin/ls -lrtp {} 2> /dev/null | grep -v / | tail -n 1 | awk '{\$1=\$2=\$3=\$4=\$5=\"\"; print \$0}'; echo" \; }
+
+#/ g <alias>: overwrite git command by alias
+g () {
+    if [[ "$1" == am ]]; then
+        git ac
+    else
+        git "$@"
+    fi
+}
 
 #/ geocode <address>: gecode an address
 geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1] | tostring | split(".") | .[0]).\(.[1] | tostring | split(".") | .[1][0:6]),\(.[0] | tostring | split(".") | .[0]).\(.[0] | tostring | split(".") | .[1][0:6])"'}

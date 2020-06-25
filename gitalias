@@ -6,6 +6,7 @@
     ca = commit --amend
     ci = commit -m
     cm = commit -m
+    cl = clone --depth 1
     co = checkout
 	df = difftool
     di = diff
@@ -21,7 +22,7 @@
     # add modified files with fzf
     ac = ! cd "$(pwd)/$GIT_PREFIX" && git add $(git diff --name-only --diff-filter=M | fzf -0 -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle)
 
-    # add unstaged files with fzf
+    # list all file changes with fzf, added via selection
     au = ! cd "$(pwd)/$GIT_PREFIX" && git add $(git status -s | fzf -0 -m --reverse --height=40% --bind 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all' --cycle | cut -c4- | sed -E \"s/[[:space:]]/\\\\\\ /g\" | sed -E \"s/\\(/\\\\\\(/g\" | sed -E \"s/\\)/\\\\\\)/g\" | awk '{printf \"%s \",$0}' | sed -E \"s/[[:space:]]$//\")
 
     # show unstaged changes, enter to see file change details
