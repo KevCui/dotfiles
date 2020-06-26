@@ -253,7 +253,7 @@ dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 douban () {
     local o m s t r rc
     o=$($GITREPO/putility/putility.js "https://search.douban.com/movie/subject_search?search_text=$1" -w 100)
-    m=$(grep -o sc-bZQynM <<< "$o" | wc -l)
+    m=$(grep -co sc-bZQynM <<< "$o")
     for (( i = 0; i < m; i++ )); do
         s=$(pup '.sc-bZQynM:nth-child('$((i+1))')' <<< "$o")
         if [[ "$s" ]]; then
@@ -315,7 +315,7 @@ geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// 
 goodreads () {
     local o m s t st a
     o=$(curl -sS "https://www.goodreads.com/search?q=${1// /+}")
-    m=$(grep "role='heading'" <<< "$o" | wc -l)
+    m=$(grep -c "role='heading'" <<< "$o")
     for (( i = 0; i < m; i++ )); do
         s=$(pup 'tr:nth-child('$((i+1))')' --charset utf-8 <<< "$o")
         t=$(pup '.bookTitle text{}' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
