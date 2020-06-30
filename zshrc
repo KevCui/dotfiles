@@ -610,6 +610,8 @@ source "${HOME}/.zsh/fzf-tab/fzf-tab.plugin.zsh"
 
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=8,fg=221,bold'
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=1,bold'
 
 #------------------------------
 # Widgets
