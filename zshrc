@@ -326,7 +326,7 @@ goodreads () {
 }
 
 #/ help <keyword>: list functions
-help () { grep "^#/" ~/.zshrc | cut -c4- | rg -i "${@:-}" }
+help () { grep "^#/" "${HOME}/.zshrc" | cut -c4- | rg -i "${@:-}" }
 
 #/ holiday <country_code> <year>: list of public holidays in country $1 in year $2
 holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nager.at/Api/v2/PublicHolidays/$y/$1" | jq -r '.[] | "\(.date) \(.localName) - \(.name)"' }
@@ -384,9 +384,9 @@ letterboxd() {
     done
 }
 
-#/ lm: show last modified time of sites, defined in ~/.site
+#/ lm: show last modified time of sites, defined in ${HOME}/.site
 lm () {
-    for url in $(cat ~/.site); do
+    for url in $(cat "${HOME}/.site"); do
         echo "> $url"
         time=$(curl -Is "$url" | grep last | cut -c16-)
         echo "\t"$(date -d $time)
@@ -560,7 +560,7 @@ zipundo () { unzip -Z -1 "$1" | xargs -I{} rm -v {} }
 #------------------------------
 # History
 #------------------------------
-HISTFILE=~/.histfile
+HISTFILE="${HOME}/.histfile"
 HISTSIZE=10000
 SAVEHIST=10000
 h() { [ -z "$*" ] && history -i 1 || history -i 1 | egrep "$@" }
@@ -597,16 +597,16 @@ export FZF_TAB_OPTS=(
 #------------------------------
 # ZSH Plugins
 #------------------------------
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/fzf/completion.zsh
-source ~/.zsh/fzf/key-bindings.zsh
-source ~/.zsh/fzf/command-snippet.zsh
-source ~/.zsh/up.sh
-source ~/.zsh/z.lua.plugin.zsh
-source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
+source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "${HOME}/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
+source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "${HOME}/.zsh/fzf/completion.zsh"
+source "${HOME}/.zsh/fzf/key-bindings.zsh"
+source "${HOME}/.zsh/fzf/command-snippet.zsh"
+source "${HOME}/.zsh/up.sh"
+source "${HOME}/.zsh/z.lua.plugin.zsh"
+source "${HOME}/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+source "${HOME}/.zsh/fzf-tab/fzf-tab.plugin.zsh"
 
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
@@ -712,4 +712,4 @@ ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
 # Other source
 #------------------------------
 stty -ixon # disable ^S
-source ~/.czshrc
+source "${HOME}/.czshrc"
