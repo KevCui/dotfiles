@@ -3,7 +3,6 @@
 " -------
 call plug#begin('~/.vim/plugged')
 Plug 'godlygeek/tabular' "align text :Tabularize /=
-Plug 'tpope/vim-fugitive' "Gedit Gstatus Gdiff
 Plug 'raimondi/delimitmate' "auto close quote
 Plug 'honza/vim-snippets' "snippets files
 Plug 'jamessan/vim-gnupg' "gpg encryption
@@ -11,7 +10,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
-Plug 'rbong/vim-flog' "Git branch viewer :Flog
 Plug 'mbbill/undotree' "Undo history visualizer
 "   syntax
 Plug 'w0rp/ale' "synchronous Lint Engine
