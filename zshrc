@@ -97,7 +97,7 @@ alias c='insect'
 alias ts='torsocks'
 alias u='/usr/bin/up'
 alias please='sudo $(fc -ln -1)'
-alias copy='xclip -selection clipboard'
+alias copy='xargs echo -n | xclip -selection clipboard'
 alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//'"
 alias convpdftotxt="pdftotext -layout -nopgbrk"
 
