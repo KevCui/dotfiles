@@ -35,7 +35,7 @@ FZF_KEYBINDING="tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:togg
 FZF_PREVIEW_KEYBINDING="alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up"
 DIFF_CMD="delta --theme=iceberg"
 GIT_DIFF_NAME="git diff --name-only"
-GIT_DIFF_NAME_CACHED="git diff --name-only --cached"
+GIT_DIFF_NAME_CACHED="$GIT_DIFF_NAME --cached"
 GIT_DIFF_TREE="git diff-tree -p {1}"
 
 # add modified files with fzf
