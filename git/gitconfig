@@ -14,5 +14,3 @@
     conflictstyle = diff3
 [mergetool "vimdiff"]
     cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
-[include]
-    path = ~/git/dotfiles/gitalias
