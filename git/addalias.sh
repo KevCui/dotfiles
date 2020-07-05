@@ -34,7 +34,7 @@ git config --global alias.s      "status"
 FZF_KEYBINDING="tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all"
 FZF_PREVIEW_KEYBINDING="alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up"
 FZF_OPTION_BIND="--bind $FZF_KEYBINDING --bind $FZF_PREVIEW_KEYBINDING"
-FZF_OPTION_PREVIEW_WINDOW="--ansi --cycle --preview-window=right:80:wrap"
+FZF_OPTION_PREVIEW_WINDOW="--ansi --cycle --preview-window=right:wrap"
 FZF_OPTION_PROMPT="-m --cycle --reverse --height=40%"
 DIFF_CMD="delta --theme=iceberg"
 GIT_DIFF_NAME="git diff --name-only"
@@ -73,12 +73,12 @@ b="! sh -c \"git blame \$1 \
 --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
 
 d="! $GIT_DIFF_NAME \
-| fzf -0 $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
+| fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND \
 --preview 'git diff -- {} | $DIFF_CMD' \
 --bind 'enter:abort+execute(git diff -- {1} | $DIFF_CMD)'"
 
 ds="! $GIT_DIFF_NAME_CACHED \
-| fzf -0 $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
+| fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND \
 --preview 'git diff --cached -- {} | $DIFF_CMD' \
 --bind 'enter:abort+execute(git commit)'"
 
