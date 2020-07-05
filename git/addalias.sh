@@ -33,37 +33,76 @@ git config --global alias.s      "status"
 
 FZF_KEYBINDING="tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all"
 FZF_PREVIEW_KEYBINDING="alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-down,alt-l:preview-page-up"
+FZF_OPTION_BIND="--bind $FZF_KEYBINDING --bind $FZF_PREVIEW_KEYBINDING"
+FZF_OPTION_PREVIEW_WINDOW="--ansi --cycle --preview-window=right:80:wrap"
+FZF_OPTION_PROMPT="-m --cycle --reverse --height=40%"
 DIFF_CMD="delta --theme=iceberg"
 GIT_DIFF_NAME="git diff --name-only"
 GIT_DIFF_NAME_CACHED="$GIT_DIFF_NAME --cached"
 GIT_DIFF_TREE="git diff-tree -p {1}"
+ALIAS_LIST=(
+    ac # add modified files with fzf
+    au # list all file changes with fzf, added via selection
+    b  # b <file>: show git blame on a file, enter to see commit details
+    d  # show unstaged changes, enter to see file change details
+    ds # show staged changes, enter to commit
+    f  # f <file>: show file change history with fzf, enter to see commit details
+    h  # show commit graph history
+    l  # list chanege details of commit with fzf, enter to see commit details
+    ls # list summary of commit with fzf, enter to see compact summary
+    ua # unstage file with fzf
+)
 
-# add modified files with fzf
-git config --global alias.ac     "! git add \$($GIT_DIFF_NAME --diff-filter=M | fzf -0 -m --reverse --height=40% --bind $FZF_KEYBINDING --cycle)"
+ac="! git add \
+\$($GIT_DIFF_NAME --diff-filter=M \
+| fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
 
-# list all file changes with fzf, added via selection
-git config --global alias.au     '! cd $(pwd)/$GIT_PREFIX && git add $(git status -s | fzf -0 -m --reverse --height=40% --bind "'"$FZF_KEYBINDING"'" --cycle | cut -c4- | sed -E "s/[[:space:]]/\\\ /g" | sed -E "s/\(/\\\(/g" | sed -E "s/\)/\\\)/g" | awk '\''{printf "%s ",$0}'\'' | sed -E "s/[[:space:]]$//")'
+au="! cd \$(pwd)/\$GIT_PREFIX \
+&& git add \
+\$(git status -s \
+| fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING \
+| cut -c4- \
+| sed -E 's/[[:space:]]/\\\ /g' \
+| sed -E 's/\(/\\\(/g' \
+| sed -E 's/\)/\\\)/g' \
+| awk '{printf \"%s \",\$0}' \
+| sed -E 's/[[:space:]]$//')"
 
-# b <file>: show git blame on a file, enter to see commit details
-git config --global alias.b      '! sh -c "git blame $1 | fzf -0 --ansi --bind '"$FZF_KEYBINDING"' --bind '\''enter:abort+execute('"$GIT_DIFF_TREE"' | '"$DIFF_CMD"')'\'' --cycle"'
+b="! sh -c \"git blame \$1 \
+| fzf -0 --ansi --cycle $FZF_OPTION_BIND \
+--bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
 
-# show unstaged changes, enter to see file change details
-git config --global alias.d      "! $GIT_DIFF_NAME | fzf -0 --ansi --preview-window=right:80:wrap --preview 'git diff -- {} | $DIFF_CMD' --bind $FZF_KEYBINDING --bind $FZF_PREVIEW_KEYBINDING --bind 'enter:abort+execute(git diff -- {1} | $DIFF_CMD)' --cycle"
+d="! $GIT_DIFF_NAME \
+| fzf -0 $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
+--preview 'git diff -- {} | $DIFF_CMD' \
+--bind 'enter:abort+execute(git diff -- {1} | $DIFF_CMD)'"
 
-# show staged changes, enter to commit
-git config --global alias.ds     "! $GIT_DIFF_NAME_CACHED | fzf -0 --ansi --preview-window=right:80:wrap --preview 'git diff --cached -- {} | $DIFF_CMD' --bind $FZF_KEYBINDING --bind $FZF_PREVIEW_KEYBINDING --bind 'enter:abort+execute(git commit)' --cycle"
+ds="! $GIT_DIFF_NAME_CACHED \
+| fzf -0 $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
+--preview 'git diff --cached -- {} | $DIFF_CMD' \
+--bind 'enter:abort+execute(git commit)'"
 
-# f <file>: show file change history with fzf, enter to see commit details
-git config --global alias.f      '! sh -c "git log --follow --pretty=format:'\''%h %ad %s%d'\'' --date=short $1 | fzf +s -0 --preview-window=wrap --preview '\'''"$GIT_DIFF_TREE"' | '"$DIFF_CMD"''\'' --bind '"$FZF_KEYBINDING"' --bind '"$FZF_PREVIEW_KEYBINDING"' --bind '\''enter:abort+execute('"$GIT_DIFF_TREE"' | '"$DIFF_CMD"')'\'' --cycle"'
+f="! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short \$1 \
+| fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
+--preview '$GIT_DIFF_TREE | $DIFF_CMD' \
+--bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
 
-# show commit graph history
-git config --global alias.h      "log --pretty=format:'%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]' --graph --date=short"
+h="log --pretty=format:'%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]' --graph --date=short"
 
-# list chanege details of commit with fzf, enter to see commit details
-git config --global alias.l      "! git log --pretty=format:'%h %ad %s%d' --date=short | fzf +s -0 --preview-window=wrap --preview '$GIT_DIFF_TREE | $DIFF_CMD' --bind $FZF_KEYBINDING --bind $FZF_PREVIEW_KEYBINDING --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)' --cycle"
+l="! git log --pretty=format:'%h %ad %s%d' --date=short \
+| fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
+--preview '$GIT_DIFF_TREE | $DIFF_CMD' \
+--bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'"
 
-# list summary of commit with fzf, enter to see compact summary
-git config --global alias.ls     "! git log --pretty=format:'%h %ad %s%d' --date=short | fzf +s -0 --preview-window=wrap --preview 'git show --color --compact-summary {1}' --bind $FZF_KEYBINDING --bind $FZF_PREVIEW_KEYBINDING --bind 'enter:abort+execute(git show --compact-summary {1})' --cycle"
+ls="! git log --pretty=format:'%h %ad %s%d' --date=short \
+| fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
+--preview 'git show --color --compact-summary {1}' \
+--bind 'enter:abort+execute(git show --compact-summary {1})'"
 
-# unstage file with fzf
-git config --global alias.ua     "! git restore --staged \$($GIT_DIFF_NAME_CACHED | fzf -0 -m --reverse --height=40% --bind $FZF_KEYBINDING --cycle)"
+ua="! git restore --staged \
+\$($GIT_DIFF_NAME_CACHED \
+| fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
+
+for i in "${ALIAS_LIST[@]}"; do
+    git config --global alias."${i}" "${!i}"
+done
