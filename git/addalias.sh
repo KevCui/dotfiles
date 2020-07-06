@@ -53,55 +53,55 @@ ALIAS_LIST=(
     ua # unstage file with fzf
 )
 
-ac="! git add \
-\$($GIT_DIFF_NAME --diff-filter=M \
-| fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
+ac="! git add\
+ \$($GIT_DIFF_NAME --diff-filter=M\
+ | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
 
-au="! cd \$(pwd)/\$GIT_PREFIX \
-&& git add \
-\$(git status -s \
-| fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING \
-| cut -c4- \
-| sed -E 's/[[:space:]]/\\\ /g' \
-| sed -E 's/\(/\\\(/g' \
-| sed -E 's/\)/\\\)/g' \
-| awk '{printf \"%s \",\$0}' \
-| sed -E 's/[[:space:]]$//')"
+au="! cd \$(pwd)/\$GIT_PREFIX\
+ && git add\
+ \$(git status -s\
+ | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
+ | cut -c4-\
+ | sed -E 's/[[:space:]]/\\\ /g'\
+ | sed -E 's/\(/\\\(/g'\
+ | sed -E 's/\)/\\\)/g'\
+ | awk '{printf \"%s \",\$0}'\
+ | sed -E 's/[[:space:]]$//')"
 
-b="! sh -c \"git blame \$1 \
-| fzf -0 --ansi --cycle $FZF_OPTION_BIND \
---bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
+b="! sh -c \"git blame \$1\
+ | fzf -0 --ansi --cycle $FZF_OPTION_BIND\
+ --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
 
-d="! $GIT_DIFF_NAME \
-| fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND \
---preview 'git diff -- {} | $DIFF_CMD' \
---bind 'enter:abort+execute(git diff -- {1} | $DIFF_CMD)'"
+d="! $GIT_DIFF_NAME\
+ | fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND\
+ --preview 'git diff -- {} | $DIFF_CMD'\
+ --bind 'enter:abort+execute(git diff -- {1} | $DIFF_CMD)'"
 
-ds="! $GIT_DIFF_NAME_CACHED \
-| fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND \
---preview 'git diff --cached -- {} | $DIFF_CMD' \
---bind 'enter:abort+execute(git commit)'"
+ds="! $GIT_DIFF_NAME_CACHED\
+ | fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND\
+ --preview 'git diff --cached -- {} | $DIFF_CMD'\
+ --bind 'enter:abort+execute(git commit)'"
 
-f="! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short \$1 \
-| fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
---preview '$GIT_DIFF_TREE | $DIFF_CMD' \
---bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
+f="! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short \$1\
+ | fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND\
+ --preview '$GIT_DIFF_TREE | $DIFF_CMD'\
+ --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
 
 h="log --pretty=format:'%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]' --graph --date=short"
 
-l="! git log --pretty=format:'%h %ad %s%d' --date=short \
-| fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
---preview '$GIT_DIFF_TREE | $DIFF_CMD' \
---bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'"
+l="! git log --pretty=format:'%h %ad %s%d' --date=short\
+ | fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND\
+ --preview '$GIT_DIFF_TREE | $DIFF_CMD'\
+ --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'"
 
-ls="! git log --pretty=format:'%h %ad %s%d' --date=short \
-| fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND \
---preview 'git show --color --compact-summary {1}' \
---bind 'enter:abort+execute(git show --compact-summary {1})'"
+ls="! git log --pretty=format:'%h %ad %s%d' --date=short\
+ | fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND\
+ --preview 'git show --color --compact-summary {1}'\
+ --bind 'enter:abort+execute(git show --compact-summary {1})'"
 
-ua="! git restore --staged \
-\$($GIT_DIFF_NAME_CACHED \
-| fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
+ua="! git restore --staged\
+ \$($GIT_DIFF_NAME_CACHED\
+ | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
 
 for i in "${ALIAS_LIST[@]}"; do
     git config --global alias."${i}" "${!i}"
