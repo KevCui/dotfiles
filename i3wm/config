@@ -181,6 +181,7 @@ for_window [class="st-256color"] border 1pixel
 for_window [class="Alacritty"] border 1pixel
 for_window [class="XTerm"] border 1pixel
 hide_edge_borders none
+new_window 1pixel
 
 # floating windows
 for_window [window_role="pop-up"] floating enable
