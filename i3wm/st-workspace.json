@@ -1,96 +1,90 @@
 {
-    "border": "normal",
-    "floating": "auto_off",
-    "layout": "splith",
-    "percent": 1,
-    "type": "con",
-    "nodes": [
+  // tabbed split container with 1 children
+  "border": "pixel",
+  "floating": "auto_off",
+  "layout": "tabbed",
+  "percent": 1,
+  "type": "con",
+  "nodes": [
+    {
+      // splith split container with 2 children
+      "border": "pixel",
+      "floating": "auto_off",
+      "layout": "splith",
+      "percent": null,
+      "type": "con",
+      "nodes": [
         {
-            "border": "normal",
-            "floating": "auto_off",
-            "layout": "tabbed",
-            "percent": 1,
-            "type": "con",
-            "nodes": [
+          "border": "pixel",
+          "current_border_width": 1,
+          "floating": "auto_off",
+          "geometry": {
+            "height": 514,
+            "width": 810,
+            "x": 0,
+            "y": 0
+          },
+          "name": "st",
+          "percent": 0.6,
+          "swallows": [
+            {
+              "class": "^st\\-256color$",
+              "instance": "main"
+            }
+          ],
+          "type": "con"
+        },
+        {
+          // splitv split container with 2 children
+          "border": "pixel",
+          "floating": "auto_off",
+          "layout": "splitv",
+          "percent": 0.4,
+          "type": "con",
+          "nodes": [
+            {
+              "border": "pixel",
+              "current_border_width": 1,
+              "floating": "auto_off",
+              "geometry": {
+                "height": 514,
+                "width": 810,
+                "x": 0,
+                "y": 0
+              },
+              "name": "st",
+              "percent": 0.4,
+              "swallows": [
                 {
-                    "border": "normal",
-                    "floating": "auto_off",
-                    "layout": "splith",
-                    "percent": 0.333333333333333,
-                    "type": "con",
-                    "nodes": [
-                        {
-                            "border": "pixel",
-                            "current_border_width": 1,
-                            "floating": "auto_off",
-                            "geometry": {
-                               "height": 364,
-                               "width": 564,
-                               "x": 0,
-                               "y": 0
-                            },
-                            "name": "st",
-                            "percent": 0.6,
-                            "swallows": [
-                               {
-                                  "class": "st-256color",
-                                  "instance": "main"
-                               }
-                            ],
-                            "type": "con"
-                        },
-                        {
-                            "border": "normal",
-                            "floating": "auto_off",
-                            "layout": "splitv",
-                            "percent": 0.4,
-                            "type": "con",
-                            "nodes": [
-                                {
-                                    "border": "pixel",
-                                    "current_border_width": 1,
-                                    "floating": "auto_off",
-                                    "geometry": {
-                                       "height": 364,
-                                       "width": 564,
-                                       "x": 0,
-                                       "y": 0
-                                    },
-                                    "name": "st",
-                                    "percent": 0.4,
-                                    "swallows": [
-                                       {
-                                          "class": "st-256color",
-                                          "instance": "small"
-                                       }
-                                    ],
-                                    "type": "con"
-                                },
-                                {
-                                    "border": "pixel",
-                                    "current_border_width": 1,
-                                    "floating": "auto_off",
-                                    "geometry": {
-                                       "height": 364,
-                                       "width": 564,
-                                       "x": 0,
-                                       "y": 0
-                                    },
-                                    "name": "st",
-                                    "percent": 0.6,
-                                    "swallows": [
-                                       {
-                                          "class": "st-256color",
-                                          "instance": "medium"
-                                       }
-                                    ],
-                                    "type": "con"
-                                }
-                            ]
-                        }
-                    ]
+                  "class": "^st\\-256color$",
+                  "instance": "small"
                 }
-            ]
+              ],
+              "type": "con"
+            },
+            {
+              "border": "pixel",
+              "current_border_width": 1,
+              "floating": "auto_off",
+              "geometry": {
+                "height": 514,
+                "width": 810,
+                "x": 0,
+                "y": 0
+              },
+              "name": "st",
+              "percent": 0.6,
+              "swallows": [
+                {
+                  "class": "^st\\-256color$",
+                  "instance": "medium"
+                }
+              ],
+              "type": "con"
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }
