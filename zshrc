@@ -442,6 +442,12 @@ mytraceroute () { curl 'icanhaztraceroute.com' }
 #/ mytrafficproxied : determine if my taffic is proxied or not
 mytrafficproxied () { curl 'icanhazproxy.com' }
 
+#/ outline <url>: generate outline link 
+outline() {
+    local u=$(curl -sS "https://api.outline.com/v3/parse_article?source_url=$1" -H 'Referer: https://outline.com/' | jq -r '.data.short_code')
+    xdg-open "https://outline.com/$u"
+}
+
 #/ po <second>: poweroff in seconds
 po () { sleep "$1" && systemctl poweroff; }
 
@@ -485,6 +491,12 @@ showpath () { awk -v RS=: '{print}' <<<$PATH }
 
 #/ synonym <word>: search for synonym of a word
 synonym() { curl -sS https://www.thesaurus.com/browse/$1| pup 'script text{}' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g' | jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .synonyms | sort_by (.term) | .[] | select((.similarity | tonumber)>49) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
+
+#/ tinyurl <url>: shorten url using tinyurl
+tinyurl()  {
+    local u=$(curl -sS "https://tinyurl.com/create.php?source=index&alias=&url=$1" | grep '://tinyurl.com/' | grep 'target' | grep -E 'https://tinyurl.com/\w+' -o | head -1)
+    echo -n "$u" | xclip -selection clipboard
+}
 
 #/ toc <file.md>: add table of coentents in markdown file
 toc() {
