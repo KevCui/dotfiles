@@ -210,6 +210,8 @@ bindsym $mod+Control+Shift+Right exec "xrandr --output eDP-1 --rotate right"
 # Fixed workspace
 assign [class="Nightly"] $ws1
 for_window [class="Nightly"] layout tabbed
+assign [class="firefox"] $ws1
+for_window [class="firefox"] layout tabbed
 assign [class="Firefox-esr"] $ws1
 for_window [class="Firefox-esr"] layout tabbed
 
