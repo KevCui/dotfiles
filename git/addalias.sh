@@ -68,7 +68,8 @@ au="! cd \$(pwd)/\$GIT_PREFIX\
  | awk '{printf \"%s \",\$0}'\
  | sed -E 's/[[:space:]]$//')"
 
-b="! sh -c \"git blame \$1\
+b="! cd \$(pwd)/\$GIT_PREFIX\
+ && sh -c \"git blame \$1\
  | fzf -0 --ansi --cycle $FZF_OPTION_BIND\
  --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
 
@@ -82,7 +83,8 @@ ds="! $GIT_DIFF_NAME_CACHED\
  --preview 'git diff --cached -- {} | $DIFF_CMD'\
  --bind 'enter:abort+execute(git commit)'"
 
-f="! sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short \$1\
+f="! cd \$(pwd)/\$GIT_PREFIX\
+ && sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short \$1\
  | fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND\
  --preview '$GIT_DIFF_TREE | $DIFF_CMD'\
  --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
