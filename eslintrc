@@ -8,14 +8,16 @@
   },
   "rules": {
     "semi": "error",
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "keyword-spacing": ["error", {"before": true, "after": true}],
+    "space-infix-ops": ["error", { "int32Hint": false }]
   },
   "env": {
     "browser": true,
     "node": true,
     "es6": true
   },
-  "golbal": {
+  "globals": {
       "_": false
   },
   "extends": "eslint:recommended"
