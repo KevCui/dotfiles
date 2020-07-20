@@ -442,7 +442,7 @@ mytraceroute () { curl 'icanhaztraceroute.com' }
 #/ mytrafficproxied : determine if my taffic is proxied or not
 mytrafficproxied () { curl 'icanhazproxy.com' }
 
-#/ outline <url>: generate outline link 
+#/ outline <url>: generate outline link
 outline() {
     local u=$(curl -sS "https://api.outline.com/v3/parse_article?source_url=$1" -H 'Referer: https://outline.com/' | jq -r '.data.short_code')
     xdg-open "https://outline.com/$u"
@@ -526,18 +526,17 @@ weather () { curl "wttr.in/$1" }
 
 #/ weatherhourly <location>: get hourly weather info
 weatherhourly () {
-    coordinate=$(curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1]),\(.[0])"')
-
+    coordinate=$(curl -sS "https://darksky.net/geo?q=${1// /%20}" | jq -r '"\(.latitude),\(.longitude)"')
     printf "%b: %b\n" "\e[33m$1" "$coordinate\e[0m"
 
-    result=$(curl -sS "https://api.darksky.net/forecast/${DARK_SKY_KEY}/$coordinate,$(date +%s)?exclude=daily,minutely,flags&units=si")
+    result=$(curl -sS "https://darksky.net/details/$coordinate/$(date +%s)/ca12/en.json")
     printf "\n\e[33mCURRENTLY\e[0m\n"
     echo "$result" | jq -r '.currently | "\(.time | localtime | strftime("%m-%d %H:%M"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
     printf "\n\e[33mTODAY HOURLY\e[0m\n"
-    echo "$result" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
+    echo "$result" | jq -r '.hourly.data[] | select(.time > ($t | tonumber)) | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' --arg t "$(date -d '1 hour ago' +%s)" | column -t -s'+'
 
     printf "\n\e[33mTOMORROW HOURLY\e[0m\n"
-    curl -sS "https://api.darksky.net/forecast/${DARK_SKY_KEY}/$coordinate,$(date --date='next day' +%s)?exclude=daily,minutely,flags&units=si" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
+    curl -sS "https://darksky.net/details/$coordinate/$(date --date='next day' +%s)/ca12/en.json" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
 }
 
 #/ whatcms: show cms used by website $1
