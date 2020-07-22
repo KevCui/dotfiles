@@ -11,6 +11,7 @@ Plug 'Alok/notational-fzf-vim' "Notational FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fzf
 Plug 'junegunn/fzf.vim' "fzf.vim
 Plug 'mbbill/undotree' "Undo history visualizer
+Plug 'gyim/vim-boxdraw' "+o, +O, +-, +>, +|
 "   syntax
 Plug 'w0rp/ale' "synchronous Lint Engine
 Plug 'posva/vim-vue' "syntax for Vue.js components
@@ -175,6 +176,8 @@ endfunction
 set pastetoggle=<F2>
 "   open file in browser
 nnoremap gO :exe ':silent !$BROWSER %'<CR>
+" Visual Block mode: Vb or <C-V>
+command! Vb execute "normal! \<C-V>"
 
 " --------
 " SETTINGS
