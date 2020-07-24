@@ -38,7 +38,7 @@ floating_modifier $mod
 bindsym $mod+F4 kill
 
 # rofi
-bindsym $mod+space exec "rofi -show run -lines 8 -eh 1 -width 20 -font 'Hack 18' -color-normal '#002b37,#819396,#003643,#008ed4,#ffffff' -color-urgent '#002b37,#da4281,#003643,#008ed4,#890661' -color-window '#002b37,#002b37,#003642' -color-active '#002b37,#008ed4,#003643,#008ed4,#66c6ff'"
+bindsym $mod+space exec "rofi -show run -lines 8 -eh 1 -width 20 -font '%rofifont% %rofifontsize%' -color-normal '#002b37,#819396,#003643,#008ed4,#ffffff' -color-urgent '#002b37,#da4281,#003643,#008ed4,#890661' -color-window '#002b37,#002b37,#003642' -color-active '#002b37,#008ed4,#003643,#008ed4,#66c6ff'"
 
 # change focus
 bindsym $mod+h focus left

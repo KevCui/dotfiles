@@ -24,6 +24,8 @@ Xresources:
 i3wm/config:
   font: Terminus
   fontsize: 12
+  rofifont: Hack 
+  rofifontsize: 18
   mod: 'mod4'
   comment: ''
   raisevol: '\$mod+equal'
