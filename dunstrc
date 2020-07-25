@@ -1,5 +1,5 @@
 [global]
-font = Hack-15
+font = %font% %fontsize%
 
 # Allow a small subset of html markup:
 #   <b>bold</b>

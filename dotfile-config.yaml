@@ -22,10 +22,10 @@ Xresources:
   color15: '#FFFFFF'
 
 i3wm/config:
-  font: Jetbrains Mono
-  fontsize: 12
-  rofifont: Jetbrains Mono
-  rofifontsize: 22
+  font: IBM Plex Sans
+  fontsize: 13
+  rofifont: IBM Plex Sans
+  rofifontsize: 25
   mod: 'mod4'
   comment: ''
   raisevol: '\$mod+equal'
@@ -36,6 +36,10 @@ i3wm/config:
   bluetooth: '#'
   execst: '#'
   execalacritty: ''
+
+dunstrc:
+  font: IBM Plex Sans
+  fontsize: 18
 
 alacritty.yml:
   font: IBM Plex Mono
