@@ -75,9 +75,6 @@ filetype plugin on
 set guicursor=i-c-ci-cr-sm:ver20,n-r-v-ve:hor20
 autocmd VimLeave * set guicursor=a:ver20
 
-" gvim font
-set guifont=Hack\ 9
-
 " mark highlight color
 hi SignatureMarkText guifg=Green guibg=#1a1b1a
 hi SignColumn guibg=#1a1b1a
