@@ -51,6 +51,7 @@ ALIAS_LIST=(
     l  # list chanege details of commit with fzf, enter to see commit details
     ls # list summary of commit with fzf, enter to see compact summary
     ua # unstage file with fzf
+    purge # clean untracked file
 )
 
 ac="! git add\
@@ -103,6 +104,12 @@ ls="! git log --pretty=format:'%h %ad %s%d' --date=short\
 
 ua="! git restore --staged\
  \$($GIT_DIFF_NAME_CACHED\
+ | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
+
+purge="! GIT_TOP=\$(pwd)\
+ && cd \$(pwd)/\$GIT_PREFIX\
+ && rm -rf\
+ \$(git ls-files \"\$(realpath --relative-to=./ \$GIT_TOP)/\" --exclude-standard --others\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
 
 for i in "${ALIAS_LIST[@]}"; do

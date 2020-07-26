@@ -303,6 +303,8 @@ findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec 
 g () {
     if [[ "$1" == am ]]; then
         git ac
+    elif [[ "$1" == clean ]]; then
+        git purge 
     else
         git "$@"
     fi
