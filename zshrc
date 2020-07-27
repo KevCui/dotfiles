@@ -166,6 +166,18 @@ fi
     calc $calc
 }
 
+#/ appsearch <id>: search app in Play Store or App Store by app id
+appsearch() {
+    if [[ "$1" =~ '^[0-9]+$' ]]; then
+        curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/ios/applications/$1/metadata.json?language=en&device=iphone" | jq
+    else
+        curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/android/applications/$1/metadata.json?language=en" | jq
+    fi
+}
+
+#/ appstoresearch <term>: search apps in App Store by term
+appstoresearch() { curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/ios/searches.json?language=en&device=iphone&term=$1" | jq }
+
 #/ addpet: add command snippet to $SNIPPET
 addpet () {
     read "?Command: " cmdinput
@@ -304,7 +316,7 @@ g () {
     if [[ "$1" == am ]]; then
         git ac
     elif [[ "$1" == clean ]]; then
-        git purge 
+        git purge
     else
         git "$@"
     fi
@@ -449,6 +461,9 @@ outline() {
     local u=$(curl -sS "https://api.outline.com/v3/parse_article?source_url=$1" -H 'Referer: https://outline.com/' | jq -r '.data.short_code')
     xdg-open "https://outline.com/$u"
 }
+
+#/ playstoresearch <term>: search apps in Play Store by term
+playstoresearch() { curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/android/searches.json?language=en&term=$1" | jq }
 
 #/ po <second>: poweroff in seconds
 po () { sleep "$1" && systemctl poweroff; }
