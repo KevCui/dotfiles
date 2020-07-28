@@ -398,6 +398,13 @@ letterboxd() {
     done
 }
 
+# lg <cmd>: logsave command output to local file and open it with $EDITOR
+lg() {
+    local outfile="${HOME}/stdout/$(date +%s)"
+    logsave -a "$outfile" zsh -c "source ~/.zshrc; $1"
+    $EDITOR "$outfile"
+}
+
 #/ lm: show last modified time of sites, defined in ${HOME}/.site
 lm () {
     for url in $(cat "${HOME}/.site"); do
