@@ -77,6 +77,7 @@ alias rg='rg -i --no-ignore'
 alias ccat='pygmentize -g -O style=colorful,linenos=1'
 alias vi='nvim'
 alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
+alias vil='$EDITOR $(ls ${HOME}/stdout/* | tail -1)'
 alias cdb="cd $GITREPO/blog"
 alias cdg="cd $GITREPO"
 alias cdf='cd "$(find * -type d | fzf --preview="ls {}" --preview-window=right:70%:wrap)"'
@@ -398,12 +399,8 @@ letterboxd() {
     done
 }
 
-# lg <cmd>: logsave command output to local file and open it with $EDITOR
-lg() {
-    local outfile="${HOME}/stdout/$(date +%s)"
-    logsave -a "$outfile" zsh -c "source ~/.zshrc; $1"
-    $EDITOR "$outfile"
-}
+# lg <cmd>: logsave command output to local file
+lg() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }
 
 #/ lm: show last modified time of sites, defined in ${HOME}/.site
 lm () {
