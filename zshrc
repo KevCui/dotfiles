@@ -253,6 +253,28 @@ dispabove () { xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1 }
 dispoff () { xrandr --output HDMI-1 --off }
 dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 
+#/ doomsday <yyyy>: calculate doomsday of a given year
+doomsday() {
+    local year="$1"
+    local century="${year:0:2}"
+    local decade="${year:2:3}"
+    local doomsdaycenturyarray=(5 3 2 0)
+    local doomsdaycentury="${doomsdaycenturyarray[$(((century-10)%4+1))]}"
+
+    local isleap=""
+    if [[ $((year % 4)) -ne 0 ]] ; then
+        :
+    elif [ $((year % 400)) -eq 0 ] ; then
+        isleap="leap"
+    elif [ $((year % 100)) -eq 0 ] ; then
+        :
+    else
+        isleap="leap"
+    fi
+
+    echo "$(((decade/12 + decade%12 + decade%12/4 + doomsdaycentury) %7 )) $isleap"
+}
+
 #/ douban <movie_name>: douban movie search
 douban () {
     local o m s t r rc
