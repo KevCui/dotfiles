@@ -94,7 +94,6 @@ alias ping='prettyping --nolegend'
 alias top='htop'
 alias cat='bat --theme=iceberg'
 alias aik='aiksaurus'
-alias c='insect'
 alias ts='task'
 alias u='/usr/bin/up'
 alias please='sudo $(fc -ln -1)'
@@ -156,16 +155,8 @@ fi
 #------------------------------
 # Functions
 #------------------------------
-#/ = <expr>: calculator +-x/
-= () {
-    calc="${*//p/+}"
-    calc="${calc//x/*}"
-    if [[ "$calc" = *","* ]]; then
-        calc="${calc//./}"
-        calc="${calc//,/.}"
-    fi
-    calc $calc
-}
+#/ = <expr>: calculator
+= () { insect "$*" }
 
 #/ appsearch <id>: search app in Play Store or App Store by app id
 appsearch() {
