@@ -97,7 +97,8 @@ alias aik='aiksaurus'
 alias ts='task'
 alias u='/usr/bin/up'
 alias please='sudo $(fc -ln -1)'
-alias copy='xargs echo -n | xclip -selection clipboard'
+alias copy='xclip -selection clipboard'
+alias copyoneline='xargs echo -n | xclip -selection clipboard'
 alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//'"
 alias convpdftotxt="pdftotext -layout -nopgbrk"
 
