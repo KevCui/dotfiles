@@ -46,7 +46,7 @@ alacritty.yml:
   fontsize: '12.0'
   decorations: 'full'
 
-st/st.config.h:
+st/config.h:
   font: IBM Plex Mono
   size: 15
   font2: Jetbrains Mono
