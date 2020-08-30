@@ -77,7 +77,7 @@ alias rg='rg -i --no-ignore'
 alias ccat='pygmentize -g -O style=colorful,linenos=1'
 alias vi='nvim'
 alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
-alias vil='$EDITOR $(ls ${HOME}/stdout/* | tail -1)'
+alias vil='$EDITOR $(find ${HOME}/stdout -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -f2- -d" ")'
 alias cdb="cd $GITREPO/blog"
 alias cdg="cd $GITREPO"
 alias cdf='cd "$(find * -type d | fzf --preview="ls {}" --preview-window=right:70%:wrap)"'
