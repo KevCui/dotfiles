@@ -69,52 +69,61 @@ export FFF_FAV9="$GITREPO/fff/fav9"
 # Alias
 #------------------------------
 # general alias
-alias rm='rm -i'
-alias dir='dir --color=auto'
-alias vdir='vdir --color=auto'
-alias grep='grep --color=auto'
-alias rg='rg -i --no-ignore'
-alias ccat='pygmentize -g -O style=colorful,linenos=1'
-alias vi='nvim'
-alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
-alias vil='$EDITOR $(find ${HOME}/stdout -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -f2- -d" ")'
-alias cdb="cd $GITREPO/blog"
-alias cdg="cd $GITREPO"
-alias cdf='cd "$(find * -type d | fzf --preview="ls {}" --preview-window=right:70%:wrap)"'
-alias nv='$EDITOR -c NV'
-alias ls='exa -s mod --git'
-alias lsg='exa -s mod --git | rg "$@"'
-alias ll='exa -l -s mod --git --time-style=long-iso'
-alias llg='exa -l -s mod --git --time-style=long-iso | rg "$@"'
-alias s='export lst=$(ls | tail -1); export fst=$(ls | head -1)'
-alias y='yay'
-alias unplug='devmon -u'
-alias diff='colordiff'
-alias ping='prettyping --nolegend'
-alias top='htop'
 alias cat='bat --theme=iceberg'
-alias aik='aiksaurus'
-alias ts='task'
-alias u='/usr/bin/up'
-alias please='sudo $(fc -ln -1)'
+alias ccat='pygmentize -g -O style=colorful,linenos=1'
+alias convpdftotxt="pdftotext -layout -nopgbrk"
 alias copy='xclip -selection clipboard'
 alias copyoneline='xargs echo -n | xclip -selection clipboard'
+alias diff='colordiff'
+alias emptytrash='rm -rf "$HOME/.local/share/Trash"'
+alias grep='grep --color=auto'
+alias kp='kill $(ps aux | fzf | awk "{print \$2}")'
+alias mcd='f(){ mkdir -p "$1" && cd "$1" }; f'
+alias ping='prettyping --nolegend'
+alias please='sudo $(fc -ln -1)'
+alias po='f() { sleep "$1" && systemctl poweroff }; f'
+alias rg='rg -i --no-ignore'
+alias rm='rm -i'
+alias s='export lst=$(ls | tail -1); export fst=$(ls | head -1)'
 alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//'"
-alias convpdftotxt="pdftotext -layout -nopgbrk"
+alias top='htop'
+alias ts='task'
+alias u='/usr/bin/up'
+alias unplug='devmon -u'
+alias y='yay'
 
-# hugo alias
+# cd
+alias cdb="cd $GITREPO/blog"
+alias cdf='cd "$(find * -type d | fzf --preview="ls {}" --preview-window=right:70%:wrap)"'
+alias cdg="cd $GITREPO"
+
+# ls
+alias ls='exa -s mod --git'
+alias lsg='exa -s mod --git | rg --'
+alias lg='f() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }; f'
+alias llg='exa -l -s mod --git --time-style=long-iso | rg --'
+alias ll='exa -l -s mod --git --time-style=long-iso'
+alias lw='f() { ls "$1" | wc -l }; f'
+
+# vim
+alias vi='$EDITOR'
+alias vim='$EDITOR'
+alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
+alias vil='$EDITOR $(find ${HOME}/stdout -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -f2- -d" ")'
+
+# hugo
 alias hugos="cd $GITREPO/blog; hugo server -D >/dev/null &"
 
 # python server
 alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
 
 # run firefox or chromium in new instance
-alias newfox='firefox --profile $(mktemp -d)'
 alias newchromium='chromium --user-data-dir=$(mktemp -d)'
 alias newchromiumwithproxy='http_proxy="localhost:8080" https_proxy="localhost:8080" chromium --user-data-dir=$(mktemp -d)'
 alias newchromiumwithtor='chromium --user-data-dir=$(mktemp -d) --proxy-server="socks5://127.0.0.1:9050" --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE localhost"'
+alias newfox='firefox --profile $(mktemp -d)'
 
-# grc alias
+# grc
 if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
   # Supported commands
   cmds=(
@@ -152,6 +161,26 @@ if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
   # Clean up variables
   unset cmds cmd
 fi
+
+# git
+alias g='f() {
+    if [[ "$1" == am ]]; then
+        git ac
+    elif [[ "$1" == clean ]]; then
+        git purge
+    else
+        git "$@"
+    fi
+}; f'
+
+# calibre
+alias calibreadd='f() { calibredb add "$1" -T new }; f'
+alias calibreconvert='f() { file="$1"; ebook-convert "$file" "${file%.*}.azw3" --from-opf=metadata.opf --cover=cover.jpg --output-profile=kindle }; f'
+
+# external monitor
+alias dispabove='xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1'
+alias dispoff='xrandr --output HDMI-1 --off'
+alias dispon='xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
 
 #------------------------------
 # Functions
@@ -205,12 +234,6 @@ brainyquote () {
 #/ buildapk <keystore> <alias>: sign apk
 buildapk () { cordova build --release; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "$1" android-release-unsigned.apk "$2";zipalign -v 4 android-release-unsigned.apk android-signed.apk;zipalign -c -v 4 android-signed.apk }
 
-#/ calibreadd: add book to calibre db
-calibreadd () { calibredb add "$1" -T new }
-
-#/ calibreconvert: convert book to azw3 format
-calibreconvert () { file="$1"; ebook-convert "$file" "${file%.*}.azw3" --from-opf=metadata.opf --cover=cover.jpg --output-profile=kindle }
-
 #/ chartable <title>: chartable podcast search
 chartable () {
     local h o m s t r
@@ -246,13 +269,6 @@ currency () { $GITREPO/xe-cli/xe.sh "$1" "$2" "$3" }
 
 #/ dadjoke: show dadjoke
 dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
-
-#/ dispabove: put sencond display above
-#/ dispoff: HDMI display screen off
-#/ dispon: HDMI display screen on
-dispabove () { xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1 }
-dispoff () { xrandr --output HDMI-1 --off }
-dispon () { xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1 }
 
 #/ doomsday <yyyy>: calculate doomsday of a given year
 doomsday() {
@@ -296,9 +312,6 @@ douban () {
     done
 }
 
-#/ emptytrash: remove files in local trash folder
-emptytrash() { rm -rf "$HOME/.local/share/Trash"}
-
 #/ extract <file_name>: all-in-one decompression
 extract () {
   if [ -f $1 ] ; then
@@ -326,17 +339,6 @@ extract () {
 #/ findlast: find last modified file in folder
 findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec sh -c "echo {}; /bin/ls -lrtp {} 2> /dev/null | grep -v / | tail -n 1 | awk '{\$1=\$2=\$3=\$4=\$5=\"\"; print \$0}'; echo" \; }
 
-#/ g <alias>: overwrite git command by alias
-g () {
-    if [[ "$1" == am ]]; then
-        git ac
-    elif [[ "$1" == clean ]]; then
-        git purge
-    else
-        git "$@"
-    fi
-}
-
 #/ geocode <address>: gecode an address
 geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1] | tostring | split(".") | .[0]).\(.[1] | tostring | split(".") | .[1][0:6]),\(.[0] | tostring | split(".") | .[0]).\(.[0] | tostring | split(".") | .[1][0:6])"'}
 
@@ -359,9 +361,6 @@ help () { grep "^#/" "${HOME}/.zshrc" | cut -c4- | rg -i "${@:-}" }
 
 #/ holiday <country_code> <year>: list of public holidays in country $1 in year $2
 holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nager.at/Api/v2/PublicHolidays/$y/$1" | jq -r '.[] | "\(.date) \(.localName) - \(.name)"' }
-
-#/ holidayHH: list of next public holidays of this year in Hamburg
-holidayHH () { curl -s "https://date.nager.at/Api/v2/PublicHolidays/$(date "+%Y")/DE" | jq -r '.[] | select(((.counties | . and contains(["DE-HH"])) or .global) and .date >= "'$(date "+%Y-%m-%d")'") | "\(.date) \(.localName) - \(.name)"' }
 
 #/ httpstatus: show HTTP code explanation, $1 HTTP code
 httpstatus () { curl -i "https://httpstat.us/$1" }
@@ -389,8 +388,6 @@ imdb () {
     done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/${tt// /_}.json" | jq -r '.d[].id')
 }
 
-#/ kp: kill process
-kp () { kill $(ps aux | fzf | awk '{print $2}') }
 
 # letterboxd <film_name>: search film on letterboxd
 letterboxd() {
@@ -412,9 +409,6 @@ letterboxd() {
         fi
     done
 }
-
-# lg <cmd>: logsave command output to local file
-lg() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }
 
 #/ lm: show last modified time of sites, defined in ${HOME}/.site
 lm () {
@@ -456,8 +450,6 @@ mangaupdate () {
     done
 }
 
-#/ mcd <dir_name>: mkdir + cd
-mcd () { mkdir -p "$1" && cd "$1"; }
 
 #/ myanimelist <anime_name>: search anime info
 myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime" or .type == "manga") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)+\(.payload.published)"' | sed -E 's/\+null//' | column -t -s '+')" }
@@ -482,9 +474,6 @@ outline() {
 
 #/ playstoresearch <term>: search apps in Play Store by term
 playstoresearch() { curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/android/searches.json?language=en&term=$1" | jq }
-
-#/ po <second>: poweroff in seconds
-po () { sleep "$1" && systemctl poweroff; }
 
 #/ port <port_number>: port lookup
 port () { curl -sS 'https://www.portcheckers.com/port-number-assignment' --data-raw port="$1" | grep '<tr><td>' | sed -E 's/<[\/]?t[rd]>/ /g' | sedremovespace }
