@@ -186,7 +186,11 @@ alias dispon='xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
 # Functions
 #------------------------------
 #/ = <expr>: calculator
-= () { insect "$*" }
+= () {
+    calc="${*//x/*}"
+    calc="${calc//,/.}"
+    insect "$calc"
+}
 
 #/ appsearch <id>: search app in Play Store or App Store by app id
 appsearch() {
