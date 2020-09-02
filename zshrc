@@ -3,7 +3,7 @@
 #------------------------------
 autoload -U promptinit; promptinit
 prompt spaceship
-SPACESHIP_PROMPT_ORDER=(time char)
+SPACESHIP_PROMPT_ORDER=(user time char)
 SPACESHIP_RPROMPT_ORDER=(git dir)
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_TIME_SHOW=true
@@ -753,4 +753,4 @@ ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
 # Other source
 #------------------------------
 stty -ixon # disable ^S
-source "${HOME}/.czshrc"
+[[ -f "${HOME}/.czshrc" ]] && source "${HOME}/.czshrc"
