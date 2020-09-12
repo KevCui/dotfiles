@@ -89,6 +89,7 @@ alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+
 alias top='htop'
 alias ts='task'
 alias u='/usr/bin/up'
+alias replug='devmon -a'
 alias unplug='devmon -u'
 alias y='yay'
 
