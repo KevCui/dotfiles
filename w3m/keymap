@@ -1,0 +1,6 @@
+keymap j MOVE_UP1
+keymap J DOWN
+keymap k MOVE_DOWN1
+keymap K UP
+keymap gg BEGIN
+keymap gx EXTERN_LINK
