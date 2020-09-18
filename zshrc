@@ -92,7 +92,7 @@ alias ts='task'
 alias u='/usr/bin/up'
 alias replug='devmon -a'
 alias unplug='devmon -u'
-alias watchout='f() { fswatch -r -0 --event=Updated "$1" 2>/dev/null | xargs -0 -n 1 zsh -c "$2; echo "-----""}; f'
+alias watchout='f() { fswatch -r -0 --event=Updated "$1" 2>/dev/null | xargs -0 -n 1 zsh -c "$2; date +%H:%M:%S"}; f'
 alias y='yay'
 
 # cd
