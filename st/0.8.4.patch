@@ -1,13 +1,14 @@
-From 3c9a94d8867487cb9a54302c24301649ce4a74ac Mon Sep 17 00:00:00 2001
+From bee82537acc85928b532ddc509a502555504ca03 Mon Sep 17 00:00:00 2001
 From: Kevin Cui <krazycavin@gmail.com>
 Date: Fri, 24 Jul 2020 18:05:17 +0200
 Subject: [PATCH] Patched 0.8.4
 
+Patch 0.8.4
 ---
- st.c | 125 +++++++++++++++++++++++++++++++++++++++++++------------
+ st.c | 125 ++++++++++++++++++++++++++++++++++++++++++------------
  st.h |   2 +
- x.c  | 134 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 3 files changed, 230 insertions(+), 31 deletions(-)
+ x.c  | 136 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 232 insertions(+), 31 deletions(-)
 
 diff --git a/st.c b/st.c
 index 76b7e0d..edec064 100644
@@ -348,7 +349,7 @@ index 3d351b6..f44e1d3 100644
  void printsel(const Arg *);
  void sendbreak(const Arg *);
 diff --git a/x.c b/x.c
-index 210f184..5869a8c 100644
+index 210f184..8c544d6 100644
 --- a/x.c
 +++ b/x.c
 @@ -103,6 +103,11 @@ typedef struct {
@@ -550,7 +551,16 @@ index 210f184..5869a8c 100644
  
  	xw.xembed = XInternAtom(xw.dpy, "_XEMBED", False);
  	xw.wmdeletewin = XInternAtom(xw.dpy, "WM_DELETE_WINDOW", False);
-@@ -1674,6 +1792,8 @@ unmap(XEvent *ev)
+@@ -1595,6 +1713,8 @@ xsettitle(char *p)
+ int
+ xstartdraw(void)
+ {
++	if (IS_SET(MODE_VISIBLE))
++		XCopyArea(xw.dpy, xw.win, xw.buf, dc.gc, 0, 0, win.w, win.h, 0, 0);
+ 	return IS_SET(MODE_VISIBLE);
+ }
+ 
+@@ -1674,6 +1794,8 @@ unmap(XEvent *ev)
  void
  xsetpointermotion(int set)
  {
@@ -559,7 +569,7 @@ index 210f184..5869a8c 100644
  	MODBIT(xw.attrs.event_mask, set, PointerMotionMask);
  	XChangeWindowAttributes(xw.dpy, xw.win, CWEventMask, &xw.attrs);
  }
-@@ -1793,6 +1913,12 @@ kpress(XEvent *ev)
+@@ -1793,6 +1915,12 @@ kpress(XEvent *ev)
  	Status status;
  	Shortcut *bp;
  
