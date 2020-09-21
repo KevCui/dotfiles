@@ -62,6 +62,7 @@ set termguicolors
 set t_Co=256
 set laststatus=2
 set hlsearch
+set cursorline
 set noshowmode
 let g:monotone_color=[100,1,84]
 let g:monotone_secondary_hue_offset=25
@@ -73,7 +74,7 @@ filetype plugin on
 
 " cursor shape
 set guicursor=i-c-ci-cr-sm:ver20,n-r-v-ve:hor20
-autocmd VimLeave * set guicursor=a:ver20
+autocmd VimLeave,VimSuspend * set guicursor=a:ver20
 
 " mark highlight color
 hi SignatureMarkText guifg=Green guibg=#1a1b1a
