@@ -49,9 +49,6 @@ else
 
     " w!! write file with sudo
     cnoremap w!! execute 'write !sudo tee % >/dev/null' <bar> edit!
-
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
 endif
 call plug#end()
 
