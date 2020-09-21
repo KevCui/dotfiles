@@ -1,8 +1,15 @@
-diff --git a/colors/monotone.vim b/colors/monotone.vim
-index ab960ec..5e69cd3 100644
---- a/colors/monotone.vim
-+++ b/colors/monotone.vim
-@@ -148,7 +148,7 @@ function s:MonotoneColors(color, secondary_hue_offset, emphasize_comments, empha
+--- monotone.vim	2020-09-21 11:50:57.760161098 +0200
++++ monotone_mod.vim	2020-09-21 11:50:55.086827865 +0200
+@@ -129,7 +129,7 @@
+ 
+ 	" UI/special
+ 	call s:Hi('ColorColumn', 'NONE', s:color_dark_2, 'NONE', 234, 'NONE')
+-	call s:Hi('CursorLine', 'NONE', s:color_dark_1, 'NONE', 234, 'NONE')
++	call s:Hi('CursorLine', 'NONE', s:color_dark_3, 'NONE', 234, 'NONE')
+ 	call s:Hi('CursorLineNr', s:color_bright_2, s:color_dark_1, 'NONE', 235, 'NONE')
+ 	call s:Hi('Folded', s:color_normal, s:color_dark_1, 252, 235, 'italic')
+ 	call s:Hi('Search', s:color_dark_3, s:color_hl_2, 16, 214, 'bold')
+@@ -149,7 +149,7 @@
  	call s:Hi('MoreMsg', s:color_hl_3, 'NONE', 153, 'NONE', 'bold')
  
  	" Parens
