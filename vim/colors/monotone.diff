@@ -5,7 +5,7 @@
  	" UI/special
  	call s:Hi('ColorColumn', 'NONE', s:color_dark_2, 'NONE', 234, 'NONE')
 -	call s:Hi('CursorLine', 'NONE', s:color_dark_1, 'NONE', 234, 'NONE')
-+	call s:Hi('CursorLine', 'NONE', s:color_dark_3, 'NONE', 234, 'NONE')
++	call s:Hi('CursorLine', 'NONE', s:color_dark_2, 'NONE', 234, 'NONE')
  	call s:Hi('CursorLineNr', s:color_bright_2, s:color_dark_1, 'NONE', 235, 'NONE')
  	call s:Hi('Folded', s:color_normal, s:color_dark_1, 252, 235, 'italic')
  	call s:Hi('Search', s:color_dark_3, s:color_hl_2, 16, 214, 'bold')
