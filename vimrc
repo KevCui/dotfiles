@@ -74,12 +74,12 @@ filetype plugin on
 set guicursor=i-c-ci-cr-sm:ver20,n-r-v-ve:hor20
 autocmd VimLeave,VimSuspend * set guicursor=a:ver20
 
+" disable matchup off-screen match in status line
+let g:matchup_matchparen_offscreen = {}
+
 " mark highlight color
 hi SignatureMarkText guifg=Green guibg=#1a1b1a
 hi SignColumn guibg=#1a1b1a
-
-" disable matchup off-screen match in status line
-let g:matchup_matchparen_offscreen = {}
 
 " vim-illuminate
 hi illuminatedWord ctermbg=238 guibg=#3a3a3a
