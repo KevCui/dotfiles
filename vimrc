@@ -28,6 +28,7 @@ Plug 'Yggdroot/indentLine' "display indention levels
 Plug 'RRethy/vim-hexokinase' "display color label
 Plug 'RRethy/vim-illuminate' "illuminating select
 Plug 'itchyny/lightline.vim' "status line
+Plug 'andymass/vim-matchup' "match highlight
 
 " nvim or vim?
 if has('nvim')
@@ -76,6 +77,9 @@ autocmd VimLeave,VimSuspend * set guicursor=a:ver20
 " mark highlight color
 hi SignatureMarkText guifg=Green guibg=#1a1b1a
 hi SignColumn guibg=#1a1b1a
+
+" disable matchup off-screen match in status line
+let g:matchup_matchparen_offscreen = {}
 
 " vim-illuminate
 hi illuminatedWord ctermbg=238 guibg=#3a3a3a
