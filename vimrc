@@ -18,7 +18,6 @@ Plug 'posva/vim-vue' "syntax for Vue.js components
 "   navigation
 Plug 'scrooloose/nerdcommenter' "ci cm cu
 Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
-Plug 'wellle/targets.vim' "di'
 Plug 'easymotion/vim-easymotion' "w s
 Plug 'machakann/vim-swap' "swap item g> g< gs
 "   theme
