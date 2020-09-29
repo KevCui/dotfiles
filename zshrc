@@ -75,6 +75,7 @@ alias convpdftotxt="pdftotext -layout -nopgbrk"
 alias copy='xclip -selection clipboard'
 alias copyoneline='xargs echo -n | xclip -selection clipboard'
 alias diff='colordiff'
+alias df='duf'
 alias emptytrash='rm -rf "$HOME/.local/share/Trash"'
 alias grep='grep --color=auto'
 alias kp='kill $(ps aux | fzf | awk "{print \$2}")'
@@ -136,7 +137,6 @@ if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
     cc \
     configure \
     cvs \
-    df \
     dig \
     gcc \
     gmake \
