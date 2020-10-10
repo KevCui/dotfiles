@@ -55,15 +55,9 @@ export FFF_COL2="01;38;5;111"
 export FFF_KEY_SCROLL_DOWN1="k"
 export FFF_KEY_SCROLL_UP1="j"
 export FFF_TRASH="${HOME}/.local/share/Trash/fff"
-export FFF_FAV1="$GITREPO/fff/fav1"
-export FFF_FAV2="$GITREPO/fff/fav2"
-export FFF_FAV3="$GITREPO/fff/fav3"
-export FFF_FAV4="$GITREPO/fff/fav4"
-export FFF_FAV5="$GITREPO/fff/fav5"
-export FFF_FAV6="$GITREPO/fff/fav6"
-export FFF_FAV7="$GITREPO/fff/fav7"
-export FFF_FAV8="$GITREPO/fff/fav8"
-export FFF_FAV9="$GITREPO/fff/fav9"
+for i in {1..9}; do
+    export FFF_FAV${i}="$GITREPO/fff/fav${i}"
+done
 
 #------------------------------
 # Alias
