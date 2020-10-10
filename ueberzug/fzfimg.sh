@@ -82,12 +82,17 @@ main() {
 
     export -f draw_preview calculate_position
     export UEBERZUG_FIFO DEFAULT_PREVIEW_POSITION
-    SHELL="${BASH_BINARY}" fzf -0 -1 -m --cycle \
+    if [[ "$#" -eq 0 ]]; then
+        filelist="$(filter_input_source)"
+    else
+        filelist="$(sed -E 's/ /\n/g' <<< "$*")"
+    fi
+    SHELL="${BASH_BINARY}" fzf -0 -m --cycle \
         --preview "draw_preview {}" \
         --preview-window "${DEFAULT_PREVIEW_POSITION}" \
         --bind "tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,ctrl-a:select-all,ctrl-u:deselect-all" \
         --bind "${REDRAW_KEY}:${REDRAW_COMMAND}" \
-        --bind "enter:abort+execute(exiftool {1})" <<< "$(filter_input_source)"
+        --bind "enter:abort+execute(exiftool {1})" <<< "$filelist"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
