@@ -639,6 +639,7 @@ export FZF_TAB_OPTS=(
 #------------------------------
 # ZSH Plugins
 #------------------------------
+source "${HOME}/.zsh/fzf-tab/fzf-tab.plugin.zsh"
 source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "${HOME}/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
 source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -648,7 +649,6 @@ source "${HOME}/.zsh/fzf/command-snippet.zsh"
 source "${HOME}/.zsh/up.sh"
 source "${HOME}/.zsh/z.lua.plugin.zsh"
 source "${HOME}/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-source "${HOME}/.zsh/fzf-tab/fzf-tab.plugin.zsh"
 
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
@@ -757,3 +757,5 @@ ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
 #------------------------------
 stty -ixon # disable ^S
 [[ -f "${HOME}/.czshrc" ]] && source "${HOME}/.czshrc"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
