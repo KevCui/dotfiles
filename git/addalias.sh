@@ -25,6 +25,8 @@ git config --global alias.pll    "pull"
 git config --global alias.rst    "reset --"
 git config --global alias.rsthd  "reset HEAD~"
 git config --global alias.rsthrd "reset --hard origin/master"
+git config --global alias.ra     "remote add"
+git config --global alias.rv     "remote -v"
 git config --global alias.s      "status"
 
 ###############
