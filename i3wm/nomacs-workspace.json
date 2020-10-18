@@ -1,0 +1,137 @@
+// vim:ts=4:sw=4:et
+{
+  // splith split container with 2 children
+  "border": "pixel",
+  "floating": "auto_off",
+  "layout": "splith",
+  "percent": 1,
+  "type": "con",
+  "nodes": [
+    {
+      // splitv split container with 2 children
+      "border": "pixel",
+      "floating": "auto_off",
+      "layout": "splitv",
+      "percent": 0.333,
+      "type": "con",
+      "nodes": [
+        {
+          "border": "none",
+          "current_border_width": 0,
+          "floating": "auto_off",
+          "geometry": {},
+          "name": "nomacs | Image Lounge",
+          "percent": 0.5,
+          "swallows": [
+            {
+              "class": "^Image\\ Lounge$",
+              "instance": "^nomacs$",
+              "title": "^nomacs\\ \\|\\ Image\\ Lounge$"
+            }
+          ],
+          "type": "con"
+        },
+        {
+          "border": "none",
+          "current_border_width": 0,
+          "floating": "auto_off",
+          "geometry": {},
+          "name": "nomacs | Image Lounge",
+          "percent": 0.5,
+          "swallows": [
+            {
+              "class": "^Image\\ Lounge$",
+              "instance": "^nomacs$",
+              "title": "^nomacs\\ \\|\\ Image\\ Lounge$"
+            }
+          ],
+          "type": "con"
+        }
+      ]
+    },
+    {
+      // splitv split container with 2 children
+      "border": "pixel",
+      "floating": "auto_off",
+      "layout": "splitv",
+      "percent": 0.334,
+      "type": "con",
+      "nodes": [
+        {
+          "border": "none",
+          "current_border_width": 0,
+          "floating": "auto_off",
+          "geometry": {},
+          "name": "nomacs | Image Lounge",
+          "percent": 0.5,
+          "swallows": [
+            {
+              "class": "^Image\\ Lounge$",
+              "instance": "^nomacs$",
+              "title": "^nomacs\\ \\|\\ Image\\ Lounge$"
+            }
+          ],
+          "type": "con"
+        },
+        {
+          "border": "none",
+          "current_border_width": 0,
+          "floating": "auto_off",
+          "geometry": {},
+          "name": "nomacs | Image Lounge",
+          "percent": 0.5,
+          "swallows": [
+            {
+              "class": "^Image\\ Lounge$",
+              "instance": "^nomacs$",
+              "title": "^nomacs\\ \\|\\ Image\\ Lounge$"
+            }
+          ],
+          "type": "con"
+        }
+      ]
+    },
+    {
+      // splitv split container with 2 children
+      "border": "pixel",
+      "floating": "auto_off",
+      "layout": "splitv",
+      "percent": 0.333,
+      "type": "con",
+      "nodes": [
+        {
+          "border": "none",
+          "current_border_width": 0,
+          "floating": "auto_off",
+          "geometry": {},
+          "name": "nomacs | Image Lounge",
+          "percent": 0.5,
+          "swallows": [
+            {
+              "class": "^Image\\ Lounge$",
+              "instance": "^nomacs$",
+              "title": "^nomacs\\ \\|\\ Image\\ Lounge$"
+            }
+          ],
+          "type": "con"
+        },
+        {
+          "border": "none",
+          "current_border_width": 0,
+          "floating": "auto_off",
+          "geometry": {},
+          "name": "nomacs | Image Lounge",
+          "percent": 0.5,
+          "swallows": [
+            {
+              "class": "^Image\\ Lounge$",
+              "instance": "^nomacs$",
+              "title": "^nomacs\\ \\|\\ Image\\ Lounge$"
+            }
+          ],
+          "type": "con"
+        }
+      ]
+    }
+  ]
+}
