@@ -83,6 +83,7 @@ alias rm='rm -i'
 alias s='export lst=$(ls | tail -1); export fst=$(ls | head -1)'
 alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//'"
 alias top='htop'
+alias tree='exa --tree'
 alias ts='task'
 alias u='/usr/bin/up'
 alias uc='UCOLLAGE_EXPAND_DIRS=0 UCOLLAGE_SORT_BY=time ucollage'
