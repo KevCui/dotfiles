@@ -396,6 +396,8 @@ imdb () {
     done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/${tt// /_}.json" | jq -r '.d[].id')
 }
 
+# jsonpath: command to print each path/value pair
+jsonpath() { jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' }
 
 # letterboxd <film_name>: search film on letterboxd
 letterboxd() {
