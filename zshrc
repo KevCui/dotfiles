@@ -65,6 +65,7 @@ done
 # general alias
 alias cat='bat --theme=iceberg'
 alias ccat='pygmentize -g -O style=colorful,linenos=1'
+alias clock='tty-clock -s -c -C 4'
 alias convpdftotxt="pdftotext -layout -nopgbrk"
 alias copy='xclip -selection clipboard'
 alias copyoneline='xargs echo -n | xclip -selection clipboard'
@@ -263,9 +264,6 @@ chartable () {
 
 #/ cht <language> <question>: cheat sheet
 cht () { curl "cht.sh/$1/$2" }
-
-#/ clock: show running clock
-clock () { clear; while true; do echo -e \\b\\b\\b\\b\\b\\b\\b\\b`date +%T`\\c ; sleep 1; done }
 
 #/ citytime <city_name>: show current time in city $1
 citytime () { zdump "$(fd -t f -d 2 "$1" /usr/share/zoneinfo/ | tail -1)" }
