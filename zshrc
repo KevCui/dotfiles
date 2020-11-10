@@ -517,8 +517,11 @@ rottentomatoes () {
     printf '%b' "$r" | column -t -s '+++'
 }
 
+#/ savepage <url>: save webpage to one single HTML file
+savepage() { monolith "$1" > $(date +%s).html }
+
 #/ screenshot: take screenshot
-screenshot () { import -quiet -pause 2 `date +%s`.jpg }
+screenshot () { import -quiet -pause 2 $(date +%s).jpg }
 
 #/ showpath: show PATH
 showpath () { awk -v RS=: '{print}' <<<$PATH }
