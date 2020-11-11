@@ -57,15 +57,17 @@ ALIAS_LIST=(
     purge # clean untracked file
 )
 
-ac="! git add\
- \$($GIT_DIFF_NAME --diff-filter=M\
+ac="! while read -r f; do\
+ IFS=\$'\n'; git add \$f;\
+ done <<< \$($GIT_DIFF_NAME --diff-filter=M\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
  | cut -c5-)"
 
 au="! cd \"\$(pwd)/\$GIT_PREFIX\"\
- && git add\
- \$(git status -s\
+ && while read -r f; do\
+ IFS=\$'\n'; git add \$f;\
+ done <<< \$(git status -s\
  | sed -E 's/\"//g'\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
@@ -106,18 +108,21 @@ ls="! git log --pretty=format:'%h %ad %s%d' --date=short\
  --preview 'git show --color --compact-summary {1}'\
  --bind 'enter:abort+execute(git show --compact-summary {1})'"
 
-ua="! git restore --staged\
- \$($GIT_DIFF_NAME_CACHED\
+ua="! while read -r f; do\
+ IFS=\$'\n'; git restore --staged \$f;\
+ done <<< \$($GIT_DIFF_NAME_CACHED\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
  | cut -c5-)"
 
 purge="! GIT_TOP=\$(pwd)\
  && cd \$(pwd)/\$GIT_PREFIX\
- && rm -rf\
- \$(git ls-files \"\$(realpath --relative-to=./ \$GIT_TOP)/\" --exclude-standard --others\
+ && while read -r f; do\
+ IFS=\$'\n'; rm -rf \$f;\
+ done <<< \$(git ls-files \"\$(realpath --relative-to=./ \$GIT_TOP)/\" --exclude-standard --others\
  | $ADD_ICON_CMD\
- | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
+ | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
+ | cut -c5-)"
 
 for i in "${ALIAS_LIST[@]}"; do
     git config --global alias."${i}" "${!i}"
