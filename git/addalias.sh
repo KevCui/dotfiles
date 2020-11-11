@@ -39,6 +39,7 @@ FZF_OPTION_BIND="--bind $FZF_KEYBINDING --bind $FZF_PREVIEW_KEYBINDING"
 FZF_OPTION_PREVIEW_WINDOW="--ansi --cycle --preview-window=right:wrap"
 FZF_OPTION_PROMPT="-m --cycle --reverse --height=40%"
 DIFF_CMD="delta --theme=iceberg"
+ADD_ICON_CMD="deviconslookup.sh"
 GIT_DIFF_NAME="git diff --name-only"
 GIT_DIFF_NAME_CACHED="$GIT_DIFF_NAME --cached"
 GIT_DIFF_TREE="git diff-tree -p {1}"
@@ -58,13 +59,16 @@ ALIAS_LIST=(
 
 ac="! git add\
  \$($GIT_DIFF_NAME --diff-filter=M\
- | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
+ | $ADD_ICON_CMD\
+ | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
+ | cut -c4-)"
 
 au="! cd \$(pwd)/\$GIT_PREFIX\
  && git add\
  \$(git status -s\
+ | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
- | cut -c4-\
+ | cut -c8-\
  | sed -E 's/[[:space:]]/\\\ /g'\
  | sed -E 's/\(/\\\(/g'\
  | sed -E 's/\)/\\\)/g'\
@@ -77,13 +81,15 @@ b="! cd \$(pwd)/\$GIT_PREFIX\
  --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
 
 d="! $GIT_DIFF_NAME\
+ | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND\
- --preview 'git diff -- {} | $DIFF_CMD'\
- --bind 'enter:abort+execute(git diff -- {1} | $DIFF_CMD)'"
+ --preview 'git diff -- {2} | $DIFF_CMD'\
+ --bind 'enter:abort+execute(git diff -- {2} | $DIFF_CMD)'"
 
 ds="! $GIT_DIFF_NAME_CACHED\
+ | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND\
- --preview 'git diff --cached -- {} | $DIFF_CMD'\
+ --preview 'git diff --cached -- {2} | $DIFF_CMD'\
  --bind 'enter:abort+execute(git commit)'"
 
 f="! cd \$(pwd)/\$GIT_PREFIX\
@@ -106,12 +112,15 @@ ls="! git log --pretty=format:'%h %ad %s%d' --date=short\
 
 ua="! git restore --staged\
  \$($GIT_DIFF_NAME_CACHED\
- | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
+ | $ADD_ICON_CMD\
+ | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
+ | cut -c4-)"
 
 purge="! GIT_TOP=\$(pwd)\
  && cd \$(pwd)/\$GIT_PREFIX\
  && rm -rf\
  \$(git ls-files \"\$(realpath --relative-to=./ \$GIT_TOP)/\" --exclude-standard --others\
+ | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING)"
 
 for i in "${ALIAS_LIST[@]}"; do
