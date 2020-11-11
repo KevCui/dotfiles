@@ -113,7 +113,7 @@ alias lw='f() { ls "$1" | wc -l }; f'
 # vim
 alias vi='$EDITOR'
 alias vim='$EDITOR'
-alias vif='$EDITOR $(fzf --bind "enter:abort+execute(echo {2})" --preview="cat {}" --preview-window=right:70%:wrap)'
+alias vif='$EDITOR "$(fzf --bind "enter:abort+execute(echo {2..-1})" --preview="cat {2..-1}" --preview-window=right:70%:wrap)"'
 alias vil='$EDITOR $(find ${HOME}/stdout -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -f2- -d" ")'
 
 # hugo

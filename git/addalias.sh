@@ -61,19 +61,15 @@ ac="! git add\
  \$($GIT_DIFF_NAME --diff-filter=M\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
- | cut -c4-)"
+ | cut -c5-)"
 
-au="! cd \$(pwd)/\$GIT_PREFIX\
+au="! cd \"\$(pwd)/\$GIT_PREFIX\"\
  && git add\
  \$(git status -s\
+ | sed -E 's/\"//g'\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
- | cut -c8-\
- | sed -E 's/[[:space:]]/\\\ /g'\
- | sed -E 's/\(/\\\(/g'\
- | sed -E 's/\)/\\\)/g'\
- | awk '{printf \"%s \",\$0}'\
- | sed -E 's/[[:space:]]$//')"
+ | cut -c8-)"
 
 b="! cd \$(pwd)/\$GIT_PREFIX\
  && sh -c \"git blame \$1\
@@ -83,13 +79,13 @@ b="! cd \$(pwd)/\$GIT_PREFIX\
 d="! $GIT_DIFF_NAME\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND\
- --preview 'git diff -- {2} | $DIFF_CMD'\
- --bind 'enter:abort+execute(git diff -- {2} | $DIFF_CMD)'"
+ --preview 'git diff -- {2..-1} | $DIFF_CMD'\
+ --bind 'enter:abort+execute(git diff -- {2..-1} | $DIFF_CMD)'"
 
 ds="! $GIT_DIFF_NAME_CACHED\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND\
- --preview 'git diff --cached -- {2} | $DIFF_CMD'\
+ --preview 'git diff --cached -- {2..-1} | $DIFF_CMD'\
  --bind 'enter:abort+execute(git commit)'"
 
 f="! cd \$(pwd)/\$GIT_PREFIX\
@@ -114,7 +110,7 @@ ua="! git restore --staged\
  \$($GIT_DIFF_NAME_CACHED\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
- | cut -c4-)"
+ | cut -c5-)"
 
 purge="! GIT_TOP=\$(pwd)\
  && cd \$(pwd)/\$GIT_PREFIX\
