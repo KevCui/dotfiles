@@ -165,6 +165,7 @@ CHR    01;38;5;179 # character device driver
 .emf    00;38;5;222
 .eps    00;38;5;222
 .CR2    00;38;5;222
+.dng    00;38;5;222
 .ico    00;38;5;222
 
 # Video
