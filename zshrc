@@ -45,8 +45,9 @@ export FZF_DEFAULT_OPTS='
 '
 
 # fzf ignores .git and node_modules
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null | deviconslookup.sh'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS='--bind "enter:abort+execute(echo {2})"'
 export FZF_CTRL_S_COMMAND="cat $SNIPPET"
 
 # fff configurations
@@ -112,7 +113,7 @@ alias lw='f() { ls "$1" | wc -l }; f'
 # vim
 alias vi='$EDITOR'
 alias vim='$EDITOR'
-alias vif='$EDITOR $(fzf --preview="cat {}" --preview-window=right:70%:wrap)'
+alias vif='$EDITOR $(fzf --bind "enter:abort+execute(echo {2})" --preview="cat {}" --preview-window=right:70%:wrap)'
 alias vil='$EDITOR $(find ${HOME}/stdout -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -f2- -d" ")'
 
 # hugo
@@ -630,17 +631,7 @@ compinit
 setopt completealiases
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-export FZF_TAB_OPTS=(
-    --no-info
-    --ansi
-    --expect='$continuous_trigger'
-    '--color=hl:$(( $#headers == 0 ? 108 : 255 ))'
-    --nth=2,3 --delimiter='\x00'
-    --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
-    --tiebreak=begin -m --bind=tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,space:accept,ctrl-a:select-all,ctrl-u:deselect-all --cycle
-    '--query=$query'
-    '--header-lines=$#headers'
-)
+zstyle ':fzf-tab:*' fzf-bindings 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,space:accept,ctrl-a:select-all,ctrl-u:deselect-all'
 
 #------------------------------
 # ZSH Plugins
@@ -764,4 +755,5 @@ ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
 stty -ixon # disable ^S
 [[ -f "${HOME}/.czshrc" ]] && source "${HOME}/.czshrc"
 
+[ -f ~/.devicons.sh ] && source ~/.devicons.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
