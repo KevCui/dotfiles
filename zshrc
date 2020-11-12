@@ -351,6 +351,9 @@ findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec 
 #/ geocode <address>: gecode an address
 geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1] | tostring | split(".") | .[0]).\(.[1] | tostring | split(".") | .[1][0:6]),\(.[0] | tostring | split(".") | .[0]).\(.[0] | tostring | split(".") | .[1][0:6])"'}
 
+#/ getlinks <url>: get all links on the page
+getlinks () { curl -sS "$1" | pup 'a, link, base, area attr{href}' | sedremovespace | sort -u }
+
 #/ goodreads <book>: goodreads search
 goodreads () {
     local o m s t st a
@@ -460,7 +463,6 @@ mangaupdate () {
         printf '%b\n' "\033[33m[$r]\033[0m $y $t"
     done
 }
-
 
 #/ myanimelist <anime_name>: search anime info
 myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime" or .type == "manga") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)+\(.payload.published)"' | sed -E 's/\+null//' | column -t -s '+')" }
