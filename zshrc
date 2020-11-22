@@ -634,6 +634,8 @@ compinit
 setopt completealiases
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' file-sort modification
+zstyle ':completion:complete:*:argument-rest' sort false
 zstyle ':fzf-tab:*' fzf-bindings 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,space:accept,ctrl-a:select-all,ctrl-u:deselect-all'
 
 #------------------------------
