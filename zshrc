@@ -127,10 +127,10 @@ alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\
 alias mini-server='ip=$(ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | awk "{print \$2}"); miniserve -quz -i "$ip" .'
 
 # run firefox or chromium in new instance
-alias newchromium='chromium --user-data-dir=$(mktemp -d)'
-alias newchromiumwithproxy='http_proxy="localhost:8080" https_proxy="localhost:8080" chromium --user-data-dir=$(mktemp -d)'
-alias newchromiumwithtor='chromium --user-data-dir=$(mktemp -d) --proxy-server="socks5://127.0.0.1:9050" --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE localhost"'
-alias newfox='firefox --profile $(mktemp -d)'
+alias newchromium='chromium --user-data-dir=$(mktemp -d) &> /dev/null &'
+alias newchromiumwithproxy='http_proxy="localhost:8080" https_proxy="localhost:8080" chromium --user-data-dir=$(mktemp -d) &> /dev/null &'
+alias newchromiumwithtor='chromium --user-data-dir=$(mktemp -d) --proxy-server="socks5://127.0.0.1:9050" --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE localhost" &> /dev/null &'
+alias newfox='firefox --profile $(mktemp -d) &> /dev/null &'
 
 # grc
 if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
