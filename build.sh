@@ -5,7 +5,7 @@ OUTPUT=${HOME}/output
 
 # Check commands exist
 if [[ ! "$(command -v yq)" ]]; then
-    echo "Please install yq first"
+    echo "Please install yq first: https://github.com/kislyuk/yq"
     exit 1
 fi
 
