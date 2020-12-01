@@ -7,7 +7,7 @@ The sweet sweet home of my lovely dotfiles :honey_pot:
 You may or may not notice that there are some variables `%variable%` in some dotfiles. For example, in `zshrc`:
 
 ```bash
-export GITREPO="%gitrepo%"
+$ export GITREPO="%gitrepo%"
 ```
 
 Because some settings can be different on different machines (directories, shortcuts, term colors...). To make it more flexible, the value of variable can be defined in a `yaml` file, the format looks like:
@@ -39,7 +39,7 @@ i3wm/config:
 - Build all files in `<yaml_config_file>`:
 
 ```bash
-./build.sh <yaml_config_file>; source ~/.zshrc
+$ ./build.sh <yaml_config_file>; source ~/.zshrc
 ```
 
 The final files will be generated in `output` folder. Pay attention to create symbol links to the target files in `output` folder.
@@ -47,7 +47,7 @@ The final files will be generated in `output` folder. Pay attention to create sy
 - Build only certain files in `<yaml_config_file>`:
 
 ```bash
-./build.sh <yaml_config_file> 'Xresources i3wm/config'; source ~/.zshrc
+$ ./build.sh <yaml_config_file> 'Xresources i3wm/config'; source ~/.zshrc
 ```
 
 :heart:
