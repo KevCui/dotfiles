@@ -17,7 +17,6 @@
                                 "io.alacritty",
                                 "org.virtualbox.app.VirtualBox",
                                 "org.virtualbox.app.VirtualBoxVM"
-
                             ],
                             "type": "frontmost_application_if"
                         }
