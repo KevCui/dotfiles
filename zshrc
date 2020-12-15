@@ -624,7 +624,7 @@ setopt inc_append_history
 #-----------------------------
 # Dircolors
 #-----------------------------
-eval `dircolors ${HOME}/.dir_colors`
+[[ -f "${HOME}/.dircolors" ]] && eval `dircolors ${HOME}/.dir_colors`
 
 #------------------------------
 # Completion
