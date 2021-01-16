@@ -401,6 +401,16 @@ imdb () {
     done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/${tt// /_}.json" | jq -r '.d[].id')
 }
 
+# ip2int: convert IP address to an integer
+ip2int() {
+    local st nd rd th
+    st="$(awk -F '.' '{print $1}' <<< "$1")"
+    nd="$(awk -F '.' '{print $2}' <<< "$1")"
+    rd="$(awk -F '.' '{print $3}' <<< "$1")"
+    th="$(awk -F '.' '{print $4}' <<< "$1")"
+    echo "$((st*256*256*256+nd*256*256+rd*256+th))"
+}
+
 # jsonpath: command to print each path/value pair
 jsonpath() { jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' }
 
