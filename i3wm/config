@@ -238,6 +238,7 @@ assign [class="libreoffice-writer"] $ws4
 assign [class="libreoffice-calc"] $ws4
 assign [class="Soffice"] $ws4
 assign [class="calibre"] $ws3
+assign [class="Qemu-system-x86_64"] $ws5
 
 # Theme
 # <colorclass> <border> <background> <text> <indicator> <child_border>
