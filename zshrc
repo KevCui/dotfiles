@@ -596,6 +596,13 @@ whatcms () { curl -sS "https://whatcms.org/APIEndpoint/Detect?key=$(cat $WHATCMS
 #/ whohosts: show host info of website $1
 whohosts () { curl -sS "https://www.who-hosts-this.com/APIEndpoint/Detect?key=$(cat $WHATCMS_KEY_FILE | shuf | tail -1)&url=$1" | jq . }
 
+#/ writeup <keyword>: search bug bounty writeups
+writeup () {
+    local u
+    u="$(curl -sS 'https://www.bugbountyhunting.com/' | grep 'script.js' | sed -E 's/.*https:/https:/' | sed -E "s/'><\/script>//")"
+    curl -sS "$u" | grep 'var data =' | sed -E 's/var data =//' | jq . | rg -A 1 'title".*'"$1"
+}
+
 #/ yd <url>: download youtube video, max. resolution 1080
 yd () { youtube-dl -f 'bestvideo[height<=?1080][fps<=?30]+bestaudio/best' $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
 
