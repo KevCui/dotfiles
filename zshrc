@@ -277,6 +277,17 @@ cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup
 #/ currency <from_currency> <to_currency> <number>: fetch currency exchange rate
 currency () { $GITREPO/xe-cli/xe.sh "$1" "$2" "$3" }
 
+#/ cvss <vector>: calculate cvss3.1 score
+cvss() {
+    local v="${1:-}" ip
+    if [[ -z "${v:-}" ]]; then
+        read ip\?"AV:NALP AC:LH PR:NLH UI:NR S:UC C:NLH I:NLH A:NLH: "
+        v="AV:${ip:0:1}/AC:${ip:1:1}/PR:${ip:2:1}/UI:${ip:3:1}/S:${ip:4:1}/C:${ip:5:1}/I:${ip:6:1}/A:${ip:7:1}"
+        echo "CVSS:3.1/${v:u}"
+    fi
+    $GITREPO/putility/putility.js "https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=${v:u}" -c html -w 100 | pup '#cvss-overall-score-cell text{}'
+}
+
 #/ dadjoke: show dadjoke
 dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
