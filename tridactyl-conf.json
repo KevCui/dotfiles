@@ -1,35 +1,36 @@
 {
-    "id":"key-userconfig",
-    "key":"userconfig",
-    "data":{
-        "searchurls":{
-            "g":"https://www.google.com/search?q=",
-            "gm":"https://www.google.de/maps/place/",
-            "m":"https://www.bing.com/maps/?q=",
-            "w":"http://www.wikipedia.org/w/index.php?title=Special:Search&search=",
-            "s":"https://www.startpage.com/do/dsearch?cat=web&pl=opensearch&language=english&query=",
-            "imdb":"http://www.imdb.com/find?s=all&q=",
-            "db":"https://movie.douban.com/subject_search?cat=1002&search_text=",
-            "gi":"https://www.google.com/search?tbm=isch&q=",
-            "ut":"https://www.youtube.com/results?search_query="
-        },
-        "nmaps":{
-            ",":"back",
-            ".":"forward",
-            "k":"scrollline 20",
-            "j":"scrollline -20",
-            "L":"tabnext",
-            "H":"tabprev",
-            "D":"composite tabclose | buffer #",
-            ",p":"",
-            "pp":"pin",
-            "p":"",
-            "<C-f>":"",
-            "ZZ":""
-        },
-        "searchengine":"duckduckgo",
-        "hintchars":"arstdhneio",
-        "theme":"dark"
+  "id": "key-userconfig",
+  "key": "userconfig",
+  "data": {
+    "searchurls": {
+      "g": "https://www.google.com/search?q=",
+      "gm": "https://www.google.de/maps/place/",
+      "m": "https://www.bing.com/maps/?q=",
+      "w": "http://www.wikipedia.org/w/index.php?title=Special:Search&search=",
+      "s": "https://www.startpage.com/do/dsearch?cat=web&pl=opensearch&language=english&query=",
+      "imdb": "http://www.imdb.com/find?s=all&q=",
+      "db": "https://movie.douban.com/subject_search?cat=1002&search_text=",
+      "gi": "https://www.google.com/search?tbm=isch&q=",
+      "ut": "https://www.youtube.com/results?search_query="
     },
-    "_status":"created"
+    "nmaps": {
+      ",": "back",
+      ".": "forward",
+      "k": "scrollline 20",
+      "j": "scrollline -20",
+      "L": "tabnext",
+      "H": "tabprev",
+      "D": "composite tabclose | buffer #",
+      "P": "composite get_current_url | winopen -private",
+      ",p": "",
+      "pp": "pin",
+      "p": "",
+      "<C-f>": "",
+      "ZZ": ""
+    },
+    "searchengine": "duckduckgo",
+    "hintchars": "arstdhneio",
+    "theme": "dark"
+  },
+  "_status": "created"
 }
