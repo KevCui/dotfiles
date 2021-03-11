@@ -430,7 +430,9 @@ islegitsite() {
     pup '.container div:nth-child(4) .panel-body .label text{}' <<< "$r" | sedremovespace
 
     printf '%b\n' "\033[32mWebsite Blacklist\033[0m"
-    pup '.container div:nth-child(5) .panel-body table td text{}' <<< "$r" | sedremovespace| grep -v 'More Information'
+    pup '.container div:nth-child(5) .panel-body table td text{}' <<< "$r" \
+        | sedremovespace \
+        | grep -v 'More Information'
 
     printf '%b\n' "\033[32mDomain Creation\033[0m"
     pup '.container div:nth-child(7) .panel-body .font-bold text{}' <<< "$r" | sedremovespace
