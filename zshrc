@@ -422,6 +422,25 @@ ip2int() {
     echo "$((st*256*256*256+nd*256*256+rd*256+th))"
 }
 
+# islegitsite <domain_url>: check site is legit or not
+islegitsite() {
+    local r="$(curl -sS -L "https://www.islegitsite.com/check/$1")"
+
+    printf '%b\n' "\033[32mWOT Rating\033[0m"
+    pup '.container div:nth-child(4) .panel-body .label text{}' <<< "$r" | sedremovespace
+
+    printf '%b\n' "\033[32mWebsite Blacklist\033[0m"
+    pup '.container div:nth-child(5) .panel-body table td text{}' <<< "$r" | sedremovespace| grep -v 'More Information'
+
+    printf '%b\n' "\033[32mDomain Creation\033[0m"
+    pup '.container div:nth-child(7) .panel-body .font-bold text{}' <<< "$r" | sedremovespace
+
+    printf '%b\n' "\033[32mWebsite Popularity\033[0m"
+    pup '.container div:nth-child(9) .panel-body .font-bold text{}' <<< "$r" | sedremovespace
+    pup '.container div:nth-child(9) .panel-body strong text{}' <<< "$r" | sedremovespace
+    pup '.container div:nth-child(9) .panel-body a attr{href}' <<< "$r" | sedremovespace
+}
+
 # jsonpath: command to print each path/value pair
 jsonpath() { jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' }
 
