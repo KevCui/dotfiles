@@ -61,6 +61,7 @@ set laststatus=2
 set hlsearch
 set cursorline
 set noshowmode
+set lcs+=space:·
 let g:monotone_color=[100,1,84]
 let g:monotone_secondary_hue_offset=25
 let g:monotone_contrast_factor=0.98
@@ -88,6 +89,13 @@ augroup matchparentoggle
     autocmd!
     au InsertEnter * NoMatchParen
     au InsertLeave * DoMatchParen
+augroup END
+
+" show space character in insert mode
+augroup showspacechartoggle
+    autocmd!
+    au InsertEnter * set list!
+    au InsertLeave * set nolist!
 augroup END
 
 " file coding utf-8
