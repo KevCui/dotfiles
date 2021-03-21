@@ -198,6 +198,17 @@ alias dispon='xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
     calc="${*//p/+}"
     calc="${calc//x/*}"
     calc="${calc//,/.}"
+    calc="${calc//h/0}"
+    calc="${calc//y/1}"
+    calc="${calc//e/2}"
+    calc="${calc//s/3}"
+    calc="${calc//i/4}"
+    calc="${calc//w/5}"
+    calc="${calc//l/6}"
+    calc="${calc//q/7}"
+    calc="${calc//b/8}"
+    calc="${calc//j/9}"
+    echo "$calc"
     calc "$calc"
 }
 
