@@ -286,7 +286,7 @@ citytime () { zdump "$(fd -t f -d 2 "$1" /usr/share/zoneinfo/ | tail -1)" }
 cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup' | sed -e 's/<\/td><\/tr>/\n/g' -e 's/<tr.*multi=\w">//g' -e 's/<\/a><\/td><td>/; /g' -e 's/<\/td><td>/; /g' -e 's/<tr//g' -e 's/><td>//g' | awk -F '>' '{print $2}' | sed -e 's/<a href=.*//g' | grep -i "$1"}
 
 #/ currency <from_currency> <to_currency> <number>: fetch currency exchange rate
-currency () { $GITREPO/xe-cli/xe.sh "$1" "$2" "$3" }
+currency () { curl -sS "https://www.xe.com/currencyconverter/convert/?Amount=$3&From=${1:u}&To=${2:u}" | pup ':parent-of([class="faded-digits"]) text{}' | sed 'N;N; s/\n//g' }
 
 #/ cvss <vector>: calculate cvss3.1 score
 cvss() {
