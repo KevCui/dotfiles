@@ -620,6 +620,20 @@ unshorten() { curl -sSL -I "$1" | grep 'Location: ' | awk -F ': ' '{print $2}' }
 #/ v <img> [viu params]: display image in terminal
 v () { [[ "$(echo $1 | tr '[a-z]' '[A-Z]')" =~ (CR2|DNG)$ ]] && dcraw -c -w "$1" | cjpeg | viu "${@:2}" || viu "$@" }
 
+#/ vrt <keyword>: Bugcrowd’s Vulnerability Rating Taxonomy search
+vrt () {
+    local d r l k
+    d="$(curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' | jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' | grep -v '.id:' | grep -v '.type:')"
+    r="$(rg -i "$1" <<< "$d")"
+    if [[ -n "${r-}" ]]; then
+        while read -r l; do
+            k="$(awk -F ":" '{print $1}' <<< "$l" | sed 's/.name$//')"
+            grep "$k" <<< "$d" | sed 's/priority: / P/' | sed 's/name: //' | sed 's/.content.//' | sed 's/.children./|/g'
+            echo "---"
+        done <<< "$r"
+    fi
+}
+
 #/ weather <location>: get weather info
 weather () { curl "wttr.in/$1" }
 
