@@ -622,16 +622,32 @@ v () { [[ "$(echo $1 | tr '[a-z]' '[A-Z]')" =~ (CR2|DNG)$ ]] && dcraw -c -w "$1"
 
 #/ vrt <keyword>: Bugcrowd’s Vulnerability Rating Taxonomy search
 vrt () {
-    local d r l k
+    local d nl n np cl cn cp ccl ccn ccp
     d="$(curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' | jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' | grep -v '.id:' | grep -v '.type:')"
-    r="$(rg -i "$1" <<< "$d")"
-    if [[ -n "${r-}" ]]; then
-        while read -r l; do
-            k="$(awk -F ":" '{print $1}' <<< "$l" | sed 's/.name$//')"
-            grep "$k" <<< "$d" | sed 's/priority: / P/' | sed 's/name: //' | sed 's/.content.//' | sed 's/.children./|/g'
-            echo "---"
-        done <<< "$r"
-    fi
+    nl="$(tail -1 <<< "$d" | awk -F '.' '{print $3}')"
+    for (( i = 0; i <= nl; i++ )); do
+        np="$(grep ".content.${i}.priority" <<< "$d" | sed 's/.*: /: P/')"
+        n="$(grep ".content.${i}.name" <<< "$d" | sed 's/.*: "//' | sed 's/"$//')${np}"
+        cl="$(grep ".content.${i}.children." <<< "$d" | tail -1 | awk -F '.' '{print $5}')"
+        if [[ -n "${cl:-}" ]]; then
+            for (( j = 0; j <= cl; j++ )); do
+                cp="$(grep ".content.${i}.children.${j}.priority" <<< "$d" | sed 's/.*: /: P/')"
+                cn="$n > $(grep ".content.${i}.children.${j}.name" <<< "$d" | sed 's/.*: "//' | sed 's/"$//')${cp}"
+                ccl="$(grep ".content.${i}.children.${j}.children." <<< "$d" | tail -1 | awk -F '.' '{print $7}')"
+                if [[ -n "${ccl:-}" ]]; then
+                    for (( jj = 0; jj <= ccl; jj++ )); do
+                        ccp="$(grep ".content.${i}.children.${j}.children.${jj}.priority" <<< "$d" | sed 's/.*: /: P/')"
+                        ccn="$cn > $(grep ".content.${i}.children.${j}.children.${jj}.name" <<< "$d" | sed 's/.*: "//' | sed 's/"$//')${ccp}"
+                        echo "$ccn" | rg -i "$1"
+                    done
+                else
+                    echo "$cn" | rg -i "$1"
+                fi
+            done
+        else
+            echo "$n" | rg -i "$1"
+        fi
+    done
 }
 
 #/ weather <location>: get weather info
