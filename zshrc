@@ -650,6 +650,17 @@ vrt () {
     done
 }
 
+#/ vrt2cvss <keyword>: convert Bugcrowd’s vrt to CVSS score
+vrt2cvss () {
+    local id ids data
+    ids="$(curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' | grep -i "$1" -B 1 | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//')"
+    data="$(curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/cvss_v3/cvss_v3.json')"
+    while read -r id; do
+        echo "---"
+        grep -i "$id" -A 1 <<< "$data" | sedremovespace | sed -E 's/,$//;s/"$//;s/.*": "//'
+    done <<< "$ids"
+}
+
 #/ weather <location>: get weather info
 weather () { curl "wttr.in/$1" }
 
