@@ -622,8 +622,22 @@ v () { [[ "$(echo $1 | tr '[a-z]' '[A-Z]')" =~ (CR2|DNG)$ ]] && dcraw -c -w "$1"
 
 #/ vrt <keyword>: Bugcrowd’s Vulnerability Rating Taxonomy search
 vrt () {
-    local d nl n np cl cn cp ccl ccn ccp
-    d="$(curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' | jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' | grep -v '.id:' | grep -v '.type:')"
+    local d nl n np cl cn cp ccl ccn ccp vf dl fu no
+    vf="${HOME}/.vrt.json"
+    dl=0
+    if [[ ! -s "$vf" ]]; then
+        dl=1
+    else
+        fu=$(date -d "$(date -r "$vf") +7 day" +%s)
+        no=$(date +%s)
+        [[ "$no" -gt "$fu" ]] && dl=1
+    fi
+
+    if [[ "$dl" == "1" ]]; then
+        curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' > "$vf"
+    fi
+
+    d="$(jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' < "$vf" | grep -v '.id:' | grep -v '.type:')"
     nl="$(tail -1 <<< "$d" | awk -F '.' '{print $3}')"
     for (( i = 0; i <= nl; i++ )); do
         np="$(grep ".content.${i}.priority" <<< "$d" | sed 's/.*: /: P/')"
@@ -650,15 +664,41 @@ vrt () {
     done
 }
 
-#/ vrt2cvss <keyword>: convert Bugcrowd’s vrt to CVSS score
+#/ vrt2cvss <keyword>: convert Bugcrowd’s VRT to CVSS score
 vrt2cvss () {
-    local id ids data
-    ids="$(curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' | grep -i "$1" -B 1 | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//')"
-    data="$(curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/cvss_v3/cvss_v3.json')"
+    local id ids vf cf dl fu no
+    vf="${HOME}/.vrt.json"
+    dl=0
+    if [[ ! -s "$vf" ]]; then
+        dl=1
+    else
+        fu=$(date -d "$(date -r "$vf") +7 day" +%s)
+        no=$(date +%s)
+        [[ "$no" -gt "$fu" ]] && dl=1
+    fi
+
+    if [[ "$dl" == "1" ]]; then
+        curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' > "$vf"
+    fi
+
+    cf="${HOME}/.vrt2cvss.json"
+    dl=0
+    if [[ ! -s "$cf" ]]; then
+        dl=1
+    else
+        fu=$(date -d "$(date -r "$cf") +7 day" +%s)
+        no=$(date +%s)
+        [[ "$no" -gt "$fu" ]] && dl=1
+    fi
+
+    if [[ "$dl" == "1" ]]; then
+        curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/cvss_v3/cvss_v3.json' > "$cf"
+    fi
+
     while read -r id; do
         echo "---"
-        grep -i "$id" -A 1 <<< "$data" | sedremovespace | sed -E 's/,$//;s/"$//;s/.*": "//'
-    done <<< "$ids"
+        grep -i "$id" -A 1 < "$cf" | sedremovespace | sed -E 's/,$//;s/"$//;s/.*": "//'
+    done <<< "$(grep -i 'name": .*'"$1" -B 1 < "$vf" | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//')"
 }
 
 #/ weather <location>: get weather info
