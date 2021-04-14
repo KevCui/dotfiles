@@ -13,7 +13,7 @@ SPACESHIP_DIR_TRUNC_REPO=false
 SPACESHIP_DIR_COLOR="green"
 SPACESHIP_DIR_PREFIX=""
 SPACESHIP_GIT_BRANCH_COLOR="yellow"
-SPACESHIP_CHAR_SYMBOL="⋗ "
+SPACESHIP_CHAR_SYMBOL="⇝ "
 spaceship_vi_mode_enable
 
 #------------------------------
