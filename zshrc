@@ -623,20 +623,9 @@ v () { [[ "$(echo $1 | tr '[a-z]' '[A-Z]')" =~ (CR2|DNG)$ ]] && dcraw -c -w "$1"
 
 #/ vrt <keyword>: Bugcrowd’s Vulnerability Rating Taxonomy search
 vrt () {
-    local d nl n np cl cn cp ccl ccn ccp vf dl fu no
+    local d nl n np cl cn cp ccl ccn ccp vf
     vf="${HOME}/.vrt.json"
-    dl=0
-    if [[ ! -s "$vf" ]]; then
-        dl=1
-    else
-        fu=$(date -d "$(date -r "$vf") +7 day" +%s)
-        no=$(date +%s)
-        [[ "$no" -gt "$fu" ]] && dl=1
-    fi
-
-    if [[ "$dl" == "1" ]]; then
-        curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' > "$vf"
-    fi
+    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json" "7" "$vf"
 
     d="$(jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' < "$vf" | grep -v '.id:' | grep -v '.type:')"
     nl="$(tail -1 <<< "$d" | awk -F '.' '{print $3}')"
@@ -667,39 +656,35 @@ vrt () {
 
 #/ vrt2cvss <keyword>: convert Bugcrowd’s VRT to CVSS score
 vrt2cvss () {
-    local id ids vf cf dl fu no
+    local id ids vf cf
     vf="${HOME}/.vrt.json"
-    dl=0
-    if [[ ! -s "$vf" ]]; then
-        dl=1
-    else
-        fu=$(date -d "$(date -r "$vf") +7 day" +%s)
-        no=$(date +%s)
-        [[ "$no" -gt "$fu" ]] && dl=1
-    fi
-
-    if [[ "$dl" == "1" ]]; then
-        curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json' > "$vf"
-    fi
-
+    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json" "7" "$vf"
     cf="${HOME}/.vrt2cvss.json"
-    dl=0
-    if [[ ! -s "$cf" ]]; then
-        dl=1
-    else
-        fu=$(date -d "$(date -r "$cf") +7 day" +%s)
-        no=$(date +%s)
-        [[ "$no" -gt "$fu" ]] && dl=1
-    fi
-
-    if [[ "$dl" == "1" ]]; then
-        curl -sS 'https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/cvss_v3/cvss_v3.json' > "$cf"
-    fi
+    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/cvss_v3/cvss_v3.json" "7" "$cf"
 
     while read -r id; do
         echo "---"
         grep -i "$id" -A 1 < "$cf" | sedremovespace | sed -E 's/,$//;s/"$//;s/.*": "//'
     done <<< "$(grep -i 'name": .*'"$1" -B 1 < "$vf" | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//')"
+}
+
+# Download VRT JSON files
+vrtdownload () {
+    # $1: URL
+    # $2: expiration day
+    # $3: output file
+    local dl=0 fu no
+    if [[ ! -s "$3" ]]; then
+        dl=1
+    else
+        fu=$(date -d "$(date -r "$3") +$2 day" +%s)
+        no=$(date +%s)
+        [[ "$no" -gt "$fu" ]] && dl=1
+    fi
+
+    if [[ "$dl" == "1" ]]; then
+        curl -sS "$1" > "$3"
+    fi
 }
 
 #/ weather <location>: get weather info
