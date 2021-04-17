@@ -560,7 +560,7 @@ quodb () { printf "$(curl -sS "http://api.quodb.com/search/${1// /%20}?page=1&ti
 #/ randompwd <length>: generate random password
 randompwd () { </dev/urandom | tr -dc 'a-zA-Z0-9!@#$%^&*()[]{}_=+-?.,:;' | head -c$1; echo"" }
 
-# randomuser: generate random user
+#/ randomuser: generate random user
 randomuser () { curl -sS 'https://randomuser.me/api/' | jq }
 
 #/ reversegeocode <lat,log>: reverse geocoding
