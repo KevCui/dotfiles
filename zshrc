@@ -592,6 +592,27 @@ screenshot () { import -quiet -pause 2 $(date +%s).jpg }
 #/ showpath: show PATH
 showpath () { awk -v RS=: '{print}' <<<$PATH }
 
+#/ snykadvisor <name> <source>: get pacakge info from Snyk Advisor
+snykadvisor () {
+    # $1: package name
+    # $2: npm, python or docker
+    local n="${1:-}"
+    local s="${2:-npm}"
+    local d len
+    d="$(curl -sS "https://snyk.io/advisor/search?source=${s}&q=${n}" | pup '.package')"
+    len="$(pup '.package' <<< "$d" | grep -c 'class="package"')"
+    for (( i = 1; i <= len; i++ )); do
+        printf '%b. \033[1m%b \033[34m%b\033[0m\033[0m\n' \
+            "$i" \
+            "$(pup '.package:nth-child('"$i"') .package-title text{}' <<< "$d" | sedremovespace)" \
+            "$(pup '.package:nth-child('"$i"') .number text{}' <<< "$d" | sedremovespace | sed -E 's/ \/ 100//')"
+        printf '\033[1;30m[%b] %b\033[0m\n' \
+            "$(pup '.package:nth-child('"$i"') .package-history text{}' <<< "$d" | sedremovespace | sed 'N;s/\n/ /')" \
+            "$(pup '.package:nth-child('"$i"') .package-details p text{}' <<< "$d" | sedremovespace)"
+        printf '%b\n\n' "$(pup '.package:nth-child('"$i"') a attr{href}' <<< "$d")"
+    done
+}
+
 #/ synonym <word>: search for synonym of a word
 synonym() { curl -sS https://www.thesaurus.com/browse/$1| pup 'script text{}' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g' | jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .synonyms | sort_by (.term) | .[] | select((.similarity | tonumber)>49) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
 
