@@ -159,8 +159,8 @@ nnoremap <silent> <c-f> :NV<CR>
 nmap <silent> <C-j> <Plug>(ale_previous_wrap)
 nmap <silent> <C-k> <Plug>(ale_next_wrap)
 "   fzf
-nmap <Leader>f :GFiles<CR>
-nmap <Leader>F :Files<CR>
+nmap <Leader>f :Files<CR>
+nmap <Leader>F :GFiles<CR>
 nmap <Leader>b :Buffers<CR>
 nmap <Leader>h :History<CR>
 nmap <Leader>H :Helptags!<CR>
