@@ -680,7 +680,7 @@ vrt () {
 
 #/ vrt2cvss <keyword>: convert Bugcrowd’s VRT to CVSS score
 vrt2cvss () {
-    local id ids vf cf
+    local id vf cf
     vf="${HOME}/.vrt.json"
     vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json" "7" "$vf"
     cf="${HOME}/.vrt2cvss.json"
@@ -690,6 +690,25 @@ vrt2cvss () {
         echo "---"
         grep -i "$id" -A 1 < "$cf" | sedremovespace | sed -E 's/,$//;s/"$//;s/.*": "//'
     done <<< "$(grep -i 'name": .*'"$1" -B 1 < "$vf" | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//')"
+}
+
+#/ vrtadvice <keyword>: show Bugcrowd’s VRT redediation advice
+vrtadvice () {
+    local id vf cf d prefix
+    vf="${HOME}/.vrt.json"
+    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json" "7" "$vf"
+    cf="${HOME}/.vrtadvice.json"
+    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/remediation_advice/remediation_advice.json" "7" "$cf"
+    d="$(jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' "$cf")"
+    while read -r id; do
+        if [[ -n "${id:-}" ]]; then
+            prefix="$(grep 'id: "' <<< "$d" | grep "\"${id}\"" | sed 's/id: ".*$//')"
+            if [[ -n "${prefix:-}" ]]; then
+                echo -e "--$id--\n$(grep "${prefix}remediation_advice" <<< "$d" | sed 's/.*.remediation_advice: //')"
+                grep "${prefix}references" <<< "$d" | sed 's/.*.references.*: //'
+            fi
+        fi
+    done <<< "$(grep -i 'name": .*'"$1" -B 1 < "$vf" | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//' | sort -u)"
 }
 
 # Download VRT JSON files
