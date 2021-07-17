@@ -411,19 +411,22 @@ httpstatuslist () { curl -s 'https://httpstat.us/' | pup -p 'dl text{}' | sedrem
 
 #/ imdb <title>: imdb search
 imdb () {
-    local tt i s t st r rc
+    local tt i s t dp du ge r rc
     tt=$(awk '{print tolower($0)}' <<< "$1")
     while read -r i; do
         if [[ "$i" == "tt"* ]]; then
-            s=$(curl -sS "https://www.imdb.com/title/$i/")
-            t=$(pup 'h1 text{}' --charset utf-8 <<< "$s" | sedremovespace |  awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
-            st=$(pup '.subtext text{}' --charset utf-8 <<< "$s" | sedremovespace | awk '{printf $0}' | sed -E "s/\&#39;/\'/g")
-            r=$(pup '.ratingValue text{}' <<< "$s" | sedremovespace | head -1)
-            rc=$(pup 'span[itemprop="ratingCount"] text{}' <<< "$s")
-            if [[ "$r" ]]; then
-                printf "%b\n" "\033[33m[$r ($rc)]\033[0m \033[32m$t\033[0m - $st"
+            s="$(curl -sS "https://www.imdb.com/title/$i/" | pup 'script text{}' | grep '\{"@context')"
+            t="$(jq -r .name <<< "$s")"
+            dp="$(jq -r .datePublished <<< "$s")"
+            du="$(jq -r .duration <<< "$s" | grep -v null | sed 's/^PT//')"
+            ge="$(jq -r '.genre[]' <<< "$s" | awk '{print}' ORS=' ')"
+            r="$(jq -r .aggregateRating.ratingValue <<< "$s" | grep -v null)"
+            rc="$(jq -r .aggregateRating.ratingCount <<< "$s" | grep -v null)"
+
+            if [[ -n "${r:-}" ]]; then
+                printf "%b\n" "\033[33m[$r ($rc)]\033[0m \033[32m$t\033[0m - $dp \033[34m$du\033[0m $ge"
             else
-                printf "%b\n" "\033[32m$t\033[0m - $st"
+                printf "%b\n" "\033[32m$t\033[0m - $dp \033[34m$du\033[0m $ge"
             fi
         fi
     done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/${tt// /_}.json" | jq -r '.d[].id')
