@@ -527,6 +527,21 @@ mangaupdate () {
     done
 }
 
+#/ medal: Tokyo 2020 Olympic Medal Table
+medal() {
+    local raw len out
+    raw="$(curl -sS 'https://olympics.com/tokyo-2020/olympic-games/en/results/all-sports/medal-standings.htm')"
+    len="$(pup '#medal-standing tbody tr' <<< "$raw" | grep -c '<tr>')"
+    out="Rank+Team+Gold+Silver+Bronze+Total+Rank Total+Code\n"
+    for (( i=1; i<len+1; i++ )); do
+        out+="$(pup '#medal-standing tbody tr:nth-child('"$i"') td text{}' <<< "$raw"\
+            | sed '/^\s*$/d' \
+            | tr -s '\n' '+')\n"
+    done
+    out="${out//&#39;/'}"
+    echo -e "$out" | column -t -s '+'
+}
+
 #/ myanimelist <anime_name>: search anime info
 myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime" or .type == "manga") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)+\(.payload.published)"' | sed -E 's/\+null//' | column -t -s '+')" }
 
