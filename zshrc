@@ -232,11 +232,15 @@ addpet () {
     echo "[$desinput]: $cmdinput" >> $SNIPPET
 }
 
-#/ alpha: print alphabet
+#/ alpha: print alphabet letters
 alpha () {
+    local n o=""
     for x in {a..z}; do
-        echo "$(($(printf "%d" "'$x")-96))\t$x"
+        n="$(($(printf "%d" "'$x")-96))"
+        o+="|$n\t$x\t"
+        [[ $((n % 5 )) -eq 0 ]] && o+="\n"
     done
+    echo -e "$o"
 }
 
 #/ antonym <word>: search for antonym of a word
