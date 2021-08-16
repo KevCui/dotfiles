@@ -119,7 +119,7 @@ alias vif='$EDITOR "$(fzf --bind "enter:abort+execute(echo {2..-1})" --preview="
 alias vil='$EDITOR $(find ${HOME}/stdout -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -f2- -d" ")'
 
 # hugo
-alias hugos="cd $GITREPO/blog; hugo server -D >/dev/null &"
+alias hugos="cd $GITREPO/blog; hugo server -D &"
 
 # python server
 alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
