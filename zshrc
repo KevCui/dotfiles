@@ -436,7 +436,7 @@ imdb () {
     done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/${tt// /_}.json" | jq -r '.d[].id')
 }
 
-# ip2int: convert IP address to an integer
+#/ ip2int: convert IP address to an integer
 ip2int() {
     local st nd rd th
     st="$(awk -F '.' '{print $1}' <<< "$1")"
@@ -446,7 +446,7 @@ ip2int() {
     echo "$((st*256*256*256+nd*256*256+rd*256+th))"
 }
 
-# islegitsite <domain_url>: check site is legit or not
+#/ islegitsite <domain_url>: check site is legit or not
 islegitsite() {
     local r="$(curl -sS -L "https://www.islegitsite.com/check/$1")"
 
@@ -467,10 +467,15 @@ islegitsite() {
     pup '.container div:nth-child(9) .panel-body a attr{href}' <<< "$r" | sedremovespace
 }
 
-# jsonpath: command to print each path/value pair
+#/ jsonpath: command to print each path/value pair
 jsonpath() { jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' }
 
-# letterboxd <film_name>: search film on letterboxd
+#/ json2yaml: convert JSON to YAML
+json2yaml () {
+    python -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'
+}
+
+#/ letterboxd <film_name>: search film on letterboxd
 letterboxd() {
     local o m t y l j g r
     o=$(curl -sS "https://letterboxd.com/search/films/${1// /+}/" | pup '.results')
@@ -766,6 +771,11 @@ writeup () {
     local u
     u="$(curl -sS 'https://www.bugbountyhunting.com/' | grep 'script.js' | sed -E 's/.*https:/https:/' | sed -E "s/'><\/script>//")"
     curl -sS "$u" | grep 'var data =' | sed -E 's/var data =//' | jq . | rg -A 1 'title".*'"$1"
+}
+
+#/ yaml2json: convert YAML to JSON
+yaml2json () {
+    python -c 'import sys, yaml, json; print(json.dumps(yaml.safe_load(sys.stdin.read()), indent=2, sort_keys=False))'
 }
 
 #/ yd <url>: download youtube video, max. resolution 1080
