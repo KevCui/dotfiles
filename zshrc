@@ -307,6 +307,13 @@ cvss() {
 #/ dadjoke: show dadjoke
 dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
+#/ datediff <date1> <date2>: calculate date diff
+datediff () {
+    local d1="$(date -u -d "$1" +%s)"
+    local d2="$(date -u -d "$2" +%s)"
+    echo "$(( (d2 - d1) / 86400 ))"
+}
+
 #/ doomsday <yyyy>: calculate doomsday of a given year
 doomsday() {
     local year="$1"
