@@ -282,7 +282,7 @@ chartable () {
 }
 
 #/ cht <language> <question>: cheat sheet
-cht () { curl "cht.sh/$1/$2" }
+cht () { curl "cht.sh/$1/${2// /%20}" }
 
 #/ citytime <city_name>: show current time in city $1
 citytime () { zdump "$(fd -t f -d 2 "$1" /usr/share/zoneinfo/ | tail -1)" }
