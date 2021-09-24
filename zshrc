@@ -284,9 +284,6 @@ chartable () {
 #/ cht <language> <question>: cheat sheet
 cht () { curl "cht.sh/$1/${2// /%20}" }
 
-#/ citytime <city_name>: show current time in city $1
-citytime () { zdump "$(fd -t f -d 2 "$1" /usr/share/zoneinfo/ | tail -1)" }
-
 #/ cpu <keyword>: find CPU info from PassMark: Name; Mark; Rank; Value; Price
 cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup' | sed -e 's/<\/td><\/tr>/\n/g' -e 's/<tr.*multi=\w">//g' -e 's/<\/a><\/td><td>/; /g' -e 's/<\/td><td>/; /g' -e 's/<tr//g' -e 's/><td>//g' | awk -F '>' '{print $2}' | sed -e 's/<a href=.*//g' | grep -i "$1"}
 
@@ -634,6 +631,15 @@ snykadvisor () {
 
 #/ synonym <word>: search for synonym of a word
 synonym() { curl -sS https://www.thesaurus.com/browse/$1| pup 'script text{}' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g' | jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .synonyms | sort_by (.term) | .[] | select((.similarity | tonumber)>49) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
+
+#/ timezone <city>: show timezone of a city
+timezone() {
+    local data
+    data="$(curl -sSL "https://time.is/${1// /_}" -H 'Accept-Language: en-US,en')"
+    pup '#clock0_bg text{}' <<< "$data"
+    pup '#dd text{}' <<< "$data"
+    pup '.keypoints text{}' <<< "$data"
+}
 
 #/ tinyurl <url>: shorten url using tinyurl
 tinyurl()  {
