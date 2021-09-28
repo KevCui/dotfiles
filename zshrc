@@ -301,6 +301,26 @@ cvss() {
     $GITREPO/putility/putility.js "https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=${v:u}" -c html -w 100 | pup '#cvss-overall-score-cell text{}'
 }
 
+#/ cve <CVE-ID>: list CVE details
+cve () {
+    local data="$(curl -sS "https://nvd.nist.gov/vuln/detail/${1:u}")"
+    pup 'p[data-testid="vuln-description"] text{}' <<< "$data" | sedremovespace
+    echo "---"
+    pup '#Cvss3NistCalculatorAnchor text{}' <<< "$data" | sedremovespace
+    pup '.tooltipCvss3NistMetrics text{}' <<< "$data" | sedremovespace
+    local cScore="$(pup '#Cvss3CnaCalculatorAnchor text{}' <<< "$data" | sedremovespace)"
+    if [[ -n "${cScore:-}" ]]; then
+        echo "CNA: $cScore"
+        pup '.tooltipCvss3CnaMetrics text{}' <<< "$data" | sedremovespace
+    fi
+    echo "---"
+    pup '#vulnHyperlinksPanel table td text{}' <<< "$data" | grep http | sedremovespace
+    echo "---"
+    pup '#vulnTechnicalDetailsDiv table td text{}' <<< "$data" | sedremovespace
+    echo "---"
+    pup '#cveTreeJsonDataHidden attr{value}' <<< "$data" | sed -E 's/\&#34;/"/g' | jq -r '.[].containers[].cpes[] | "\(.cpe23Uri) \(.rangeDescription)"'
+}
+
 #/ dadjoke: show dadjoke
 dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
