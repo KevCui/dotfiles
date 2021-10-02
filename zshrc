@@ -972,6 +972,7 @@ bindkey "^[2" show_args_in_prev_ten_commands
 bindkey "^[3" show_args_in_prev_hundred_commands
 bindkey -M vicmd 'j' history-substring-search-up
 bindkey -M vicmd 'k' history-substring-search-down
+disable r
 
 #------------------------------
 # SSH
