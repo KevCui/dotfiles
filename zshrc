@@ -295,10 +295,14 @@ cvss() {
     local v="${1:-}" ip
     if [[ -z "${v:-}" ]]; then
         read ip\?"AV:NALP AC:LH PR:NLH UI:NR S:UC C:NLH I:NLH A:NLH: "
-        v="AV:${ip:0:1}/AC:${ip:1:1}/PR:${ip:2:1}/UI:${ip:3:1}/S:${ip:4:1}/C:${ip:5:1}/I:${ip:6:1}/A:${ip:7:1}"
-        echo "CVSS:3.1/${v:u}"
+        v="CVSS:3.1/AV:${ip:0:1}/AC:${ip:1:1}/PR:${ip:2:1}/UI:${ip:3:1}/S:${ip:4:1}/C:${ip:5:1}/I:${ip:6:1}/A:${ip:7:1}"
+        v="${v:u}"
     fi
-    $GITREPO/putility/putility.js "https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=${v:u}" -c html -w 100 | pup '#cvss-overall-score-cell text{}'
+    echo "$v"
+    "$(command -v chromium)" --headless --disable-gpu --dump-dom "https://www.first.org/cvss/calculator/3.1#$v" 2>/dev/null \
+    | pup '#baseMetricGroup .scoreRating span text{}' \
+    | awk '{printf "%s ", $0;}'
+    echo
 }
 
 #/ cve <CVE-ID>: list CVE details
