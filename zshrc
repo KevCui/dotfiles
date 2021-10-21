@@ -1,20 +1,7 @@
 #------------------------------
 # Prompt
 #------------------------------
-autoload -U promptinit; promptinit
-prompt spaceship
-SPACESHIP_PROMPT_ORDER=(user time char)
-SPACESHIP_RPROMPT_ORDER=(git dir)
-SPACESHIP_PROMPT_ADD_NEWLINE=false
-SPACESHIP_TIME_SHOW=true
-SPACESHIP_TIME_COLOR="blue"
-SPACESHIP_DIR_TRUNC=0
-SPACESHIP_DIR_TRUNC_REPO=false
-SPACESHIP_DIR_COLOR="green"
-SPACESHIP_DIR_PREFIX=""
-SPACESHIP_GIT_BRANCH_COLOR="yellow"
-SPACESHIP_CHAR_SYMBOL="⇝ "
-spaceship_vi_mode_enable
+eval "$(starship init zsh)"
 
 #------------------------------
 # Variables

@@ -1,0 +1,26 @@
+format = '$time $character'
+right_format = "$git_branch$git_status$directory"
+add_newline = false
+command_timeout = 2000
+
+[character]
+format = "$symbol"
+success_symbol = "[⇝ ](bold green)"
+error_symbol = "[✖ ](bold red)"
+vicmd_symbol = "[❯ ](bold blue)"
+
+[directory]
+format = "[$path]($style) [$read_only]($read_only_style)"
+style = "bold green"
+truncation_length = 5
+truncation_symbol = "…/"
+truncate_to_repo = false
+
+[time]
+format = "[$time]($style)"
+style = "bold blue"
+disabled = false
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+style = "bold yellow"
