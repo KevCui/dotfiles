@@ -322,6 +322,9 @@ datediff () {
     echo "$(( (d2 - d1) / 86400 ))"
 }
 
+#/ defaultpassword <keyword>: search default password from a keyword
+defaultpassword() { curl -sS 'https://raw.githubusercontent.com/many-passwords/many-passwords/main/passwords.csv' | rg "$1|Vendor,Model" | column -t -s ',' }
+
 #/ doomsday <yyyy>: calculate doomsday of a given year
 doomsday() {
     local year="$1"
