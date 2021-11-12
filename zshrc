@@ -981,4 +981,3 @@ stty -ixon # disable ^S
 [[ -f "${HOME}/.czshrc" ]] && source "${HOME}/.czshrc"
 
 [ -f ~/.devicons.sh ] && source ~/.devicons.sh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
