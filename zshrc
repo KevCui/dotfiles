@@ -1,9 +1,4 @@
 #------------------------------
-# Prompt
-#------------------------------
-eval "$(starship init zsh)"
-
-#------------------------------
 # Variables
 #------------------------------
 export PATH="$PATH":${HOME}/Script:${HOME}/.cabal/bin:${HOME}/.npm-global/bin:${HOME}/.local/bin:${HOME}/go/bin:${HOME}/.cargo/bin
@@ -979,5 +974,9 @@ ssh-add ${HOME}/.ssh/id_rsa &> /dev/null
 #------------------------------
 stty -ixon # disable ^S
 [[ -f "${HOME}/.czshrc" ]] && source "${HOME}/.czshrc"
-
 [ -f ~/.devicons.sh ] && source ~/.devicons.sh
+
+#------------------------------
+# Prompt
+#------------------------------
+eval "$(starship init zsh)"
