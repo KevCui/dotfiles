@@ -549,6 +549,26 @@ mangaupdate () {
     done
 }
 
+#/ metacritic <game_title>: search metacritic game rating
+metacritic() {
+    local i=0 s len d t r p
+    while true; do
+        s="$(curl -sS "https://www.metacritic.com/search/game/${1// /%20}/results?page=$i")"
+        len="$(grep -c 'li class="result' <<< "$s")"
+        if [[ "$len" -ge 1 ]]; then
+            for (( j = 1; j <= len; j++ )); do
+                d="$(pup ".search_results li:nth-child($j)" <<< "$s")"
+                t="$(pup '.product_title text{}' <<< "$d" | sedremovespace)"
+                r="$(pup '.metascore_w text{}' <<< "$d" | sedremovespace)"
+                p="$(pup '.main_stats p text{}' <<< "$d" | sedremovespace | awk '{printf "%s ",$0}')"
+                printf "%b\n" "\033[33m[$r]\033[0m \033[32m$t\033[0m - $p"
+            done
+        fi
+        [[ "$len" -lt 10 ]] && break
+        ((i++))
+    done
+}
+
 #/ myanimelist <anime_name>: search anime info
 myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime" or .type == "manga") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)+\(.payload.published)"' | sed -E 's/\+null//' | column -t -s '+')" }
 
