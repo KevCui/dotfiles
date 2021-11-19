@@ -14,7 +14,6 @@ Plug 'mbbill/undotree' "Undo history visualizer
 Plug 'gyim/vim-boxdraw' "+o, +O, +-, +>, +|
 "   syntax
 Plug 'w0rp/ale' "synchronous Lint Engine
-Plug 'posva/vim-vue' "syntax for Vue.js components
 "   navigation
 Plug 'scrooloose/nerdcommenter' "ci cm cu
 Plug 'kshenoy/vim-signature' "mx dmx m<space> m. m,
@@ -285,6 +284,7 @@ let g:Hexokinase_ftAutoload = ['css', 'xml', 'md']
 
 " indentLine
 let g:indentLine_fileTypeExclude = ['markdown']
+let g:vim_json_conceal = 0
 
 " easymotion
 let g:EasyMotion_smartcase = 1
