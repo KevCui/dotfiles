@@ -307,6 +307,9 @@ cve () {
     pup '#cveTreeJsonDataHidden attr{value}' <<< "$data" | sed -E 's/\&#34;/"/g' | jq -r '.[].containers[].cpes[] | "\(.cpe23Uri) \(.rangeDescription)"'
 }
 
+#/ cvetrends [24hrs|7days]: show CVE trends in 24hrs or 7days
+cvetrends() { curl -sS "https://cvetrends.com/api/cves/${1:-24hrs}" | jq -r '.data[] | "\(.cve)\n\(.description)\n"' }
+
 #/ dadjoke: show dadjoke
 dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
