@@ -749,6 +749,20 @@ vrt2cvss () {
     done <<< "$(grep -i 'name": .*'"$1" -B 1 < "$vf" | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//')"
 }
 
+#/ vrt2cwe <keyword>: show Bugcrowd’s VRT CWE mappings
+vrt2cwe () {
+    local id vf d
+    vf="${HOME}/.cwe.json"
+    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/cwe/cwe.json" "7" "$vf"
+    d="$(jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' < "$vf")"
+
+    while read -r l; do
+        id="$(grep "$l" <<< "$d" | awk '{print $1}')"
+        cwe="$(grep "${id//id/cwe.0}" <<< "$d" | awk '{print $2}')"
+        echo "$l $cwe" | grep "$1"
+    done <<< "$(grep ".id:" <<< "$d" | awk '{print $2}')"
+}
+
 #/ vrtadvice <keyword>: show Bugcrowd’s VRT redediation advice
 vrtadvice () {
     local id vf cf d prefix
