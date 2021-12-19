@@ -289,7 +289,7 @@ cvss() {
 
 #/ cve <CVE-ID>: list CVE details
 cve () {
-    local data="$(curl -sS "https://nvd.nist.gov/vuln/detail/${1:u}")"
+    local data="$(curl -sS "https://nvd.nist.gov/vuln/detail/${1:u}" --compressed)"
     pup 'p[data-testid="vuln-description"] text{}' <<< "$data" | sedremovespace
     echo "---"
     pup '#Cvss3NistCalculatorAnchor text{}' <<< "$data" | sedremovespace
