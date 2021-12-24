@@ -349,7 +349,7 @@ doomsday() {
 douban () {
     local o m s t r rc
     o=$($GITREPO/putility/putility.js "https://search.douban.com/movie/subject_search?search_text=$1" -w 100)
-    m=$(grep -co sc-bZQynM <<< "$o")
+    m=$(grep -o sc-bZQynM <<< "$o" | wc -l)
     for (( i = 0; i < m; i++ )); do
         s=$(pup '.sc-bZQynM:nth-child('$((i+1))')' <<< "$o")
         if [[ "$s" ]]; then
