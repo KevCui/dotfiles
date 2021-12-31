@@ -11,7 +11,7 @@ export pkg=/var/cache/pacman/pkg
 export GPG_TTY=$(tty)
 export GITREPO="${HOME}/git"
 export SNIPPET="${HOME}/Notes/command-snippet.md"
-export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>|"
+export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>|'\""
 
 # Android SDK
 export ANDROID_SDK=/opt/android-sdk
