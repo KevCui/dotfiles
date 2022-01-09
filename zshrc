@@ -587,14 +587,37 @@ mytraceroute () { curl 'icanhaztraceroute.com' }
 #/ mytrafficproxied : determine if my taffic is proxied or not
 mytrafficproxied () { curl 'icanhazproxy.com' }
 
+#/ opencritic <game>:show OpenCritic game scores
+opencritic ()  {
+    local d len item n l r
+    d="$(curl -sS "https://opencritic.com/api/meta/search?criteria=${1// /%20}")"
+    len="$(jq 'length' <<< "$d")"
+    for (( i = 0; i < len; i++ )); do
+        item="$(jq -r ".[$i]" <<< "$d")"
+        if [[ "$(jq -r .relation <<< "$item")" == "game" ]]; then
+            n="$(jq -r '.name' <<< "$item")"
+            l="$(jq -r '"\(.id)/\(.name)"' <<< "$item" \
+                | sed 's/[^[:alnum:] \/]//g' \
+                | tr -s '[:space:]' \
+                | sed 's/ /-/g' \
+                | tr '[:upper:]' '[:lower:]')"
+            r="$(curl -sS "https://opencritic.com/game/$l" \
+                | pup '.inner-orb text{}' \
+                | awk '{$1=$1};1' \
+                | sed '/$/N;s/\n/\//')"
+            printf "%b\n" "\033[33m[$r]\033[0m \033[32m$n\033[0m"
+        fi
+    done
+}
+
 #/ outline <url>: generate outline link
-outline() {
+outline () {
     local u=$(curl -sS "https://api.outline.com/v3/parse_article?source_url=$1" -H 'Referer: https://outline.com/' | jq -r '.data.short_code')
     xdg-open "https://outline.com/$u"
 }
 
 #/ playstoresearch <term>: search apps in Play Store by term
-playstoresearch() { curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/android/searches.json?language=en&term=$1" | jq }
+playstoresearch () { curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/android/searches.json?language=en&term=$1" | jq }
 
 #/ port <port_number>: port lookup
 port () { curl -sS 'https://www.portcheckers.com/port-number-assignment' --data-raw port="$1" | grep '<tr><td>' | sed -E 's/<[\/]?t[rd]>/ /g' | sedremovespace }
