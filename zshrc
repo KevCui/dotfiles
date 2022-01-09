@@ -323,6 +323,30 @@ datediff () {
 #/ defaultpassword <keyword>: search default password from a keyword
 defaultpassword() { curl -sS 'https://raw.githubusercontent.com/many-passwords/many-passwords/main/passwords.csv' | rg "$1|Vendor,Model" | column -t -s ',' }
 
+#/ dekudeals <game>: show game prices from DekuDeals
+dekudeals () {
+    local d l r len o="" p
+    d="$(curl -sS "https://www.dekudeals.com/autocomplete?term=${1// /%20}" | jq -r '.[] | "[\(.url)] \(.name)"')"
+    l="$(fzf -1 -0 <<< "$d" \
+        | awk -F']' '{print $1}' \
+        | sed -E 's/^\[//')"
+    r="$(curl -sS "https://www.dekudeals.com/${l}")"
+    len="$(pup '.item-price-table tr json{}' <<< "$r" | grep -c "tr")"
+    for i in $(seq 1 "$len"); do
+        p="$(pup ".item-price-table tr:nth-child($i) text{}" <<< "$r" \
+            | sedremovespace \
+            | tr '\n' ' ')"
+        [[ "$p" =~ ^Digital* || "$p" =~ ^Physical* ]] && o+="\n$p" || o+=" $p"
+    done
+    echo -e "$o\n---" | sed -E '/^[[:space:]]*$/d'
+    len="$(pup '#price-history table tr json{}' <<< "$r" | grep -c "tr")"
+    for i in $(seq 1 "$len"); do
+        pup "#price-history table tr:nth-child($i) text{}" <<< "$r" \
+            | sedremovespace \
+            | sed '/$/N;s/\n/ /'
+    done
+}
+
 #/ doomsday <yyyy>: calculate doomsday of a given year
 doomsday() {
     local year="$1"
