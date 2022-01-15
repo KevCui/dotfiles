@@ -226,7 +226,7 @@ alpha () {
 }
 
 #/ antonym <word>: search for antonym of a word
-antonym() { curl -sS https://www.thesaurus.com/browse/$1| pup 'script text{}' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g'| jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .antonyms | sort_by (.term) | .[] | select((.similarity | tonumber)<-51) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
+antonym() { curl -sS https://www.thesaurus.com/browse/$1| htmlq -t 'script' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g'| jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .antonyms | sort_by (.term) | .[] | select((.similarity | tonumber)<-51) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
 
 #/ bang [<keyword> <text>]: open DDG bang
 bang() {
@@ -239,7 +239,7 @@ bang() {
 
 #/ brainyquote <word>: search brainyquote
 brainyquote () {
-    curl -sS "https://www.brainyquote.com/search_results?q=${1// /+}" | pup '.clearfix text{}' | sedremovespace | sed -E "s/\&#39;/\'/g" | awk 'NR % 2 {print} !(NR % 2) {printf "- %s\n\n",$0 }'
+    curl -sS "https://www.brainyquote.com/search_results?q=${1// /+}" | htmlq -t -w '.clearfix' | sedremovespace | sed -E "s/\&#39;/\'/g" | awk 'NR % 2 {print} !(NR % 2) {printf "- %s\n\n",$0 }'
 }
 
 #/ buildapk <keystore> <alias>: sign apk
@@ -270,7 +270,7 @@ cht () { curl "cht.sh/$1/${2// /%20}" }
 cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup' | sed -e 's/<\/td><\/tr>/\n/g' -e 's/<tr.*multi=\w">//g' -e 's/<\/a><\/td><td>/; /g' -e 's/<\/td><td>/; /g' -e 's/<tr//g' -e 's/><td>//g' | awk -F '>' '{print $2}' | sed -e 's/<a href=.*//g' | grep -i "$1"}
 
 #/ currency <from_currency> <to_currency> <number>: fetch currency exchange rate
-currency () { curl -sS "https://www.xe.com/currencyconverter/convert/?Amount=$3&From=${1:u}&To=${2:u}" | pup ':parent-of([class="faded-digits"]) text{}' | sed 'N;N; s/\n//g' }
+currency () { curl -sS "https://www.xe.com/currencyconverter/convert/?Amount=$3&From=${1:u}&To=${2:u}" |  htmlq -t 'p[class*="BigRate"]' }
 
 #/ cvss <vector>: calculate cvss3.1 score
 cvss() {
@@ -282,7 +282,7 @@ cvss() {
     fi
     echo "$v"
     "$(command -v chromium)" --headless --disable-gpu --dump-dom "https://www.first.org/cvss/calculator/3.1#$v" 2>/dev/null \
-    | pup '#baseMetricGroup .scoreRating span text{}' \
+    | htmlq -t '#baseMetricGroup .scoreRating span' \
     | awk '{printf "%s ", $0;}'
     echo
 }
@@ -290,21 +290,21 @@ cvss() {
 #/ cve <CVE-ID>: list CVE details
 cve () {
     local data="$(curl -sS "https://nvd.nist.gov/vuln/detail/${1:u}" --compressed)"
-    pup 'p[data-testid="vuln-description"] text{}' <<< "$data" | sedremovespace
+    htmlq -t 'p[data-testid="vuln-description"]' <<< "$data" | sedremovespace
     echo "---"
-    pup '#Cvss3NistCalculatorAnchor text{}' <<< "$data" | sedremovespace
-    pup '.tooltipCvss3NistMetrics text{}' <<< "$data" | sedremovespace
-    local cScore="$(pup '#Cvss3CnaCalculatorAnchor text{}' <<< "$data" | sedremovespace)"
+    htmlq -t '#Cvss3NistCalculatorAnchor' <<< "$data" | sedremovespace
+    htmlq -t '.tooltipCvss3NistMetrics' <<< "$data" | sedremovespace
+    local cScore="$(htmlq -t '#Cvss3CnaCalculatorAnchor' <<< "$data" | sedremovespace)"
     if [[ -n "${cScore:-}" ]]; then
         echo "CNA: $cScore"
-        pup '.tooltipCvss3CnaMetrics text{}' <<< "$data" | sedremovespace
+        htmlq -t '.tooltipCvss3CnaMetrics' <<< "$data" | sedremovespace
     fi
     echo "---"
-    pup '#vulnHyperlinksPanel table td text{}' <<< "$data" | grep http | sedremovespace
+    htmlq -t '#vulnHyperlinksPanel table td' <<< "$data" | grep http | sedremovespace
     echo "---"
-    pup '#vulnTechnicalDetailsDiv table td text{}' <<< "$data" | sedremovespace
+    htmlq -t '#vulnTechnicalDetailsDiv table td' <<< "$data" | sedremovespace
     echo "---"
-    pup '#cveTreeJsonDataHidden attr{value}' <<< "$data" | sed -E 's/\&#34;/"/g' | jq -r '.[].containers[].cpes[] | "\(.cpe23Uri) \(.rangeDescription)"'
+    htmlq -t '#cveTreeJsonDataHidden' -a value <<< "$data" | sed -E 's/\&#34;/"/g' | jq -r '.[].containers[].cpes[] | "\(.cpe23Uri) \(.rangeDescription)"'
 }
 
 #/ cvetrends [24hrs|7days]: show CVE trends in 24hrs or 7days
@@ -331,17 +331,17 @@ dekudeals () {
         | awk -F']' '{print $1}' \
         | sed -E 's/^\[//')"
     r="$(curl -sS "https://www.dekudeals.com/${l}")"
-    len="$(pup '.item-price-table tr json{}' <<< "$r" | grep -c "tr")"
+    len="$(htmlq '.item-price-table tr' <<< "$r" | grep -c "</tr>")"
     for i in $(seq 1 "$len"); do
-        p="$(pup ".item-price-table tr:nth-child($i) text{}" <<< "$r" \
+        p="$(htmlq -t ".item-price-table tr:nth-child($i)" <<< "$r" \
             | sedremovespace \
             | tr '\n' ' ')"
         [[ "$p" =~ ^Digital* || "$p" =~ ^Physical* ]] && o+="\n$p" || o+=" $p"
     done
     echo -e "$o\n---" | sed -E '/^[[:space:]]*$/d'
-    len="$(pup '#price-history table tr json{}' <<< "$r" | grep -c "tr")"
+    len="$(htmlq -t '#price-history table tr' <<< "$r" | grep -c "</tr>")"
     for i in $(seq 1 "$len"); do
-        pup "#price-history table tr:nth-child($i) text{}" <<< "$r" \
+        htmlq -t "#price-history table tr:nth-child($i)" <<< "$r" \
             | sedremovespace \
             | sed '/$/N;s/\n/ /'
     done
@@ -375,11 +375,11 @@ douban () {
     o=$($GITREPO/putility/putility.js "https://search.douban.com/movie/subject_search?search_text=$1" -w 100)
     m=$(grep -o sc-bZQynM <<< "$o" | wc -l)
     for (( i = 0; i < m; i++ )); do
-        s=$(pup '.sc-bZQynM:nth-child('$((i+1))')' <<< "$o")
+        s=$(htmlq '.sc-bZQynM:nth-child('$((i+1))')' <<< "$o")
         if [[ "$s" ]]; then
-            t=$(pup '.title-text text{}' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
-            r=$(pup '.rating_nums text{}' <<< "$s" | sedremovespace)
-            rc=$(pup '.pl text{}' <<< "$s" | sedremovespace)
+            t=$(htmlq -t '.title-text' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
+            r=$(htmlq -t '.rating_nums' <<< "$s" | sedremovespace)
+            rc=$(htmlq -t '.pl' <<< "$s" | sedremovespace)
             if [[ "$r" ]]; then
                 printf "%b\n" "\033[33m[$r $rc]\033[0m $t"
             else
@@ -420,7 +420,7 @@ findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec 
 geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1] | tostring | split(".") | .[0]).\(.[1] | tostring | split(".") | .[1][0:6]),\(.[0] | tostring | split(".") | .[0]).\(.[0] | tostring | split(".") | .[1][0:6])"'}
 
 #/ getlinks <url>: get all links on the page
-getlinks () { curl -sS "$1" | pup 'a, link, base, area attr{href}' | sedremovespace | sort -u }
+getlinks () { curl -sS "$1" | htmlq 'a, link, base, area' -a  href | sedremovespace | sort -u }
 
 #/ goodreads <book>: goodreads search
 goodreads () {
@@ -428,10 +428,10 @@ goodreads () {
     o=$(curl -sS "https://www.goodreads.com/search?q=${1// /+}")
     m=$(grep -c "role='heading'" <<< "$o")
     for (( i = 0; i < m; i++ )); do
-        s=$(pup 'tr:nth-child('$((i+1))')' --charset utf-8 <<< "$o")
-        t=$(pup '.bookTitle text{}' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
-        st='\033[33m'$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | sed -E '/class="staticStar p10"/{n;d}' | pup '.smallText text{}' --charset utf-8 | sedremovespace | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings* —/\)\\033\[0m/;s/ — / \(/;s/ —$//' | sedremovespace | sed -E "s/\&#39;/\'/g")
-        a=$(pup '.authorName text{}' <<< "$s" | sedremovespace | awk '{printf " %s", $0}' | sedremovespace | sed -E "s/\&#39;/\'/g")
+        s=$(htmlq 'tr:nth-child('$((i+1))')' <<< "$o")
+        t=$(htmlq -t '.bookTitle' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
+        st='\033[33m'$(sed -E '/rel="nofollow"/{n;d}' <<< "$s" | sed -E '/class="staticStar p10"/{n;d}' | htmlq -t '.smallText' | sedremovespace | awk '{printf " %s", $0}' | sed -E 's/ avg rating//' | sed -E 's/ ratings* —/\)\\033\[0m/;s/ — / \(/;s/ —$//' | sedremovespace | sed -E "s/\&#39;/\'/g")
+        a=$(htmlq -t '.authorName' <<< "$s" | sedremovespace | awk '{printf " %s", $0}' | sedremovespace | sed -E "s/\&#39;/\'/g")
         printf "%b\n" "\033[32m$t\033[0m by $a - $st"
     done
 }
@@ -451,7 +451,7 @@ holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nag
 httpstatus () { curl -i "https://httpstat.us/$1" }
 
 #/ httpstatuslist: show list of HTTP codes
-httpstatuslist () { curl -s 'https://httpstat.us/' | pup -p 'dl text{}' | sedremovespace | awk 'NR%2{printf "%s ",$0;next}{print}' }
+httpstatuslist () { curl -s 'https://httpstat.us/' | htmlq -t 'dl' | sedremovespace | awk 'NR%2{printf "%s ",$0;next}{print}' }
 
 #/ imdb <title>: imdb search
 imdb () {
@@ -459,7 +459,7 @@ imdb () {
     tt=$(awk '{print tolower($0)}' <<< "$1")
     while read -r i; do
         if [[ "$i" == "tt"* ]]; then
-            s="$(curl -sS "https://www.imdb.com/title/$i/" | pup 'script text{}' | grep '\{"@context')"
+            s="$(curl -sS "https://www.imdb.com/title/$i/" | htmlq -t 'script' | grep '\{"@context')"
             t="$(jq -r .name <<< "$s")"
             dp="$(jq -r .datePublished <<< "$s")"
             du="$(jq -r .duration <<< "$s" | grep -v null | sed 's/^PT//')"
@@ -491,20 +491,20 @@ islegitsite() {
     local r="$(curl -sS -L "https://www.islegitsite.com/check/$1")"
 
     printf '%b\n' "\033[32mWOT Rating\033[0m"
-    pup '.container div:nth-child(4) .panel-body .label text{}' <<< "$r" | sedremovespace
+    htmlq -t '.container div:nth-child(4) .panel-body .label' <<< "$r" | sedremovespace
 
     printf '%b\n' "\033[32mWebsite Blacklist\033[0m"
-    pup '.container div:nth-child(5) .panel-body table td text{}' <<< "$r" \
+    htmlq -t '.container div:nth-child(5) .panel-body table td' <<< "$r" \
         | sedremovespace \
         | grep -v 'More Information'
 
     printf '%b\n' "\033[32mDomain Creation\033[0m"
-    pup '.container div:nth-child(7) .panel-body .font-bold text{}' <<< "$r" | sedremovespace
+    htmlq -t '.container div:nth-child(7) .panel-body .font-bold' <<< "$r" | sedremovespace
 
     printf '%b\n' "\033[32mWebsite Popularity\033[0m"
-    pup '.container div:nth-child(9) .panel-body .font-bold text{}' <<< "$r" | sedremovespace
-    pup '.container div:nth-child(9) .panel-body strong text{}' <<< "$r" | sedremovespace
-    pup '.container div:nth-child(9) .panel-body a attr{href}' <<< "$r" | sedremovespace
+    htmlq -t '.container div:nth-child(9) .panel-body .font-bold' <<< "$r" | sedremovespace
+    htmlq -t '.container div:nth-child(9) .panel-body strong' <<< "$r" | sedremovespace
+    htmlq -t '.container div:nth-child(9) .panel-body a' -a href <<< "$r" | sedremovespace
 }
 
 #/ jsonpath: command to print each path/value pair
@@ -518,13 +518,13 @@ json2yaml () {
 #/ letterboxd <film_name>: search film on letterboxd
 letterboxd() {
     local o m t y l j g r
-    o=$(curl -sS "https://letterboxd.com/search/films/${1// /+}/" | pup '.results')
+    o=$(curl -sS "https://letterboxd.com/search/films/${1// /+}/" | htmlq '.results')
     m=$(grep -c 'class="film-detail-content"' <<< "$o")
     [[ "$m" -gt "10" ]] && m=10
     for (( i = 0; i < m; i++ )); do
-        t=$(pup 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > a:nth-child(1) text{}' <<< "$o" | sedremovespace)
-        y=$(pup 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > small:nth-child(2) > a:nth-child(1) text{}' <<< "$o" | sedremovespace)
-        l=$(pup 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > a:nth-child(1) attr{href}' <<< "$o" | sedremovespace)
+        t=$(htmlq -t 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > a:nth-child(1)' <<< "$o" | sedremovespace)
+        y=$(htmlq -t 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > small:nth-child(2) > a:nth-child(1)' <<< "$o" | sedremovespace)
+        l=$(htmlq -t 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > a:nth-child(1)' -a href <<< "$o" | sedremovespace)
         if [[ $l ]]; then
             j=$(curl -sS "https://letterboxd.com${l}" | grep ratingValue)
             g=$(jq -r '.genre | join(", ")' <<< "$j")
@@ -548,16 +548,16 @@ lm () {
 #/ lyrics <word>: search lyrics
 lyrics () {
     local o m s t a l
-    o=$(curl -sS "https://www.lyrics.com/lyrics/${1// /%20}" | sed -E 's/\r$/---/g' | pup '.sec-lyric')
+    o=$(curl -sS "https://www.lyrics.com/lyrics/${1// /%20}" | sed -E 's/\r$/---/g' | htmlq '.sec-lyric')
     m=$(grep -c '.sec-lyric' <<< "$o")
     [[ "$m" -gt 11 ]] && m=10
 
     for (( i = 0; i < m; i++ )); do
-        s=$(pup 'div.sec-lyric:nth-child('"$((i+1))"')' <<< "$o")
-        t=$(pup '.lyric-meta-title text{}' <<< "$s" | sedremovespace)
-        a=$(pup '.lyric-meta-album-artist text{}' <<< "$s" | sedremovespace)
-        [[ "$a" == "" ]] && a=$(pup '.lyric-meta-artists text{}' <<< "$s" | sedremovespace)
-        l=$(pup --charset utf-8 '.lyric-body text{}' <<< "$s" | sedremovespace | awk '{printf "%s ",$0}' | sed -E 's/---/\n/g' | sedremovespace)
+        s=$(htmlq 'div.sec-lyric:nth-child('"$((i+1))"')' <<< "$o")
+        t=$(htmlq -t '.lyric-meta-title' <<< "$s" | sedremovespace)
+        a=$(htmlq -t '.lyric-meta-album-artist' <<< "$s" | sedremovespace)
+        [[ "$a" == "" ]] && a=$(htmlq -t '.lyric-meta-artists' <<< "$s" | sedremovespace)
+        l=$(htmlq -t '.lyric-body' <<< "$s" | sedremovespace | awk '{printf "%s ",$0}' | sed -E 's/---/\n/g' | sedremovespace)
         printf '\n%b\n' "\033[32m$t\033[0m - $a\n$l" | sed -E "s/\&#39;/\'/g"
     done
 }
@@ -565,12 +565,12 @@ lyrics () {
 #/ mangaupdate <manga_name>: search mangaupdate
 mangaupdate () {
     local o m t y r
-    o=$(curl -sS "https://www.mangaupdates.com/series.html?search=${1// /+}&display=list&type=manga&perpage=20" | pup 'div.p-2:nth-child(2) > div:nth-child(2)')
+    o=$(curl -sS "https://www.mangaupdates.com/series.html?search=${1// /+}&display=list&type=manga&perpage=20" | htmlq 'div.p-2:nth-child(2) > div:nth-child(2)')
     m=$(grep -c 'py-1' <<< "$o")
     for (( i = 0; i < m; i++ )); do
-        t=$(pup 'div.py-1:nth-child('"$((i*4+6))"') text{}' <<< "$o" | sedremovespace)
-        y=$(pup 'div.col-1:nth-child('"$((i*4+8))"') text{}' <<< "$o" | sedremovespace)
-        r=$(pup 'div.col-1:nth-child('"$((i*4+9))"') text{}' <<< "$o" | sedremovespace)
+        t=$(htmlq -t 'div.py-1:nth-child('"$((i*4+6))"')' <<< "$o" | sedremovespace)
+        y=$(htmlq -t 'div.col-1:nth-child('"$((i*4+8))"')' <<< "$o" | sedremovespace)
+        r=$(htmlq -t 'div.col-1:nth-child('"$((i*4+9))"')' <<< "$o" | sedremovespace)
         [[ ! "$r" ]] && r="n/a "
         printf '%b\n' "\033[33m[$r]\033[0m $y $t"
     done
@@ -580,14 +580,14 @@ mangaupdate () {
 metacritic() {
     local i=0 s len d t r p
     while true; do
-        s="$(curl -sS "https://www.metacritic.com/search/game/${1// /%20}/results?page=$i")"
+        s="$(curl -sS -A g "https://www.metacritic.com/search/game/${1// /%20}/results?page=$i")"
         len="$(grep -c 'li class="result' <<< "$s")"
         if [[ "$len" -ge 1 ]]; then
             for (( j = 1; j <= len; j++ )); do
-                d="$(pup ".search_results li:nth-child($j)" <<< "$s")"
-                t="$(pup '.product_title text{}' <<< "$d" | sedremovespace)"
-                r="$(pup '.metascore_w text{}' <<< "$d" | sedremovespace)"
-                p="$(pup '.main_stats p text{}' <<< "$d" | sedremovespace | awk '{printf "%s ",$0}')"
+                d="$(htmlq ".search_results li:nth-child($j)" <<< "$s")"
+                t="$(htmlq -t '.product_title' <<< "$d" | sedremovespace)"
+                r="$(htmlq -t '.metascore_w' <<< "$d" | sedremovespace)"
+                p="$(htmlq -t '.main_stats p' <<< "$d" | sedremovespace | awk '{printf "%s ",$0}')"
                 printf "%b\n" "\033[33m[$r]\033[0m \033[32m$t\033[0m - $p"
             done
         fi
@@ -626,7 +626,7 @@ opencritic ()  {
                 | sed 's/ /-/g' \
                 | tr '[:upper:]' '[:lower:]')"
             r="$(curl -sS "https://opencritic.com/game/$l" \
-                | pup '.inner-orb text{}' \
+                | htmlq -t '.inner-orb' \
                 | awk '{$1=$1};1' \
                 | sed '/$/N;s/\n/\//')"
             printf "%b\n" "\033[33m[$r]\033[0m \033[32m$n\033[0m"
@@ -667,7 +667,7 @@ reversegeocode () {
 rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
 
 #/ rotd: show riddles of the day, with answers :)
-rotd () { curl -s 'https://www.riddles.com/riddle-of-the-day'| pup -p '.panel-body p text{}' | awk 'NR%2 {print} !(NR%2) {printf "\033[02;30m%s\033[0m\n\n",$0}' }
+rotd () { curl -s 'https://www.riddles.com/riddle-of-the-day'| htmlq -t '.panel-body p' | awk 'NR%2 {print} !(NR%2) {printf "\033[02;30m%s\033[0m\n\n",$0}' }
 
 #/ rottentomatoes <title>: rottentomatoes search
 rottentomatoes () {
@@ -694,30 +694,30 @@ snykadvisor () {
     local n="${1:-}"
     local s="${2:-npm}"
     local d len
-    d="$(curl -sS "https://snyk.io/advisor/search?source=${s}&q=${n}" | pup '.package')"
-    len="$(pup '.package' <<< "$d" | grep -c 'class="package"')"
+    d="$(curl -sS "https://snyk.io/advisor/search?source=${s}&q=${n}" | htmlq '.package')"
+    len="$(htmlq '.package' <<< "$d" | grep -c 'class="package"')"
     for (( i = 1; i <= len; i++ )); do
         printf '%b. \033[1m%b \033[34m%b\033[0m\033[0m\n' \
             "$i" \
-            "$(pup '.package:nth-child('"$i"') .package-title text{}' <<< "$d" | sedremovespace)" \
-            "$(pup '.package:nth-child('"$i"') .number text{}' <<< "$d" | sedremovespace | sed -E 's/ \/ 100//')"
+            "$(htmlq -t '.package:nth-child('"$i"') .package-title' <<< "$d" | sedremovespace)" \
+            "$(htmlq -t '.package:nth-child('"$i"') .number' <<< "$d" | sedremovespace | sed -E 's/ \/ 100//')"
         printf '\033[1;30m[%b] %b\033[0m\n' \
-            "$(pup '.package:nth-child('"$i"') .package-history text{}' <<< "$d" | sedremovespace | sed 'N;s/\n/ /')" \
-            "$(pup '.package:nth-child('"$i"') .package-details p text{}' <<< "$d" | sedremovespace)"
-        printf '%b\n\n' "$(pup '.package:nth-child('"$i"') a attr{href}' <<< "$d")"
+            "$(htmlq -t '.package:nth-child('"$i"') .package-history' <<< "$d" | sedremovespace | sed 'N;s/\n/ /')" \
+            "$(htmlq -t '.package:nth-child('"$i"') .package-details p' <<< "$d" | sedremovespace)"
+        printf '%b\n\n' "$(htmlq -t '.package:nth-child('"$i"') a' -a href <<< "$d")"
     done
 }
 
 #/ synonym <word>: search for synonym of a word
-synonym() { curl -sS https://www.thesaurus.com/browse/$1| pup 'script text{}' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g' | jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .synonyms | sort_by (.term) | .[] | select((.similarity | tonumber)>49) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
+synonym() { curl -sS https://www.thesaurus.com/browse/$1| htmlq -t 'script' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g' | jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .synonyms | sort_by (.term) | .[] | select((.similarity | tonumber)>49) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
 
 #/ timezone <city>: show timezone of a city
 timezone() {
     local data
     data="$(curl -sSL "https://time.is/${1// /_}" -H 'Accept-Language: en-US,en')"
-    pup '#clock0_bg text{}' <<< "$data"
-    pup '#dd text{}' <<< "$data"
-    pup '.keypoints text{}' <<< "$data"
+    htmlq -t '#clock0_bg' <<< "$data"
+    htmlq -t '#dd' <<< "$data"
+    htmlq '.keypoints' <<< "$data"
 }
 
 #/ tinyurl <url>: shorten url using tinyurl
@@ -897,7 +897,7 @@ yda () { youtube-dl -x $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1
 yds () { youtube-dl --write-auto-sub --convert-subs=srt --sub-lang en,en-US $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
 
 #/ youtuberss <url>: get YouTube RSS QR code
-youtuberss () { url=$(curl -s "$1" | pup 'link' | grep RSS | sed -e 's/^.*href="//' | sed -e 's/">.*$//'); echo "$url"; qr "$url"}
+youtuberss () { url=$(curl -s "$1" | htmlq 'link' | grep RSS | sed -e 's/^.*href="//' | sed -e 's/">.*$//'); echo "$url"; qr "$url"}
 
 #/ yuicss <css_file>: css compressor
 yuicss () { echo "$1".css; rm -f $1.min.css; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type css "$1".css > "$1".min.css;}
