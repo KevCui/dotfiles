@@ -272,6 +272,5 @@ exec --no-startup-id ${HOME}/.config/systemd/user/changepaper.sh
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t medium'
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t tiny1'
 %execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t tiny2'
-exec --no-startup-id xmodmap ${HOME}/.Xmodmap
 exec --no-startup-id xcape -t 300 -e "Shift_R=BackSpace"
 exec --no-startup-id xcape -t 300 -e "Control_L=Escape"

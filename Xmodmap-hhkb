@@ -1,6 +1,7 @@
 ! xmodmap for the Colemak layout.
 ! 2006-01-01 Shai Coleman, http://colemak.com/ . Public domain.
 
+keycode   9 =        grave    asciitilde       dead_tilde        asciitilde
 keycode  10 =            1        exclam       exclamdown       onesuperior
 keycode  11 =            2            at        masculine       twosuperior
 keycode  12 =            3    numbersign      ordfeminine     threesuperior
@@ -59,8 +60,7 @@ keycode 100 = Super_L
 keycode 102 = Super_R
 
 ! DEL and BS
-! keycode 22  = Delete
-! keycode 119 = BackSpace
+keycode 119 = Delete
 
 ! Alt_R Mode_switch
 keycode 108 = Mode_switch
@@ -80,10 +80,10 @@ keycode 108 = Mode_switch
 !add    Mod4    = Meta_L Meta_R
 !add    Mod5    = Scroll_Lock
 
-keycode   9 = Escape
 keycode  23 = Tab ISO_Left_Tab
 keycode  36 = Return
 keycode  37 = Control_L
+keycode  49 = Escape
 keycode  50 = Shift_L
 keycode  62 = Shift_R
 !keycode  63 = KP_Multiply XF86_ClearGrab

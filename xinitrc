@@ -16,5 +16,8 @@ synclient TapButton2=3 TapButton1=1 AccelFactor=0.09 MaxSpeed=5 PalmDetect=1 Pal
 ## disable touchpad when typing
 syndaemon -i 0.8 -t -K -R -d
 
+# Keyboard layout
+xmodmap $HOME/.Xmodmap
+
 # Start i3
 exec i3
