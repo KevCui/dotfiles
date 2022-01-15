@@ -515,27 +515,6 @@ json2yaml () {
     python -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'
 }
 
-#/ letterboxd <film_name>: search film on letterboxd
-letterboxd() {
-    local o m t y l j g r
-    o=$(curl -sS "https://letterboxd.com/search/films/${1// /+}/" | htmlq '.results')
-    m=$(grep -c 'class="film-detail-content"' <<< "$o")
-    [[ "$m" -gt "10" ]] && m=10
-    for (( i = 0; i < m; i++ )); do
-        t=$(htmlq -t 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > a:nth-child(1)' <<< "$o" | sedremovespace)
-        y=$(htmlq -t 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > small:nth-child(2) > a:nth-child(1)' <<< "$o" | sedremovespace)
-        l=$(htmlq -t 'li:nth-child('"$((i+1))"') > div:nth-child(2) > h2:nth-child(1) > span:nth-child(1) > a:nth-child(1)' -a href <<< "$o" | sedremovespace)
-        if [[ $l ]]; then
-            j=$(curl -sS "https://letterboxd.com${l}" | grep ratingValue)
-            g=$(jq -r '.genre | join(", ")' <<< "$j")
-            r=$(jq -r '.aggregateRating | "\(.ratingValue) (\(.ratingCount))"' <<< "$j")
-            printf '%b\n' "$y $t \033[33m$r\033[0m $g"
-        else
-            printf '%b\n' "$y $t"
-        fi
-    done
-}
-
 #/ lm: show last modified time of sites, defined in ${HOME}/.site
 lm () {
     for url in $(cat "${HOME}/.site"); do
@@ -665,9 +644,6 @@ reversegeocode () {
 
 #/ rawtojpg <raw_file>: convert raw image to jpg
 rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
-
-#/ rotd: show riddles of the day, with answers :)
-rotd () { curl -s 'https://www.riddles.com/riddle-of-the-day'| htmlq -t '.panel-body p' | awk 'NR%2 {print} !(NR%2) {printf "\033[02;30m%s\033[0m\n\n",$0}' }
 
 #/ rottentomatoes <title>: rottentomatoes search
 rottentomatoes () {
