@@ -634,6 +634,7 @@ quodb () { printf "$(curl -sS "http://api.quodb.com/search/${1// /%20}?page=1&ti
 #/ randompwd <length>: generate random password, min. length is 4
 randompwd () {
     while true; do
+        local n p
         [[ "${1:-}" -gt 4 ]] && n="$1" || n=4
         p="$(tr -dc 'a-zA-Z0-9!@#$%^&*()[]{}_=+-?.,:;' < /dev/random | head -c"$n")"
         if grep -Ec '[0-9]' <<< "$p" > /dev/null && \
