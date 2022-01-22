@@ -631,8 +631,20 @@ qotd () { curl -s 'https://favqs.com/api/qotd' | jq -r '.quote | "\"\(.body)\" -
 #/ quodb <quote>: movie quote search
 quodb () { printf "$(curl -sS "http://api.quodb.com/search/${1// /%20}?page=1&titles_per_page=50&phrases_per_title=1" | jq -r '.docs[] | "\\033[32m\(.phrase)\\033[0m - \(.title) \(.year)"')" }
 
-#/ randompwd <length>: generate random password
-randompwd () { </dev/urandom | tr -dc 'a-zA-Z0-9!@#$%^&*()[]{}_=+-?.,:;' | head -c$1; echo"" }
+#/ randompwd <length>: generate random password, min. length is 4
+randompwd () {
+    while true; do
+        [[ "${1:-}" -gt 4 ]] && n="$1" || n=4
+        p="$(tr -dc 'a-zA-Z0-9!@#$%^&*()[]{}_=+-?.,:;' < /dev/random | head -c"$n")"
+        if grep -Ec '[0-9]' <<< "$p" > /dev/null && \
+           grep -Ec '[a-z]' <<< "$p" > /dev/null && \
+           grep -Ec '[A-Z]' <<< "$p" > /dev/null && \
+           grep -Ec '[^a-zA-Z0-9]' <<< "$p" > /dev/null; then
+            echo "$p"
+            break
+        fi
+    done
+}
 
 #/ randomuser: generate random user
 randomuser () { curl -sS 'https://randomuser.me/api/' | jq }
