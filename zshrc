@@ -641,7 +641,7 @@ randompwd () {
            grep -Ec '[a-z]' <<< "$p" > /dev/null && \
            grep -Ec '[A-Z]' <<< "$p" > /dev/null && \
            grep -Ec '[^a-zA-Z0-9]' <<< "$p" > /dev/null; then
-            echo "$p"
+            echo -n "$p"
             break
         fi
     done
