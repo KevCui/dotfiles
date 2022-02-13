@@ -516,6 +516,15 @@ json2yaml () {
     python -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'
 }
 
+# less: use vim as pager to replace less
+less () {
+    if [[ -f "${1:-}" ]]; then
+        vim -c "set guioptions=aiMr" -c "set nomodifiable" -c "set laststatus=0" -c "nmap q :q!<CR>" -c "color iceberg" -c "hi Normal guibg=NONE | hi EndOfBuffer guibg=NONE | hi clear LineNr | hi clear SignColumn" -c "set norelativenumber" "$1"
+    else
+        vim -c "set guioptions=aiMr" -c "set nomodifiable" -c "set laststatus=0" -c "nmap q :q!<CR>" -c "color iceberg" -c "hi Normal guibg=NONE | hi EndOfBuffer guibg=NONE | hi clear LineNr | hi clear SignColumn" -c "set norelativenumber" -c "set syntax=${1:-md}" <<< "$(< /dev/stdin)" -
+    fi
+}
+
 #/ lm: show last modified time of sites, defined in ${HOME}/.site
 lm () {
     for url in $(cat "${HOME}/.site"); do
