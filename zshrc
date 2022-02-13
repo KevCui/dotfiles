@@ -518,10 +518,13 @@ json2yaml () {
 
 # less: use vim as pager to replace less
 less () {
+    local conf highlight
+    conf="set guioptions=aiMr | set nomodifiable | set laststatus=0 | nmap q :q!<CR> | color iceberg | set norelativenumber"
+    highlight="hi Normal guibg=NONE | hi EndOfBuffer guibg=NONE | hi clear LineNr | hi clear SignColumn | hi LineNr guifg=#555555"
     if [[ -f "${1:-}" ]]; then
-        vim -c "set guioptions=aiMr" -c "set nomodifiable" -c "set laststatus=0" -c "nmap q :q!<CR>" -c "color iceberg" -c "hi Normal guibg=NONE | hi EndOfBuffer guibg=NONE | hi clear LineNr | hi clear SignColumn" -c "set norelativenumber" "$1"
+        vim -c "$conf" -c "$highlight" $1
     else
-        vim -c "set guioptions=aiMr" -c "set nomodifiable" -c "set laststatus=0" -c "nmap q :q!<CR>" -c "color iceberg" -c "hi Normal guibg=NONE | hi EndOfBuffer guibg=NONE | hi clear LineNr | hi clear SignColumn" -c "set norelativenumber" -c "set syntax=${1:-md}" <<< "$(< /dev/stdin)" -
+        vim -c "$conf" -c "$highlight" -c "set syntax=${1:-md}" <<< "$(< /dev/stdin)" -
     fi
 }
 
