@@ -227,7 +227,7 @@ for_window [class="MuPDF"] layout default
 assign [class="Zathura"] $ws5
 for_window [class="Zathura"] layout default
 
-assign [class="Daily"] $ws3
+assign [class="thunderbird-nightly"] $ws3
 assign [class="Darktable"] $ws3
 assign [class="mpv"] $ws3
 assign [class="Gthumb"] $ws3
