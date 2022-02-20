@@ -2,7 +2,7 @@
     name =
     email =
 [core]
-    pager = delta --theme=iceberg
+    pager = delta --syntax-theme Nord
 [interactive]
     diffFilter = delta --color-only
 [diff]

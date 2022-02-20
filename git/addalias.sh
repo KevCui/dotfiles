@@ -38,7 +38,7 @@ FZF_PREVIEW_KEYBINDING="alt-k:preview-down,alt-j:preview-up,alt-h:preview-page-d
 FZF_OPTION_BIND="--bind $FZF_KEYBINDING --bind $FZF_PREVIEW_KEYBINDING"
 FZF_OPTION_PREVIEW_WINDOW="--ansi --cycle --preview-window=right:wrap"
 FZF_OPTION_PROMPT="-m --cycle --reverse --height=40%"
-DIFF_CMD="delta --theme=iceberg"
+DIFF_CMD="delta --syntax-theme Nord"
 ADD_ICON_CMD="deviconslookup.sh"
 GIT_DIFF_NAME="git diff --name-only"
 GIT_DIFF_NAME_CACHED="$GIT_DIFF_NAME --cached"
