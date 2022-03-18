@@ -605,8 +605,11 @@ mytrafficproxied () { curl 'icanhazproxy.com' }
 
 #/ opencritic <game>:show OpenCritic game scores
 opencritic ()  {
-    local d len item n l r
-    d="$(curl -sS "https://api.opencritic.com/api/meta/search?criteria=${1// /%20}" -H 'Origin: https://opencritic.com' --compressed)"
+    local t d len item n l r
+    t="${1// /%20}"
+    t="${t//:/%3A}"
+    t="${t//\'/%27}"
+    d="$(curl -sS "https://api.opencritic.com/api/meta/search?criteria=${t}" -H 'Origin: https://opencritic.com' --compressed)"
     len="$(jq 'length' <<< "$d")"
     for (( i = 0; i < len; i++ )); do
         item="$(jq -r ".[$i]" <<< "$d")"
