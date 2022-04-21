@@ -214,6 +214,8 @@ assign [class="firefox"] $ws1
 for_window [class="firefox"] layout tabbed
 assign [class="Firefox-esr"] $ws1
 for_window [class="Firefox-esr"] layout tabbed
+assign [class="qutebrowser"] $ws1
+for_window [class="qutebrowser"] layout tabbed
 
 assign [class="Chromium"] $ws1
 for_window [class="Chromium"] layout tabbed
@@ -260,7 +262,7 @@ no_focus [instance="additional"]
 %execalacritty%exec --no-startup-id i3-msg "workspace 2; append_layout ${HOME}/.config/i3/alacritty-workspace.json"
 exec --no-startup-id devmon
 exec --no-startup-id dunst
-%browser%exec --no-startup-id "GTK_THEME=Arc-Dark firefox"
+%browser%exec --no-startup-id "qutebrowser"
 %email%exec --no-startup-id thunderbird
 exec --no-startup-id ${HOME}/Script/fswatch.sh
 %bluetooth%exec --no-startup-id blueman-applet
