@@ -890,16 +890,16 @@ yaml2json () {
 }
 
 #/ yd <url>: download youtube video, max. resolution 1080
-yd () { youtube-dl -f 'bestvideo[height<=?1080][fps<=?30]+bestaudio/best' $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
+yd () { yt-dlp -f 'bestvideo[height<=?1080][fps<=?30]+bestaudio/best' $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
 
 #/ yd720 <url>: download youtube video, max. resolution 720
-yd720 () { youtube-dl -f 'bestvideo[height<=?720][fps<=?30]+bestaudio/best' $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
+yd720 () { yt-dlp -f 'bestvideo[height<=?720][fps<=?30]+bestaudio/best' $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
 
 #/ yda <url>: download youtube audio
-yda () { youtube-dl -x $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
+yda () { yt-dlp -x $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
 
 #/ yds <url>: download youtube with subtitle
-yds () { youtube-dl --write-auto-sub --convert-subs=srt --sub-lang en,en-US $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
+yds () { yt-dlp --write-auto-sub --convert-subs=srt --sub-lang en,en-US $(sed -E 's/.*www.youtube/https:\/\/www.youtube/' <<< "$1" | sed -E 's/%2F/\//g;s/%3F/\?/g;s/%3D/\=/g' | sed -E 's/\&list=.*//') }
 
 #/ youtuberss <url>: get YouTube RSS QR code
 youtuberss () { url=$(curl -s "$1" | htmlq 'link' | grep RSS | sed -e 's/^.*href="//' | sed -e 's/">.*$//'); echo "$url"; qr "$url"}
