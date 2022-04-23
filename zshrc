@@ -3,7 +3,6 @@
 #------------------------------
 export PATH="$PATH":${HOME}/Script:${HOME}/.cabal/bin:${HOME}/.npm-global/bin:${HOME}/.local/bin:${HOME}/go/bin:${HOME}/.cargo/bin
 export TERM='xterm-256color'
-export BROWSER="firefox"
 export EDITOR="nvim"
 export sys=/etc/systemd/system
 export libsys=/usr/lib/systemd/system
@@ -57,6 +56,7 @@ alias diff='colordiff'
 alias df='duf'
 alias emptytrash='rm -rf "$HOME/.local/share/Trash"'
 alias ff='firefox'
+alias q='qutebrowser'
 alias grep='grep --color=auto'
 alias kp='kill $(ps aux | fzf | awk "{print \$2}")'
 alias mcd='f(){ mkdir -p "$1" && cd "$1" }; f'

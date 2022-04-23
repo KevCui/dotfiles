@@ -14,6 +14,7 @@ c.colors.hints.match.fg = '#2e3440'
 c.colors.statusbar.command.private.bg = '#d08770'
 c.fonts.default_size = '12pt'
 c.fonts.default_family = 'IBMPlexMono'
+c.scrolling.bar = 'when-searching'
 
 # Hints
 c.hints.chars = 'arstdhneio'
@@ -30,14 +31,17 @@ config.bind('H', 'tab-prev')
 config.bind(',', 'back')
 config.bind('.', 'forward')
 config.bind('t', 'set-cmd-text -s :open -t')
-config.bind('P', 'open -p')
-config.bind('pp', 'tab-pin')
+config.bind('P', 'open -p {url:pretty}')
+config.bind('pp', 'tab-pin;; tab-move')
 config.bind('_', 'zoom-out')
 config.bind('O', 'set-cmd-text :open -t -r {url:pretty}')
 config.bind('f', 'hint links run open {hint-url}')
 config.bind('F', 'hint all tab-bg')
 config.bind('zi', 'zoom-in')
 config.bind('zo', 'zoom-out')
+config.bind('gl', 'tab-move +')
+config.bind('gh', 'tab-move -')
+config.bind('gM', 'tab-move end')
 config.bind('<<', 'navigate prev -t')
 config.bind('>>', 'navigate next -t')
 config.bind('<Ctrl-p>', 'open -p')
@@ -46,16 +50,21 @@ config.bind('<Ctrl-w>', 'fake-key <Ctrl-backspace>', 'insert')
 # Tabs
 c.auto_save.session = True
 c.tabs.title.format = '{audio}{private}{index}: {current_title}'
-c.colors.tabs.selected.odd.bg = '#88c0d0'
-c.colors.tabs.selected.even.bg = '#88c0d0'
-c.colors.tabs.pinned.selected.odd.bg = '#88c0d0'
-c.colors.tabs.pinned.selected.even.bg = '#88c0d0'
-c.colors.tabs.selected.odd.fg = '#434c5e'
-c.colors.tabs.selected.even.fg = '#434c5e'
-c.colors.tabs.pinned.selected.odd.fg = '#434c5e'
-c.colors.tabs.pinned.selected.even.fg = '#434c5e'
-c.fonts.tabs.selected = 'bold 10pt'
-c.fonts.tabs.unselected = '10pt'
+c.colors.tabs.selected.odd.bg = '#5e81ac'
+c.colors.tabs.selected.even.bg = '#5e81ac'
+c.colors.tabs.pinned.selected.odd.bg = '#5e81ac'
+c.colors.tabs.pinned.selected.even.bg = '#5e81ac'
+c.colors.tabs.bar.bg = '#2e3440'
+c.colors.tabs.odd.bg = '#2e3440'
+c.colors.tabs.even.bg = '#2e3440'
+c.colors.tabs.pinned.odd.bg = '#2e3440'
+c.colors.tabs.pinned.even.bg = '#2e3440'
+c.fonts.tabs.selected = 'bold 9pt'
+c.fonts.tabs.unselected = '9pt'
+c.tabs.last_close = 'close'
+c.tabs.select_on_remove = 'prev'
+c.tabs.new_position.related = 'last'
+c.tabs.pinned.frozen = False
 
 # Status bar
 c.statusbar.show = 'in-mode'
@@ -67,6 +76,7 @@ c.spellcheck.languages = ['en-US']
 c.content.media.audio_video_capture = False
 c.content.media.video_capture = False
 c.content.autoplay = False
+c.content.pdfjs = True
 
 # Other custom settings
 config.source('custom-config.py')
