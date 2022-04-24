@@ -15,6 +15,7 @@ c.colors.statusbar.command.private.bg = '#d08770'
 c.fonts.default_size = '12pt'
 c.fonts.default_family = 'IBMPlexMono'
 c.scrolling.bar = 'when-searching'
+c.scrolling.smooth = True
 
 # Hints
 c.hints.chars = 'arstdhneio'
@@ -30,14 +31,17 @@ config.bind('L', 'tab-next')
 config.bind('H', 'tab-prev')
 config.bind(',', 'back')
 config.bind('.', 'forward')
-config.bind('t', 'set-cmd-text -s :open -t')
+config.bind('t', 'set statusbar.show always;; set-cmd-text -s :open -t')
 config.bind('P', 'open -p {url:pretty}')
 config.bind('pp', 'tab-pin;; tab-move')
 config.bind('_', 'zoom-out')
-config.bind('O', 'set-cmd-text :open -t -r {url:pretty}')
+config.bind('O', 'set statusbar.show always;; set-cmd-text -s :open -t')
 config.bind('f', 'hint links run open {hint-url}')
 config.bind('F', 'hint all tab-bg')
 config.bind('s', 'hint all tab-bg')
+config.bind('/', 'set statusbar.show always;; set-cmd-text /')
+config.bind('<Escape>', 'mode-enter normal;; set statusbar.show in-mode', mode='command')
+config.bind('<Return>', 'command-accept;; set statusbar.show in-mode', mode='command')
 config.bind('zi', 'zoom-in')
 config.bind('zo', 'zoom-out')
 config.bind('gl', 'tab-move +')
