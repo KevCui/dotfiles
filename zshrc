@@ -528,6 +528,18 @@ less () {
     fi
 }
 
+#/ leet <text>: convert text to leetspeak
+leet () {
+    local t="$@"
+    t="${t//a/4}"
+    t="${t//e/3}"
+    t="${t//i/1}"
+    t="${t//o/0}"
+    t="${t//s/5}"
+    t="${t//t/7}"
+    echo "$t"
+}
+
 #/ lm: show last modified time of sites, defined in ${HOME}/.site
 lm () {
     for url in $(cat "${HOME}/.site"); do
