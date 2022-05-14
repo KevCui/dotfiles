@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-echo "open -t https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=${QUTE_SELECTED_TEXT//$'\n'/%0A}" >> "$QUTE_FIFO"
+if [[ "$1" == "--deepl" ]]; then
+    url="https://www.deepl.com/translator#auto/en/"
+else
+    url="https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text="
+fi
+
+echo "open -t ${url}${QUTE_SELECTED_TEXT//$'\n'/%0A}" >> "$QUTE_FIFO"
