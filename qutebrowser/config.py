@@ -16,6 +16,7 @@ c.fonts.default_size = '12pt'
 c.fonts.default_family = 'IBMPlexMono'
 c.scrolling.bar = 'when-searching'
 c.scrolling.smooth = True
+c.downloads.remove_finished = 60000
 
 # Hints
 c.hints.chars = 'arstdhneio'
@@ -40,6 +41,8 @@ config.bind('f', 'hint links run open {hint-url}')
 config.bind('F', 'hint all tab-bg')
 config.bind('s', 'hint all tab-bg')
 config.bind('/', 'set statusbar.show always;; set-cmd-text /')
+config.bind(';t', 'spawn --userscript translate --text')
+config.bind(';T', 'open -t https://translate.google.com/translate?sl=auto&tl=en&u={url}')
 config.bind('<Escape>', 'mode-enter normal;; set statusbar.show in-mode', mode='command')
 config.bind('<Return>', 'command-accept;; set statusbar.show in-mode', mode='command')
 config.bind('zi', 'zoom-in')
@@ -68,7 +71,6 @@ c.fonts.tabs.selected = 'bold 9pt'
 c.fonts.tabs.unselected = '9pt'
 c.tabs.last_close = 'close'
 c.tabs.select_on_remove = 'prev'
-c.tabs.new_position.related = 'last'
 c.tabs.pinned.frozen = False
 
 # Status bar

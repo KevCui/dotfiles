@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+echo "open -t https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=${QUTE_SELECTED_TEXT//$'\n'/%0A}" >> "$QUTE_FIFO"
