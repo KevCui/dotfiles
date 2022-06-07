@@ -701,6 +701,36 @@ savepage() { monolith "$1" > $(date +%s).html }
 #/ screenshot: take screenshot
 screenshot () { import -quiet -pause 2 $(date +%s).jpg }
 
+#/ shodan <IP>: search IP on shodan.io
+shodan () {
+    local o d di de
+    o="$(curl -sS "https://api.shodan.io/shodan/host/${1}?key=${SHODAN_API_KEY}")"
+    [[ "$o" =~ "title>404 Not Found<" ]] && exit 1
+    d=$(printf "%b|" "\033[1m\033[33mHostnames:\033[0m\033[0m")
+    d+=$(jq -r '.hostnames[]' <<< "$o" | awk -v ORS=", " '1')
+    d+=$(printf "\n%b|" "\033[1m\033[33mDomains:\033[0m\033[0m")
+    d+=$(jq -r '.domains[]' <<< "$o" | awk -v ORS=", " '1')
+    d+=$(printf "\n%b|" "\033[1m\033[33mCountry:\033[0m\033[0m")
+    d+=$(jq -r '"\(.country_name) (\(.country_code))"' <<< "$o")
+    d+=$(printf "\n%b|" "\033[1m\033[33mCity:\033[0m\033[0m")
+    d+=$(jq -r '.city' <<< "$o")
+    d+=$(printf "\n%b|" "\033[1m\033[33mOrganization:\033[0m\033[0m")
+    d+=$(jq -r '.org' <<< "$o")
+    d+=$(printf "\n%b|" "\033[1m\033[33mISP:\033[0m\033[0m")
+    d+=$(jq -r '.isp' <<< "$o")
+    d+=$(printf "\n%b|" "\033[1m\033[33mASN:\033[0m\033[0m")
+    d+=$(jq -r '.data[0].asn' <<< "$o")
+    d+=$(printf "\n%b|" "\033[1m\033[33mSSL Cert Issuer:\033[0m\033[0m")
+    d+=$(jq -r '.data[] | select(.port==443) | .ssl.cert.issuer | to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$o" | awk -v ORS=", " '1')
+    d+=$(printf "\n%b|" "\033[1m\033[33mSSL Cert Subject:\033[0m\033[0m")
+    d+=$(jq -r '.data[] | select(.port==443) | .ssl.cert.subject | to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$o" | awk -v ORS=", " '1')
+    d+=$(printf "\n%b|" "\033[1m\033[33mSSL Cert Validity:\033[0m\033[0m")
+    di="$(jq -r '.data[] | select(.port==443) | .ssl.cert.issued' <<< "$o")"
+    de="$(jq -r '.data[] | select(.port==443) | .ssl.cert.expires' <<< "$o")"
+    d+="${di:0:4}-${di:4:2}-${di:6:2} ${di:8:2}:${di:10:2}:${di:12:2} - ${de:0:4}-${de:4:2}-${de:6:2} ${de:8:2}:${de:10:2}:${de:12:2}"
+    echo "$d" | column -t -s '|' | sed 's/, $//'
+}
+
 #/ showpath: show PATH
 showpath () { awk -v RS=: '{print}' <<<$PATH }
 
