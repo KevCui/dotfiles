@@ -761,10 +761,10 @@ synonym() { curl -sS https://www.thesaurus.com/browse/$1| htmlq -t 'script' | gr
 #/ timezone <city>: show timezone of a city
 timezone() {
     local data
-    data="$(curl -sSL "https://time.is/${1// /_}" -H 'Accept-Language: en-US,en')"
+    data="$(curl -sSL "https://time.is/${1// /_}" -H 'Accept-Language: en-US,en' -A 'c')"
     htmlq -t '#clock0_bg' <<< "$data"
     htmlq -t '#dd' <<< "$data"
-    htmlq '.keypoints' <<< "$data"
+    htmlq -t '.keypoints' <<< "$data"
 }
 
 #/ tinyurl <url>: shorten url using tinyurl
