@@ -55,6 +55,8 @@ config.bind('<<', 'navigate prev -t')
 config.bind('>>', 'navigate next -t')
 config.bind('<Ctrl-p>', 'open -p')
 config.bind('<Ctrl-w>', 'fake-key <Ctrl-backspace>', 'insert')
+config.bind('<Ctrl-q>', 'mode-enter passthrough')
+config.unbind('<Ctrl-V>')
 
 # Tabs
 c.auto_save.session = True
