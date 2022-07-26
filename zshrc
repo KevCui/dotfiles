@@ -487,6 +487,11 @@ ip2int() {
     echo "$((st*256*256*256+nd*256*256+rd*256+th))"
 }
 
+#/ ipinfo <ip>: show IP info
+ipinfo () {
+    curl -sS "https://ipinfo.io/widget/demo/$1" -H 'Referer: https://ipinfo.io' --compressed | jq '.data | del(.abuse)'
+}
+
 #/ islegitsite <domain_url>: check site is legit or not
 islegitsite() {
     local r="$(curl -sS -L "https://www.islegitsite.com/check/$1")"
