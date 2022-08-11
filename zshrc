@@ -268,7 +268,12 @@ chartable () {
 cht () { curl "cht.sh/$1/${2// /%20}" }
 
 #/ cpu <keyword>: find CPU info from PassMark: Name; Mark; Rank; Value; Price
-cpu () { curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup' | sed -e 's/<\/td><\/tr>/\n/g' -e 's/<tr.*multi=\w">//g' -e 's/<\/a><\/td><td>/; /g' -e 's/<\/td><td>/; /g' -e 's/<tr//g' -e 's/><td>//g' | awk -F '>' '{print $2}' | sed -e 's/<a href=.*//g' | grep -i "$1"}
+cpu () {
+    local out
+    out="Name;;Mark;;Rank;;Value;;Price"$'\n'
+    out+="$(curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup' |  sed 's/<\/td/;;<\/td/g' | htmlq -t | grep "$1")"
+    column -t -s ';;' <<< "$out"
+}
 
 #/ currency <from_currency> <to_currency> <number>: fetch currency exchange rate
 currency () { curl -sS "https://www.xe.com/currencyconverter/convert/?Amount=$3&From=${1:u}&To=${2:u}" |  htmlq -t 'p[class*="BigRate"]' }
