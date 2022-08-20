@@ -56,7 +56,6 @@ alias diff='colordiff'
 alias df='duf'
 alias emptytrash='rm -rf "$HOME/.local/share/Trash"'
 alias ff='firefox'
-alias q='qutebrowser'
 alias grep='grep --color=auto'
 alias kp='kill $(ps aux | fzf | awk "{print \$2}")'
 alias mcd='f(){ mkdir -p "$1" && cd "$1" }; f'
@@ -66,6 +65,7 @@ alias nv='$EDITOR -c ":NV"'
 alias ping='prettyping --nolegend'
 alias please='sudo $(fc -ln -1)'
 alias po='f() { sleep "$1" && systemctl poweroff }; f'
+alias q='qutebrowser'
 alias rg='rg -i --no-ignore'
 alias rm='rm -i'
 alias s='export lst=$(ls | tail -1); export fst=$(ls | head -1)'
@@ -74,7 +74,6 @@ alias subtitle='subliminal download -l en'
 alias top='htop'
 alias tree='exa --tree'
 alias ts='task'
-alias u='/usr/bin/up'
 alias uc='UCOLLAGE_EXPAND_DIRS=0 UCOLLAGE_SORT_BY=time ucollage'
 alias uf='fzfimg.sh'
 alias replug='devmon -a'
@@ -93,6 +92,7 @@ alias lsg='exa -s mod --git | rg --'
 alias lg='f() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }; f'
 alias llg='exa -l -s mod --git --time-style=long-iso | rg --'
 alias ll='exa -l -s mod --git --time-style=long-iso'
+alias l='exa -l -s mod --git --time-style=long-iso'
 alias lw='f() { ls "$1" | wc -l }; f'
 
 # vim
@@ -1003,7 +1003,6 @@ source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "${HOME}/.zsh/fzf/completion.zsh"
 source "${HOME}/.zsh/fzf/key-bindings.zsh"
 source "${HOME}/.zsh/fzf/command-snippet.zsh"
-source "${HOME}/.zsh/up.sh"
 source "${HOME}/.zsh/z.lua.plugin.zsh"
 source "${HOME}/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
