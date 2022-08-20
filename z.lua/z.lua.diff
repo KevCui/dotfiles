@@ -1,0 +1,40 @@
+--- z.lua.old	2022-08-20 10:54:26.742356811 +0200
++++ z.lua	2022-08-20 11:05:44.128999385 +0200
+@@ -23,6 +23,10 @@
+ --     * z -i foo   # cd with interactive selection
+ --     * z -I foo   # cd with interactive selection using fzf
+ --     * z -b foo   # cd to the parent directory starting with foo
++--     * z          # cd ..
++--     * z -        # cd -
++--     * z <num>    # cd .. with <num> times
++--
+ --
+ -- Bash Install:
+ --     * put something like this in your .bashrc:
+@@ -2094,6 +2098,26 @@
+ 	local arg_subdir=""
+ 	local arg_inter=""
+ 	local arg_strip=""
++
++    if [ -z ${1:-} ]; then
++        cd ..
++        return
++    fi
++
++    if expr "$1" : '^[0-9]\+$' > /dev/null; then
++        i=0
++        while [ "$i" -lt "$1" ];do
++            cd ..
++            i=$((i+1))
++        done
++        return
++    fi
++
++    if [ "$1" = "-" ]; then
++        cd -
++        return
++    fi
++
+ 	if [ "$1" = "--add" ]; then
+ 		shift
+ 		_ZL_RANDOM="$RANDOM" "$ZLUA_LUAEXE" "$ZLUA_SCRIPT" --add "$@"
