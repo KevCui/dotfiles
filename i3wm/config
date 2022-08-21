@@ -260,7 +260,6 @@ no_focus [instance="tasksh"]
 no_focus [instance="additional"]
 %execst%exec --no-startup-id i3-msg "workspace 2; append_layout ${HOME}/.config/i3/st-workspace.json"
 %execalacritty%exec --no-startup-id i3-msg "workspace 2; append_layout ${HOME}/.config/i3/alacritty-workspace.json"
-exec --no-startup-id devmon
 exec --no-startup-id dunst
 %browser%exec --no-startup-id "qutebrowser"
 %email%exec --no-startup-id thunderbird

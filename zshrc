@@ -76,8 +76,6 @@ alias tree='exa --tree'
 alias ts='task'
 alias uc='UCOLLAGE_EXPAND_DIRS=0 UCOLLAGE_SORT_BY=time ucollage'
 alias uf='fzfimg.sh'
-alias replug='devmon -a'
-alias unplug='devmon -u'
 alias watchout='f() { fswatch -r -0 --event=Updated "$1" 2>/dev/null | xargs -0 -n 1 zsh -c "$2; date +%H:%M:%S"}; f'
 alias y='yay'
 
@@ -660,6 +658,18 @@ outline () {
 #/ playstoresearch <term>: search apps in Play Store by term
 playstoresearch () { curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/android/searches.json?language=en&term=$1" | jq }
 
+#/ plug: mount plugged-in device(s)
+plug () {
+    local dl d
+    dl="$(lsblk | grep -v sda | grep sd | grep -v /media | sed 's/└─//;s/├─//' | awk '{print $1}')"
+    while read -r d; do
+        if grep -coE "[0-9]+" <<< "$d" > /dev/null \
+            || ! grep -c "${d}1" <<< "$dl" > /dev/null; then
+                udisksctl mount -b "/dev/${d}"
+        fi
+    done <<< "$dl"
+}
+
 #/ port <port_number>: port lookup
 port () { curl -sS 'https://www.portcheckers.com/port-number-assignment' --data-raw port="$1" | grep '<tr><td>' | sed -E 's/<[\/]?t[rd]>/ /g' | sedremovespace }
 
@@ -798,6 +808,16 @@ toc() {
     echo -e "# Table of Contents\n\n$t\n" > "$out"
     cat "$1" >> "$out"
     mv "$out" "$1"
+}
+
+
+#/ uplung: unmount device(s)
+unplug () {
+    local dl d
+    dl="$(lsblk | grep -v sda | grep sd | grep /media | sed 's/└─//;s/├─//' | awk '{print $1}')"
+    while read -r d; do
+        udisksctl unmount -b "/dev/${d}"
+    done <<< "$dl"
 }
 
 #/ unshorten <url>: reveal shortened URL
