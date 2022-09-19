@@ -58,6 +58,7 @@ alias emptytrash='rm -rf "$HOME/.local/share/Trash"'
 alias ff='firefox'
 alias grep='grep --color=auto'
 alias kp='kill $(ps aux | fzf | awk "{print \$2}")'
+alias lg='f() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }; f'
 alias mcd='f(){ mkdir -p "$1" && cd "$1" }; f'
 alias md='rich -m $1'
 alias mpv='f(){ mpv "$1" &> /dev/null & }; f'
@@ -87,11 +88,10 @@ alias cdg="cd $GITREPO"
 # ls
 alias ls='exa -s mod --git'
 alias lsg='exa -s mod --git | rg --'
-alias lg='f() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }; f'
 alias llg='exa -l -s mod --git --time-style=long-iso | rg --'
 alias ll='exa -l -s mod --git --time-style=long-iso'
-alias l='exa -l -s mod --git --time-style=long-iso'
 alias lw='f() { ls "$1" | wc -l }; f'
+l() { [[ -z "${1:-}" ]] && ll || llg "$1" }
 
 # vim
 alias vi='$EDITOR'
