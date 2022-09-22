@@ -475,7 +475,7 @@ imdb () {
     tt=$(awk '{print tolower($0)}' <<< "$1")
     while read -r i; do
         if [[ "$i" == "tt"* ]]; then
-            s="$(curl -sS "https://www.imdb.com/title/$i/" | htmlq -t 'script' | grep '\{"@context')"
+            s="$(curl -sS "https://www.imdb.com/title/$i/" | htmlq -t 'script' | grep '"@context')"
             t="$(jq -r .name <<< "$s")"
             dp="$(jq -r .datePublished <<< "$s")"
             du="$(jq -r .duration <<< "$s" | grep -v null | sed 's/^PT//')"
