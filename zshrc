@@ -451,6 +451,18 @@ help () { grep "^#/" "${HOME}/.zshrc" | cut -c4- | rg -i "${@:-}" }
 #/ holiday <country_code> <year>: list of public holidays in country $1 in year $2
 holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nager.at/Api/v2/PublicHolidays/$y/$1" | jq -r '.[] | "\(.date) \(.localName) - \(.name)"' }
 
+#/ howlongtobeat <name>: search how long to beat a game
+howlongtobeat () {
+    local d
+    d="$(curl -sS 'https://howlongtobeat.com/api/search' -A 'x' \
+        -H 'content-type: application/json' \
+        -H 'referer: https://howlongtobeat.com/' \
+        --data-raw '{"searchType":"games","searchTerms":["'"${1// /\",\"}"'"],"searchPage":1,"size":20,"searchOptions":{"games":{"userId":0,"platform":"","sortCategory":"popular","rangeCategory":"main","rangeTime":{"min":0,"max":0},"gameplay":{"perspective":"","flow":"","genre":""},"modifier":""},"users":{"sortCategory":"postcount"},"filter":"","sort":0,"randomizer":0}}' \
+        |  jq -r '.data[] | "\\033[32m\(.game_name)\\033[0m|\\033[33m\(.comp_main/3600 *10.0|round/10)|\(.comp_plus/3600 *10.0|round/10)|\(.comp_100/3600 *10.0|round/10)\\033[0m|\\033[34m\(.review_score)\\033[0m"' \
+        | column -t -s '|')"
+    printf "%b\n" "$d"
+}
+
 #/ httpstatus: show HTTP code explanation, $1 HTTP code
 httpstatus () { curl -i "https://httpstat.us/$1" }
 
