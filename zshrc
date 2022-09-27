@@ -595,13 +595,13 @@ magespace () {
         t="$(curl -sS "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${MAGE_SPACE_KEY}" --data-raw '{"returnSecureToken":true}' | jq -r '.idToken')"
         id="$(curl -sS 'https://api.mage.space/api/v2/images/generate' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"prompt":"'"$1"'","aspect_ratio":1.5,"num_inference_steps":150,"guidance_scale":12.5}' | jq -r '.results[0].id')"
 
-    [[ -z ${id:-} ]] && (echo "[ERROR] Cannot generate image!" && exit 1)
-    url="$(curl -sS 'https://api.mage.space/api/v2/images/enhance' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"id":"'"$id"'"}' | jq -r '.results[0].enhanced_image_url')"
+        [[ -z ${id:-} ]] && (echo "[ERROR] Cannot generate image!" && exit 1)
+        url="$(curl -sS 'https://api.mage.space/api/v2/images/enhance' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"id":"'"$id"'"}' | jq -r '.results[0].enhanced_image_url')"
 
-    [[ -z ${url:-} ]] && (echo "[ERROR] Cannot enhance image $id" && exit 1)
-    echo "Downloading ${id}.png"
-    curl -sS "$url" -o "${id}.png"
-done
+        [[ -z ${url:-} ]] && (echo "[ERROR] Cannot enhance image $id" && exit 1)
+        echo "Downloading ${id}.png"
+        curl -sS "$url" -o "${id}.png"
+    done
 }
 
 #/ mangaupdate <manga_name>: search mangaupdate
