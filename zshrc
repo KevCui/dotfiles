@@ -588,19 +588,30 @@ lyrics () {
 
 #/ magespace <prompt_text> <times>: generate image using mage.space
 magespace () {
-    local loop t id url
+    local loop t d id seed ourl eurl url
     loop="${2:-1}"
+    t="$(curl -sS "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${MAGE_SPACE_KEY}" --data-raw '{"returnSecureToken":true}' | jq -r '.idToken')"
     for (( i = 0; i < loop; i++ )); do
         echo "Generating image $((i+1))..."
-        t="$(curl -sS "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${MAGE_SPACE_KEY}" --data-raw '{"returnSecureToken":true}' | jq -r '.idToken')"
-        id="$(curl -sS 'https://api.mage.space/api/v2/images/generate' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"prompt":"'"$1"'","aspect_ratio":1.5,"num_inference_steps":150,"guidance_scale":12.5}' | jq -r '.results[0].id')"
+        d="$(curl -sS 'https://api.mage.space/api/v2/images/generate' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"prompt":"'"$1"'","aspect_ratio":1.5,"num_inference_steps":150,"guidance_scale":12.5}')"
+        id="$(jq -r '.results[0].id' <<< "$d" 2> /dev/null)"
+        seed="$(jq -r '.results[0].metadata.seed' <<< "$d" 2> /dev/null)"
+        ourl="$(jq -r '.results[0].image_url' <<< "$d" 2> /dev/null)"
 
-        [[ -z ${id:-} ]] && (echo "[ERROR] Cannot generate image!" && exit 1)
-        url="$(curl -sS 'https://api.mage.space/api/v2/images/enhance' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"id":"'"$id"'"}' | jq -r '.results[0].enhanced_image_url')"
+        if [[ -z ${ourl:-} ]]; then
+            echo "[ERROR] Cannot generate image"
+        else
+            eurl="$(curl -sS 'https://api.mage.space/api/v2/images/enhance' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"id":"'"$id"'"}' | jq -r '.results[0].enhanced_image_url')"
 
-        [[ -z ${url:-} ]] && (echo "[ERROR] Cannot enhance image $id" && exit 1)
-        echo "Downloading ${id}.png"
-        curl -sS "$url" -o "${id}.png"
+            if [[ -z ${eurl:-} ]]; then
+                echo "[ERROR] Cannot enhance image $id"
+                url="$ourl"
+            else
+                url="$eurl"
+            fi
+            echo "Downloading ${id}-${seed}.png"
+            curl -sS "$url" -o "${id}-${seed}.png"
+        fi
     done
 }
 
@@ -755,7 +766,7 @@ screenshot () { import -quiet -pause 2 $(date +%s).jpg }
 shodan () {
     local o d di de
     o="$(curl -sS "https://api.shodan.io/shodan/host/${1}?key=${SHODAN_API_KEY}")"
-    [[ "$o" =~ "title>404 Not Found<" ]] && exit 1
+    [[ "$o" =~ "title>404 Not Found<" ]] && return
     d=$(printf "%b|" "\033[1m\033[33mHostnames:\033[0m\033[0m")
     d+=$(jq -r '.hostnames[]' <<< "$o" | awk -v ORS=", " '1')
     d+=$(printf "\n%b|" "\033[1m\033[33mDomains:\033[0m\033[0m")
