@@ -269,7 +269,7 @@ cht () { curl "cht.sh/$1/${2// /%20}" }
 cpu () {
     local out
     out="Name;;Mark;;Rank;;Value;;Price"$'\n'
-    out+="$(curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup' |  sed 's/<\/td/;;<\/td/g' | htmlq -t | grep "$1")"
+    out+="$(curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup' | sed 's/<\/td/;;<\/td/g' | htmlq -t | grep -i "$1")"
     column -t -s ';;' <<< "$out"
 }
 
