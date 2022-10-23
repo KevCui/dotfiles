@@ -971,17 +971,31 @@ weather () { curl "wttr.in/$1" }
 
 #/ weatherhourly <location>: get hourly weather info
 weatherhourly () {
-    coordinate=$(curl -sS "https://darksky.net/geo?q=${1// /%20}" | jq -r '"\(.latitude),\(.longitude)"')
-    printf "%b: %b\n" "\e[33m$1" "$coordinate\e[0m"
+    local l k d cn h t p
+    l="${1// /+}"
+    k="$(curl -sS "https://www.accuweather.com/en/search-locations?query=$l" -A 'accu' --compressed | htmlq -t '.locations-list a' -a href | grep web-api | head -1 | sed 's/.*key=//;s/\&target.*//')"
 
-    result=$(curl -sS "https://darksky.net/details/$coordinate/$(date +%s)/ca12/en.json")
-    printf "\n\e[33mCURRENTLY\e[0m\n"
-    echo "$result" | jq -r '.currently | "\(.time | localtime | strftime("%m-%d %H:%M"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
-    printf "\n\e[33mTODAY HOURLY\e[0m\n"
-    echo "$result" | jq -r '.hourly.data[] | select(.time > ($t | tonumber)) | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' --arg t "$(date -d '1 hour ago' +%s)" | column -t -s'+'
+    d="$(curl -sSL "https://www.accuweather.com/en/us/${1// /-}/$k/hourly-weather-forecast/$k" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
+    cn="$(grep -c 'id="hourlyCard' <<< "$d")"
 
-    printf "\n\e[33mTOMORROW HOURLY\e[0m\n"
-    curl -sS "https://darksky.net/details/$coordinate/$(date --date='next day' +%s)/ca12/en.json" | jq -r '.hourly.data | .[] | "\(.time | localtime | strftime("%m-%d %HH"))+\(.temperature|round)°C+\(.summary)+\(.precipProbability*100|round)%"' | column -t -s'+'
+    echo "TODAY"
+    for (( i = 0; i < cn; i++ )); do
+        h="$(htmlq -t "#hourlyCard${i} .date" <<< "$d")"
+        t="$(htmlq -t "#hourlyCard${i} .temp" <<< "$d")"
+        p="$(htmlq -t -w "#hourlyCard${i} .precip" <<< "$d")"
+        echo "$h: $t $(tr -d '\n' <<< "$p")"
+    done
+
+    d="$(curl -sSL "https://www.accuweather.com/en/us/${1// /-}/$k/hourly-weather-forecast/${k}?day=2" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
+    cn="$(grep -c 'id="hourlyCard' <<< "$d")"
+
+    echo -e "\nTOMORROW"
+    for (( i = 0; i < cn; i++ )); do
+        h="$(htmlq -t "#hourlyCard${i} .date" <<< "$d")"
+        t="$(htmlq -t "#hourlyCard${i} .temp" <<< "$d")"
+        p="$(htmlq -t -w "#hourlyCard${i} .precip" <<< "$d")"
+        echo "$h: $t $(tr -d '\n' <<< "$p")"
+    done
 }
 
 #/ whatcms: show cms used by website $1
