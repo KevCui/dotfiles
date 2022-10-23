@@ -978,23 +978,17 @@ weatherhourly () {
     d="$(curl -sSL "https://www.accuweather.com/en/us/${1// /-}/$k/hourly-weather-forecast/$k" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
     cn="$(grep -c 'id="hourlyCard' <<< "$d")"
 
-    echo "TODAY"
-    for (( i = 0; i < cn; i++ )); do
-        h="$(htmlq -t "#hourlyCard${i} .date" <<< "$d")"
-        t="$(htmlq -t "#hourlyCard${i} .temp" <<< "$d")"
-        p="$(htmlq -t -w "#hourlyCard${i} .precip" <<< "$d")"
-        echo "$h: $t $(tr -d '\n' <<< "$p")"
-    done
-
-    d="$(curl -sSL "https://www.accuweather.com/en/us/${1// /-}/$k/hourly-weather-forecast/${k}?day=2" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
-    cn="$(grep -c 'id="hourlyCard' <<< "$d")"
-
-    echo -e "\nTOMORROW"
-    for (( i = 0; i < cn; i++ )); do
-        h="$(htmlq -t "#hourlyCard${i} .date" <<< "$d")"
-        t="$(htmlq -t "#hourlyCard${i} .temp" <<< "$d")"
-        p="$(htmlq -t -w "#hourlyCard${i} .precip" <<< "$d")"
-        echo "$h: $t $(tr -d '\n' <<< "$p")"
+    for (( day = 1; day < 3; day++ )); do
+        [[ "$day" -eq 1 ]] && echo "TODAY"
+        [[ "$day" -eq 2 ]] && echo -e "\nTOMORROW"
+        d="$(curl -sSL "https://www.accuweather.com/en/us/${1// /-}/$k/hourly-weather-forecast/${k}?day=${day}" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
+        cn="$(grep -c 'id="hourlyCard' <<< "$d")"
+        for (( i = 0; i < cn; i++ )); do
+            h="$(htmlq -t "#hourlyCard${i} .date" <<< "$d")"
+            t="$(htmlq -t "#hourlyCard${i} .temp" <<< "$d")"
+            p="$(htmlq -t -w "#hourlyCard${i} .precip" <<< "$d")"
+            echo "$h: $t $(tr -d '\n' <<< "$p")"
+        done
     done
 }
 
