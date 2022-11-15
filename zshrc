@@ -1066,7 +1066,6 @@ zstyle ':fzf-tab:*' fzf-bindings 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:
 # ZSH Plugins
 #------------------------------
 source "${HOME}/.zsh/fzf-tab/fzf-tab.plugin.zsh"
-source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "${HOME}/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
 source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "${HOME}/.zsh/fzf/completion.zsh"
