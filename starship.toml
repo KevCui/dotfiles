@@ -5,22 +5,22 @@ command_timeout = 2000
 
 [character]
 format = "$symbol"
-success_symbol = "[⇝ ](bold green)"
-error_symbol = "[❯ ](bold red)"
-vicmd_symbol = "[❯ ](bold blue)"
+success_symbol = "[⇝ ](bold fg:#B5BC88)"
+error_symbol = "[❯ ](bold fg:#D47D7A)"
+vicmd_symbol = "[❯ ](bold fg:#889FC2)"
 
 [directory]
 format = "[$path]($style) [$read_only]($read_only_style)"
-style = "bold green"
+style = "bold fg:#5F87D7"
 truncation_length = 5
 truncation_symbol = "…/"
 truncate_to_repo = false
 
 [time]
 format = "[$time]($style)"
-style = "bold blue"
+style = "bold fg:#889FC2"
 disabled = false
 
 [git_branch]
 format = "[$symbol$branch]($style) "
-style = "bold yellow"
+style = "fg:#c6c7d0"
