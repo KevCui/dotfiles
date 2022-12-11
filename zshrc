@@ -1063,7 +1063,7 @@ zstyle ':completion:complete:*:argument-rest' sort false
 zstyle ':fzf-tab:*' fzf-bindings 'tab:down,btab:up,ctrl-j:up,ctrl-k:down,change:top,alt-space:toggle,space:accept,ctrl-a:select-all,ctrl-u:deselect-all'
 
 #------------------------------
-# ZSH Plugins
+# Plugins
 #------------------------------
 source "${HOME}/.zsh/fzf-tab/fzf-tab.plugin.zsh"
 source "${HOME}/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
@@ -1072,7 +1072,7 @@ source "${HOME}/.zsh/fzf/completion.zsh"
 source "${HOME}/.zsh/fzf/key-bindings.zsh"
 source "${HOME}/.zsh/fzf/command-snippet.zsh"
 source "${HOME}/.zsh/z.lua.plugin.zsh"
-source "${HOME}/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
 
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 export HISTORY_SUBSTRING_SEARCH_FUZZY=1
@@ -1142,6 +1142,27 @@ function zle-line-init {
 zle -N zle-line-init
 zle -N zle-line-finish
 zle -N zle-keymap-select
+
+#-----------------------------
+# Syntax Highlight Styles
+#-----------------------------
+
+ZSH_HIGHLIGHT_STYLES[path]='none'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=#5F87D7,bold'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#87D787'
+ZSH_HIGHLIGHT_STYLES[command]='fg=#87D787'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#889FC2'
+ZSH_HIGHLIGHT_STYLES[function]='fg=#889FC2'
+ZSH_HIGHLIGHT_STYLES[arg0]='fg=#889FC2'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=#9E95C4,bold'
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-unquoted]='fg=#889FC2'
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-quoted]='fg=#889FC2'
+ZSH_HIGHLIGHT_STYLES[globbing]='none'
+ZSH_HIGHLIGHT_STYLES[assign]='fg=#D9A67E'
+ZSH_HIGHLIGHT_STYLES[comment]='fg=#474A59'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#93B7C1'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#93B7C1'
+setopt INTERACTIVE_COMMENTS
 
 #------------------------------
 # Keybindings
