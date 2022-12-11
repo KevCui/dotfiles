@@ -191,7 +191,7 @@ alias dispon='xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
     calc="${calc//b/8}"
     calc="${calc//j/9}"
     echo "$calc"
-    calc "$calc"
+    eva -f 2 "$calc"
 }
 
 #/ appsearch <id>: search app in Play Store or App Store by app id
