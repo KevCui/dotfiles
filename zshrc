@@ -58,14 +58,13 @@ alias emptytrash='rm -rf "$HOME/.local/share/Trash"'
 alias ff='firefox'
 alias grep='grep --color=auto'
 alias kp='kill $(ps aux | fzf | awk "{print \$2}")'
-alias lg='f() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }; f'
-alias mcd='f(){ mkdir -p "$1" && cd "$1" }; f'
+lg() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }
 alias md='rich -m $1'
-alias mpv='f(){ mpv "$1" &> /dev/null & }; f'
+mpv() { /usr/bin/mpv "$1" &> /dev/null & }
 alias nv='$EDITOR -c ":NV"'
 alias ping='prettyping --nolegend'
 alias please='sudo $(fc -ln -1)'
-alias po='f() { sleep "$1" && systemctl poweroff }; f'
+po() { sleep "$1" && systemctl poweroff }
 alias q='qutebrowser'
 alias rg='rg -i --no-ignore'
 alias rm='rm -i'
@@ -77,7 +76,7 @@ alias tree='exa --tree'
 alias ts='task'
 alias uc='UCOLLAGE_EXPAND_DIRS=0 UCOLLAGE_SORT_BY=time ucollage'
 alias uf='fzfimg.sh'
-alias watchout='f() { fswatch -r -0 --event=Updated "$1" 2>/dev/null | xargs -0 -n 1 zsh -c "$2; date +%H:%M:%S"}; f'
+watchout() { fswatch -r -0 --event=Updated "$1" 2>/dev/null | xargs -0 -n 1 zsh -c "$2; date +%H:%M:%S"}
 alias y='yay'
 
 # cd
@@ -90,7 +89,7 @@ alias ls='exa -s mod --git'
 alias lsg='exa -s mod --git | rg --'
 alias llg='exa -l -s mod --git --time-style=long-iso | rg --'
 alias ll='exa -l -s mod --git --time-style=long-iso'
-alias lw='f() { ls "$1" | wc -l }; f'
+lw() { ls "$1" | wc -l }
 l() { [[ -z "${1:-}" ]] && ll || llg "$1" }
 
 # vim
@@ -153,7 +152,7 @@ if [[ "$TERM" != dumb ]] && (( $+commands[grc] )) ; then
 fi
 
 # git
-alias g='f() {
+g() {
     if [[ "$1" == am ]]; then
         git ac
     elif [[ "$1" == clean ]]; then
@@ -161,11 +160,11 @@ alias g='f() {
     else
         git "$@"
     fi
-}; f'
+}
 
 # calibre
-alias calibreadd='f() { calibredb add "$1" -T new }; f'
-alias calibreconvert='f() { file="$1"; ebook-convert "$file" "${file%.*}.azw3" --from-opf=metadata.opf --cover=cover.jpg --output-profile=kindle }; f'
+calibreadd() { calibredb add "$1" -T new }
+calibreconvert() { file="$1"; ebook-convert "$file" "${file%.*}.azw3" --from-opf=metadata.opf --cover=cover.jpg --output-profile=kindle }
 
 # external monitor
 alias dispabove='xrandr --output HDMI-1 --mode 1920x1080 --above eDP-1'
