@@ -24,6 +24,7 @@ export PATH=$ANDROID_SDK:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$PATH
 export FZF_DEFAULT_OPTS='
   --bind ctrl-j:up,ctrl-k:down
   --color hl+:221,info:111,prompt:221,spinner:221,pointer:111,marker:221
+  --no-separator
 '
 
 # fzf ignores .git and node_modules
