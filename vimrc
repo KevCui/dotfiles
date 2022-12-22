@@ -245,6 +245,7 @@ let g:ale_fixers = {
     \   'json': ['prettier']
     \}
 let g:ale_python_ruff_options = '--ignore=E501'
+let g:ale_python_autopep8_options = '--max-line-length 256'
 let g:ale_fix_on_save = 1
 
 " turn off previewwindow
