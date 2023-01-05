@@ -475,7 +475,7 @@ imdb () {
     tt=$(awk '{print tolower($0)}' <<< "$1")
     while read -r i; do
         if [[ "$i" == "tt"* ]]; then
-            s="$(curl -sS "https://www.imdb.com/title/$i/" | htmlq -t 'script' | grep '"@context')"
+            s="$(curl -sS "https://www.imdb.com/title/$i/" -A imdb | htmlq -t 'script' | grep '"@context')"
             t="$(jq -r .name <<< "$s")"
             dp="$(jq -r .datePublished <<< "$s")"
             du="$(jq -r .duration <<< "$s" | grep -v null | sed 's/^PT//')"
@@ -749,10 +749,12 @@ rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 10
 
 #/ rottentomatoes <title>: rottentomatoes search
 rottentomatoes () {
-    o=$(curl -sS "https://www.rottentomatoes.com/napi/search/?limit=30&query=${1// /%20}")
-    r=$(jq -r '.movies[] | "\\033[33m[\(.meterScore)]\\033[0m+++\(.year)+++\(.name)"' <<< "$o")"\n"
-    r="$r"$(jq -r '.tvSeries[] | "\\033[33m[\(.meterScore)]\\033[0m+++\(.startYear)-\(.endYear)+++\(.title)"' <<< "$o")
-    r=$(sed -E 's/\[null\]/\[n\/a\]/;s/-null\+\+\+/-\+\+\+/;s/\+\+\+null-/\+\+\+-/' <<< "$r")
+    local d sId aId o r
+    d="$(curl -sS https://www.rottentomatoes.com/ | grep thirdParty)"
+    sId="$(sed 's/.*sId":"//;s/"}.*//' <<< "$d")"
+    aId="$(sed 's/.*aId":"//;s/",".*//' <<< "$d")"
+    o="$(curl -sS "https://79frdp12pn-dsn.algolia.net/1/indexes/*/queries?x-algolia-api-key=${sId}&x-algolia-application-id=${aId}" --data-raw '{"requests":[{"indexName":"content_rt","query":"'"$1"'","params":"filters=isEmsSearchable%20%3D%201&hitsPerPage=10"}]}' --compressed)"
+    r=$(jq -r '.results[0].hits[] | "\\033[33m[\(.rottenTomatoes.criticsScore) \(.rottenTomatoes.audienceScore)]\\033[0m+++\(.type)+++\(.releaseYear)+++\(.title)"' <<< "$o")"\n"
     printf '%b' "$r" | column -t -s '+++'
 }
 
