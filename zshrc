@@ -177,6 +177,7 @@ alias dispon='xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
 #------------------------------
 #/ = <expr>: calculator
 = () {
+    local calc r
     calc="${*//p/+}"
     calc="${calc//x/*}"
     calc="${calc//,/.}"
@@ -191,7 +192,8 @@ alias dispon='xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
     calc="${calc//b/8}"
     calc="${calc//j/9}"
     echo "$calc"
-    echo "scale=2; ($calc)/1" | bc
+    r="$(echo "scale=10; $calc" | bc)"
+    echo "scale=2; ($r)/1" | bc
 }
 
 #/ appsearch <id>: search app in Play Store or App Store by app id
