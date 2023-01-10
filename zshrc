@@ -588,35 +588,6 @@ lyrics () {
     done
 }
 
-#/ magespace <prompt_text> <times>: generate image using mage.space
-magespace () {
-    local loop t d id seed ourl eurl url
-    loop="${2:-1}"
-    t="$(curl -sS "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${MAGE_SPACE_KEY}" --data-raw '{"returnSecureToken":true}' | jq -r '.idToken')"
-    for (( i = 0; i < loop; i++ )); do
-        echo "Generating image $((i+1))..."
-        d="$(curl -sS 'https://api.mage.space/api/v2/images/generate' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"prompt":"'"$1"'","aspect_ratio":1.5,"num_inference_steps":150,"guidance_scale":12.5}')"
-        id="$(jq -r '.results[0].id' <<< "$d" 2> /dev/null)"
-        seed="$(jq -r '.results[0].metadata.seed' <<< "$d" 2> /dev/null)"
-        ourl="$(jq -r '.results[0].image_url' <<< "$d" 2> /dev/null)"
-
-        if [[ -z ${ourl:-} ]]; then
-            echo "[ERROR] Cannot generate image"
-        else
-            eurl="$(curl -sS 'https://api.mage.space/api/v2/images/enhance' -H "authorization: Bearer $t" -H 'content-type: application/json' --data-raw '{"id":"'"$id"'"}' | jq -r '.results[0].enhanced_image_url')"
-
-            if [[ -z ${eurl:-} ]]; then
-                echo "[ERROR] Cannot enhance image $id"
-                url="$ourl"
-            else
-                url="$eurl"
-            fi
-            echo "Downloading ${id}-${seed}.png"
-            curl -sS "$url" -o "${id}-${seed}.png"
-        fi
-    done
-}
-
 #/ mangaupdate <manga_name>: search mangaupdate
 mangaupdate () {
     local o m t y r
