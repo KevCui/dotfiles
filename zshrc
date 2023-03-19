@@ -457,7 +457,17 @@ goodreads () {
 
 #/ h1 <keyword>: search disclosed report from h1
 h1() {
-    curl -sS -X POST https://hackerone.com/graphql -H 'content-type: application/json' -d '{"query":"query HacktivityPageQuery($querystring: String, $orderBy: HacktivityItemOrderInput, $secureOrderBy: FiltersHacktivityItemFilterOrder, $where: FiltersHacktivityItemFilterInput, $count: Int, $cursor: String) {\n  hacktivity_items(first: $count, after: $cursor, query: $querystring, order_by: $orderBy, secure_order_by: $secureOrderBy, where: $where) {\n    total_count\n    ...HacktivityList\n  }\n}\n\nfragment HacktivityList on HacktivityItemConnection {\n  edges {\n    node {\n      ... on HacktivityItemInterface {\n        ...HacktivityItem\n      }\n    }\n  }\n}\n\nfragment HacktivityItem on HacktivityItemUnion {\n\n  ... on Disclosed {\n    ...HacktivityItemDisclosed\n  }\n  ... on HackerPublished {\n    ...HacktivityItemHackerPublished\n  }\n}\n\nfragment HacktivityItemDisclosed on Disclosed {\n  report {\n    title\n    url\n  substate\n  }\n  latest_disclosable_activity_at\n  severity_rating\n}\n\nfragment HacktivityItemHackerPublished on HackerPublished {\n  report {\n    title\n    url\n  substate\n  }\n  latest_disclosable_activity_at\n  severity_rating\n}","variables":{"querystring":"'"$1"'","where":{"report":{"disclosed_at":{"_is_null":false}}},"orderBy":{"field":"popular","direction":"DESC"},"secureOrderBy":null,"count":100},"operationName":"HacktivityPageQuery"}' | jq -r '.data.hacktivity_items.edges[].node.report'
+    local res session csrftoken
+    res="$(wget -qO- 'https://hackerone.com/hacktivity' --debug 2>&1)"
+    session="$(grep Host-session <<< "$res" | sed 's/.*Host-session //' | tail -1)"
+    csrftoken="$(grep csrf <<< "$res" | grep -v authenticity | sed 's/.*content="//;s/".*//')"
+
+    curl -sS 'https://hackerone.com/graphql' \
+      -H 'content-type: application/json' \
+      -H "x-csrf-token: $csrftoken" \
+      -H "cookie: __Host-session=$session" \
+      -d '{"query":"query HacktivityPageQuery($querystring: String, $orderBy: HacktivityItemOrderInput, $secureOrderBy: FiltersHacktivityItemFilterOrder, $where: FiltersHacktivityItemFilterInput, $count: Int, $cursor: String) {\n  hacktivity_items(first: $count, after: $cursor, query: $querystring, order_by: $orderBy, secure_order_by: $secureOrderBy, where: $where) {\n    total_count\n    ...HacktivityList\n  }\n}\n\nfragment HacktivityList on HacktivityItemConnection {\n  edges {\n    node {\n      ... on HacktivityItemInterface {\n        ...HacktivityItem\n      }\n    }\n  }\n}\n\nfragment HacktivityItem on HacktivityItemUnion {\n\n  ... on Disclosed {\n    ...HacktivityItemDisclosed\n  }\n  ... on HackerPublished {\n    ...HacktivityItemHackerPublished\n  }\n}\n\nfragment HacktivityItemDisclosed on Disclosed {\n  report {\n    title\n    url\n  substate\n  }\n  latest_disclosable_activity_at\n  severity_rating\n}\n\nfragment HacktivityItemHackerPublished on HackerPublished {\n  report {\n    title\n    url\n  substate\n  }\n  latest_disclosable_activity_at\n  severity_rating\n}","variables":{"querystring":"'"$1"'","where":{"report":{"disclosed_at":{"_is_null":false}}},"orderBy":{"field":"popular","direction":"DESC"},"secureOrderBy":null,"count":100},"operationName":"HacktivityPageQuery"}' \
+    | jq -r '.data.hacktivity_items.edges[].node.report'
 }
 
 #/ help <keyword>: list functions
