@@ -287,7 +287,7 @@ cvss() {
         v="${v:u}"
     fi
     echo "$v"
-    "$(command -v chromium)" --headless --disable-gpu --dump-dom "https://www.first.org/cvss/calculator/3.1#$v" 2>/dev/null \
+    "$(command -v chromium)" --headless=new --timeout=500 --disable-gpu --dump-dom "https://www.first.org/cvss/calculator/3.1#$v" 2>/dev/null \
     | htmlq -t '#baseMetricGroup .scoreRating span' \
     | awk '{printf "%s ", $0;}'
     echo
