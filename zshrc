@@ -428,6 +428,19 @@ geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// 
 #/ getlinks <url>: get all links on the page
 getlinks () { curl -sS "$1" | htmlq 'a, link, base, area' -a  href | sedremovespace | sort -u }
 
+#/ getproxy: get working proxy
+getproxy () {
+    local ip
+    while read -r line; do
+        if [[ -n "${line:-}" ]]; then
+            ip="$(awk -F ':' '{print $1}' <<< "$line")"
+            if [[ "$(curl -sS ifconfig.me -x "http://$line" --connect-timeout 3 2>/dev/null)" == "$ip" ]]; then
+                echo "$line"
+            fi
+        fi
+    done <<< "$(curl -sS 'https://free-proxy-list.net/' | htmlq -t .form-control | sed 's/.*[[:alpha:]].*//')"
+}
+
 #/ goodreads <book>: goodreads search
 goodreads () {
     local o m s t st a
