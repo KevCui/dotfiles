@@ -4,7 +4,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'godlygeek/tabular' "align text :Tabularize /=
 Plug 'raimondi/delimitmate' "auto close quote
-Plug 'honza/vim-snippets' "snippets files
 Plug 'jamessan/vim-gnupg' "gpg encryption
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Alok/notational-fzf-vim' "Notational FZF
@@ -168,14 +167,17 @@ nmap <Leader>c :Commands<CR>
 nmap <Leader>M :Maps<CR>
 "   coc tab keybinding
 inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 "   toggle paste mode
 set pastetoggle=<F2>
@@ -247,6 +249,7 @@ let g:ale_fixers = {
 let g:ale_python_ruff_options = '--ignore=E501'
 let g:ale_python_autopep8_options = '--max-line-length 256'
 let g:ale_fix_on_save = 1
+let g:ale_virtualtext_cursor = 'disabled'
 
 " turn off previewwindow
 set completeopt-=preview
