@@ -4,5 +4,7 @@
     "coc-snippets": ">=2.1.28",
     "coc-yaml": ">=1.0.4",
     "jest-snippets": "https://github.com/andys8/vscode-jest-snippets.git#master"
-  }
+  },
+  "disabled": [],
+  "locked": []
 }
