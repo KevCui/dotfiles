@@ -16,5 +16,6 @@
     "suggest.timeout": 500,
 	"suggest.preferCompleteThanJumpPlaceholder": true,
     "suggest.triggerCompletionWait": 50,
+    "suggest.noselect": true,
     "diagnostic.displayByAle": true
 }
