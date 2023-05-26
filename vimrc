@@ -148,6 +148,7 @@ cnoremap <C-v> <C-r>+
 vnoremap <C-c> "+y
 vnoremap <C-x> "+d
 "   easymotion
+nmap s <Plug>(easymotion-overwin-f)
 map  <Leader>  <Plug>(easymotion-prefix)
 "   undotree
 nnoremap <F5> :UndotreeToggle<CR>
@@ -292,6 +293,7 @@ let g:vim_json_conceal = 0
 
 " easymotion
 let g:EasyMotion_smartcase = 1
+let g:EasyMotion_keys = 'adehinorst'
 
 " --------
 " FUNCTION
