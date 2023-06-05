@@ -1,17 +1,16 @@
---- z.lua.old	2022-08-20 10:54:26.742356811 +0200
-+++ z.lua	2022-08-20 11:05:44.128999385 +0200
-@@ -23,6 +23,10 @@
- --     * z -i foo   # cd with interactive selection
- --     * z -I foo   # cd with interactive selection using fzf
- --     * z -b foo   # cd to the parent directory starting with foo
-+--     * z          # cd ..
-+--     * z -        # cd -
-+--     * z <num>    # cd .. with <num> times
-+--
+--- z.lua.orig	2023-06-05 18:30:13.805800981 +0200
++++ z.lua	2023-06-05 18:30:11.009134462 +0200
+@@ -24,6 +24,9 @@
+ --     * z -I foo     # cd with interactive selection using fzf
+ --     * z -b foo     # cd to the parent directory starting with foo
+ --     * z -b foo bar # replace foo with bar in cwd and cd there
++--     * z            # cd ..
++--     * z -          # cd -
++--     * z <num>      # cd .. with <num> times
  --
  -- Bash Install:
  --     * put something like this in your .bashrc:
-@@ -2094,6 +2098,26 @@
+@@ -2137,6 +2140,26 @@
  	local arg_subdir=""
  	local arg_inter=""
  	local arg_strip=""
