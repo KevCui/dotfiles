@@ -39,7 +39,7 @@ i3wm/config:
 
 dunstrc:
   font: IBM Plex Sans
-  fontsize: 18
+  fontsize: 8
 
 alacritty.yml:
   font: IBM Plex Mono
