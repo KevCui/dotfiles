@@ -13,7 +13,7 @@ c.colors.hints.fg = '#e5e9f0'
 c.colors.hints.match.fg = '#2e3440'
 c.colors.statusbar.command.private.bg = '#d08770'
 c.colors.statusbar.url.hover.fg = '#d8dee9'
-c.fonts.default_size = '12pt'
+c.fonts.default_size = '7pt'
 c.fonts.default_family = 'IBMPlexMono'
 c.scrolling.bar = 'when-searching'
 c.scrolling.smooth = True
@@ -22,7 +22,7 @@ c.downloads.remove_finished = 60000
 # Hints
 c.hints.chars = 'arstdhneio'
 c.hints.border = '0px'
-c.fonts.hints = 'bold 15pt IBMPlexMono'
+c.fonts.hints = 'bold 8pt IBMPlexMono'
 
 # Key binging
 config.bind('j', 'scroll-page 0 -0.5')
@@ -71,8 +71,8 @@ c.colors.tabs.odd.bg = '#2e3440'
 c.colors.tabs.even.bg = '#2e3440'
 c.colors.tabs.pinned.odd.bg = '#2e3440'
 c.colors.tabs.pinned.even.bg = '#2e3440'
-c.fonts.tabs.selected = 'bold 9pt'
-c.fonts.tabs.unselected = '9pt'
+c.fonts.tabs.selected = 'bold 6pt'
+c.fonts.tabs.unselected = '6pt'
 c.tabs.last_close = 'close'
 c.tabs.select_on_remove = 'prev'
 c.tabs.pinned.frozen = False
