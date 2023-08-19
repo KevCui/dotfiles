@@ -72,3 +72,7 @@ st/config.h:
   color13: '#B48EAD'
   color14: '#8FBCBB'
   color15: '#ECEFF4'
+
+polybar/config.ini:
+  font: IBM Plex Sans
+  fontsize: 10
