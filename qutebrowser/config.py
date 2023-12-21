@@ -6,7 +6,7 @@ config.source('nord-qutebrowser.py')
 c.colors.webpage.preferred_color_scheme = 'dark'
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.images = 'never'
-c.colors.webpage.darkmode.threshold.text = 150
+c.colors.webpage.darkmode.threshold.foreground = 150
 c.colors.webpage.darkmode.threshold.background = 205
 c.colors.hints.bg = '#5e81ac'
 c.colors.hints.fg = '#e5e9f0'
