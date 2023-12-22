@@ -5,7 +5,7 @@ OUTPUT=${HOME}/output
 
 # Check commands exist
 if [[ ! "$(command -v yq)" ]]; then
-    echo "Please install yq first: https://github.com/kislyuk/yq"
+    echo "Please install yq first: https://github.com/mikefarah/yq"
     exit 1
 fi
 
@@ -19,7 +19,7 @@ fi
 # Create directory for output
 mkdir -p "$OUTPUT"
 
-for filename in $(yq -r '. | to_entries[]'.key "$1"); do
+for filename in $(yq '.[] | key' "$1"); do
     echo "Generating ${filename}..."
     if [[ ! -f "$filename" ]]; then
         echo "$filename doesn't exist!"
@@ -36,8 +36,8 @@ for filename in $(yq -r '. | to_entries[]'.key "$1"); do
     fi
 
     cmd="sed"
-    for key in $(yq -r '.["'$filename'"] | to_entries[]'.key "$1"); do
-        var=$(yq -r '.["'$filename'"]["'$key'"]' "$1")
+    for key in $(yq '.["'$filename'"][] | key' "$1"); do
+        var=$(yq '.["'$filename'"]["'$key'"]' "$1")
         echo "  Key: $key, Value: $var"
         cmd="$cmd -e 's/%$key%/$var/g'"
     done
