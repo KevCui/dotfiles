@@ -973,24 +973,23 @@ weatherhourly () {
     host="www.accuweather.com"
     u="$(curl -sS "https://$host/en/search-locations?query=${1// /+}" -A 'accu' --compressed | htmlq -t '.locations-list a' -a href | grep web-api | head -1)"
     k="$(curl -sSL "https://$host/$u" -A accu --compressed -D - | grep -i location: | awk '{print $2}' | sed 's/.*forecast\///' | sed 's/\?.*//')"
-	d="$(curl -sSL "https://$host/en/us/${1// /-}/$k/hourly-weather-forecast/$k" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
-	cn="$(grep -c 'hourly-card-top' <<< "$d")"
-	for ((day = 1; day < 3; day++ )) do
-		[[ "$day" -eq 1 ]] && echo "TODAY"
-		[[ "$day" -eq 2 ]] && echo -e "\nTOMORROW"
-		d="$(curl -sSL "https://$host/en/us/${1// /-}/$k/hourly-weather-forecast/${k}?day=${day}" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
-		cn="$(grep -c 'hourly-card-top' <<< "$d")"
-		for ((i = 1; i <= cn; i++ )) do
-			h="$(htmlq -t ".hour:nth-child($i) .date div" <<< "$d")"
+    d="$(curl -sSL "https://$host/en/us/${1// /-}/$k/hourly-weather-forecast/$k" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
+    cn="$(grep -c 'hourly-card-top' <<< "$d")"
+    for ((day = 1; day < 3; day++ )) do
+        [[ "$day" -eq 1 ]] && echo "TODAY"
+        [[ "$day" -eq 2 ]] && echo -e "\nTOMORROW"
+        d="$(curl -sSL "https://$host/en/us/${1// /-}/$k/hourly-weather-forecast/${k}?day=${day}" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
+        cn="$(grep -c 'hourly-card-top' <<< "$d")"
+        for ((i = 1; i <= cn; i++ )) do
+            h="$(htmlq -t ".hour:nth-child($i) .date div" <<< "$d")"
             f="$(htmlq -wp -t ".hour:nth-child($i) .real-feel__text" <<< "$d" | tr '\n' ' ' | sed 's/.*®//' | awk '{$1=$1};1')"
-			t="$(htmlq -t ".hour:nth-child($i) .temp" <<< "$d")"
-			p="$(htmlq -t ".hour:nth-child($i) .precip" <<< "$d" | tr '\n' ' ' | awk '{$1=$1};1')"
-			if [[ -n ${h:-} ]]
-			then
+            t="$(htmlq -t ".hour:nth-child($i) .temp" <<< "$d")"
+            p="$(htmlq -t ".hour:nth-child($i) .precip" <<< "$d" | tr '\n' ' ' | awk '{$1=$1};1')"
+            if [[ -n ${h:-} ]]; then
                 printf '%*s: %s(%s) %s\n' 5 "$h" "$t" "$f" "$p"
-			fi
-		done
-	done
+            fi
+        done
+    done
 }
 
 #/ whatcms: show cms used by website $1
