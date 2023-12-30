@@ -264,9 +264,6 @@ chartable () {
     done
 }
 
-#/ cht <language> <question>: cheat sheet
-cht () { curl "cht.sh/$1/${2// /%20}" }
-
 #/ cpu <keyword>: find CPU info from PassMark: Name; Mark; Rank; Value; Price
 cpu () {
     local out
