@@ -961,6 +961,14 @@ vrtdownload () {
     fi
 }
 
+#/ what3words: get random 3 words
+what3words () {
+    local latitude longitude
+    latitude="$(python3 -c 'import random;print("{:.6f}".format(random.uniform(-90, 90)))')"
+    longitude="$(python3 -c 'import random;print("{:.6f}".format(random.uniform(-180, 180)))')"
+    curl -sS "https://mapapi.what3words.com/api/convert-to-3wa?coordinates=$latitude%2C$longitude&language=en&format=json" | jq -r .words
+}
+
 #/ weather <location>: get weather info
 weather () { curl "wttr.in/$1" }
 
