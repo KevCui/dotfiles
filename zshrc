@@ -647,7 +647,13 @@ metacritic() {
 myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime" or .type == "manga") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)+\(.payload.published)"' | sed -E 's/\+null//' | column -t -s '+')" }
 
 #/ myip: show my ip address
-myip () { curl -4 'ifconfig.co/json'; curl -6 'ifconfig.co' }
+myip () {
+    local o ip loc
+    o="$(curl -sS 'https://duckduckgo.com/?q=my%20ip')"
+    ip="$(grep -oE "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" <<< "$o")"
+    loc="$(htmlq -t script <<< "$o" | rg duckbar | sed 's/.*">//' | sed 's/<\/a.*//')"
+    echo "$ip - $loc"
+}
 
 #/ mytimezone: show my timezone
 mytimezone () { curl -s 'https://ipapi.co/timezone' }
