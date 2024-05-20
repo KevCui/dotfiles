@@ -274,7 +274,7 @@ cpu () {
 }
 
 #/ currency <from_currency> <to_currency> <number>: fetch currency exchange rate
-currency () { curl -sS "https://www.xe.com/currencyconverter/convert/?Amount=$3&From=${1:u}&To=${2:u}" |  htmlq -t 'p[class*="BigRate"]' }
+currency () { curl -sS "https://www.xe.com/currencyconverter/convert/?Amount=$3&From=${1:u}&To=${2:u}" | sed 's/faded-digits.*//' | tail -1 | sed 's/.*">//' | awk -F '<' '{print $1}' }
 
 #/ cvss <vector>: calculate cvss3.1 score
 cvss() {
