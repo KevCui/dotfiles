@@ -1,36 +1,56 @@
-/* Where to edit userChrome.css https://i.redd.it/v7lkiqannojz.png */
-@-moz-document url("chrome://browser/content/browser.xul") {
-    /* hide navigation bar */
-    /*#nav-bar {
-        display: none;
-    }*/
+/* To enable userChrome.css: Open `about:config` set `toolkit.legacyUserProfileCustomizations.stylesheets` to true */
 
-    /* hover the bottom of tab bar to show navigation bar */
-    /*#navigator-toolbox:hover > #nav-bar{
-        display: -moz-box;
-    }*/
+/* Hide nav bar, source code form https://www.reddit.com/r/FirefoxCSS/comments/rcogwz/comment/hnzf5rg */
+#nav-bar {
+  /* customize this value. */
+  --navbar-margin: -38px;
 
-    /* disable tab flash */
-    .tab-loading-burst[bursting]::before {
-        animation: none !important;
-    }
+  margin-top: var(--navbar-margin);
+  margin-bottom: 0;
+  z-index: -100;
+  transition: all 0.3s ease !important;
+  opacity: 0;
+}
 
-    /* remove 'dragging tab' margin/padding nonsense */
-    #TabsToolbar[movingtab] {
-        padding-bottom: unset !important;
-    }
+#navigator-toolbox:focus-within > #nav-bar,
+#navigator-toolbox:hover > #nav-bar {
+  margin-top: 0;
+  margin-bottom: var(--navbar-margin);
+  z-index: 100;
+  opacity: 1;
+}
 
-    #TabsToolbar[movingtab] > .tabbrowser-tabs {
-        padding-bottom: unset !important;
-        margin-bottom: unset !important;
-    }
+/* Add number on tab, source code from https://gist.github.com/arthurattwell/19d868330a3c9f668a3f3a69230ac28c */
+tabs {
+  counter-reset: tab-counter;
+}
 
-    #TabsToolbar[movingtab] + #nav-bar {
-        margin-top: unset !important;
-    }
-
-    /* move hover URL hint to top-left */
-    #statuspanel[type="overLink"]{
-        top:54px !important;
-    }
+tab:nth-child(1) .tab-label::before,
+tab:nth-child(2) .tab-label::before,
+tab:nth-child(3) .tab-label::before,
+tab:nth-child(4) .tab-label::before,
+tab:nth-child(5) .tab-label::before,
+tab:nth-child(6) .tab-label::before,
+tab:nth-child(7) .tab-label::before,
+tab:nth-child(8) .tab-label::before {
+  background-color: white;
+  border-radius: 0.25em;
+  border: 1px solid white;
+  box-sizing: border-box;
+  color: black;
+  content: counter(tab-counter) '';
+  counter-increment: tab-counter;
+  display: block;
+  float: left;
+  font-size: 0.8em;
+  font-weight: bold;
+  height: 1.5em;
+  line-height: 1;
+  margin: 0 0.5em 0 0;
+  padding: 0.1em 0.25em 0.25em 0.25em;
+  position: relative;
+  text-align: center;
+  top: 0.35em;
+  vertical-align: middle;
+  width: 1.4em;
 }
