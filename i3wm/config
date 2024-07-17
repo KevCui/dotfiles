@@ -183,6 +183,9 @@ for_window [class="Wine"] floating enable
 for_window [class="Peek"] stacking enable
 
 # Volume
+bindsym XF86AudioRaiseVolume exec "pamixer -i 5 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym XF86AudioLowerVolume exec "pamixer -d 15 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym XF86AudioMute exec "pamixer -t; if $(pamixer --get-mute); then notify-send -u critical 'mute'; else notify-send -u normal 'sound '$(pamixer --get-volume)'%'; fi"
 bindsym %raisevol% exec "pamixer -i 5 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
 bindsym %lowervol% exec "pamixer -d 15 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
 bindsym %mute% exec "pamixer -t; if $(pamixer --get-mute); then notify-send -u critical 'mute'; else notify-send -u normal 'sound '$(pamixer --get-volume)'%'; fi"
