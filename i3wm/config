@@ -33,9 +33,8 @@ floating_modifier $mod
 %execst%bindsym $mod+Return exec st
 %execalacritty%bindsym $mod+Return exec alacritty
 
-# kill focused window
-#bindsym $mod+Shift+q kill
-bindsym $mod+F4 kill
+# kill focused window (Alt+F4)
+bindsym Mod1+F4 kill
 
 # rofi
 bindsym $mod+space exec "rofi -show run -eh 1 -font '%rofifont% %rofifontsize%' -theme 'Arc-Dark' -theme-str 'window {width:35%;}' -theme-str 'listview {lines:8;}'"
@@ -79,7 +78,7 @@ bindsym $mod+m layout tabbed
 bindsym $mod+i layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+f floating toggle
+bindsym $mod+Shift+e floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+shift+space focus mode_toggle
@@ -98,18 +97,18 @@ bindsym $mod+a workspace $ws4
 bindsym $mod+r workspace $ws5
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+q move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+w move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+f move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+a move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+r move container to workspace $ws5; workspace $ws5
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+F5 restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+F4 exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -181,7 +180,7 @@ for_window [class="Peek"] stacking enable
 
 # Volume
 bindsym XF86AudioRaiseVolume exec "pamixer -i 5 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
-bindsym XF86AudioLowerVolume exec "pamixer -d 15 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym XF86AudioLowerVolume exec "pamixer -d 5 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
 bindsym XF86AudioMute exec "pamixer -t; if $(pamixer --get-mute); then notify-send -u critical 'mute'; else notify-send -u normal 'sound '$(pamixer --get-volume)'%'; fi"
 bindsym %raisevol% exec "pamixer -i 5 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
 bindsym %lowervol% exec "pamixer -d 15 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
