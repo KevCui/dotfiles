@@ -55,7 +55,7 @@ alias convpdftotxt="pdftotext -layout -nopgbrk"
 alias copy='xclip -selection clipboard'
 alias copyoneline='xargs echo -n | xclip -selection clipboard'
 alias diff='colordiff'
-alias df='duf'
+alias df='duf -hide-fs tmpfs'
 alias emptytrash='rm -rf "$HOME/.local/share/Trash"'
 alias ff='firefox'
 alias grep='grep --color=auto'
