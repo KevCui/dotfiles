@@ -623,6 +623,16 @@ mangaupdate () {
     done
 }
 
+#/ Paris 2024 Olympic medal table
+medal () {
+    echo "|NOCs|G|S|B|T\n$(curl -sS 'https://olympics.com/en/paris-2024/medals' -A x \
+        | htmlq 'div[data-testid="noc-row"]' \
+        | htmlq -t span \
+        | tr  '\n' '|' \
+        | sed 's/||/\n/g' | sed 's/^|//' | sed 's/|$//')" \
+        | column -t -s '|'
+}
+
 #/ metacritic <game_title>: search metacritic game rating
 metacritic() {
     local i=0 s len d t r p
