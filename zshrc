@@ -476,8 +476,10 @@ holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nag
 
 #/ howlongtobeat <name>: search how long to beat a game
 howlongtobeat () {
-    local d
-    d="$(curl -sS 'https://howlongtobeat.com/api/search' -A 'x' \
+    local fn id d
+    fn="$(curl -sS 'https://howlongtobeat.com/' -A 'x' | grep _app | sed 's/.*\/pages\/_app/_app/' | sed 's/\" .*//')"
+    id="$(curl -sS "https://howlongtobeat.com/_next/static/chunks/pages/$fn" -A 'x' | sed 's/.*\/api\/search//' | awk -F '"' '{print $3}')"
+    d="$(curl -sS "https://howlongtobeat.com/api/search/$id" -A 'x' \
         -H 'content-type: application/json' \
         -H 'referer: https://howlongtobeat.com/' \
         --data-raw '{"searchType":"games","searchTerms":["'"${1// /\",\"}"'"],"searchPage":1,"size":20,"searchOptions":{"games":{"userId":0,"platform":"","sortCategory":"popular","rangeCategory":"main","rangeTime":{"min":0,"max":0},"gameplay":{"perspective":"","flow":"","genre":""},"modifier":""},"users":{"sortCategory":"postcount"},"filter":"","sort":0,"randomizer":0}}' \
