@@ -478,7 +478,7 @@ holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nag
 howlongtobeat () {
     local fn id d
     fn="$(curl -sS 'https://howlongtobeat.com/' -A 'x' | grep _app | sed 's/.*\/pages\/_app/_app/' | sed 's/\" .*//')"
-    id="$(curl -sS "https://howlongtobeat.com/_next/static/chunks/pages/$fn" -A 'x' | sed 's/.*\/api\/search//' | awk -F '"' '{print $3}')"
+    id="$(curl -sS "https://howlongtobeat.com/_next/static/chunks/pages/$fn" -A 'x' | sed 's/.*\/api\/search//' | sed 's/,.*//' | awk -F '"' '{print $3$5}')"
     d="$(curl -sS "https://howlongtobeat.com/api/search/$id" -A 'x' \
         -H 'content-type: application/json' \
         -H 'referer: https://howlongtobeat.com/' \
