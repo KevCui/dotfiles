@@ -478,11 +478,11 @@ holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nag
 howlongtobeat () {
     local fn id d
     fn="$(curl -sS 'https://howlongtobeat.com/' -A 'x' | grep _app | sed 's/.*\/pages\/_app/_app/' | sed 's/\" .*//')"
-    id="$(curl -sS "https://howlongtobeat.com/_next/static/chunks/pages/$fn" -A 'x' | sed 's/.*\/api\/search//' | sed 's/,.*//' | awk -F '"' '{print $3$5}')"
-    d="$(curl -sS "https://howlongtobeat.com/api/search/$id" -A 'x' \
+    id="$(curl -sS "https://howlongtobeat.com/_next/static/chunks/pages/$fn" -A 'x' | sed 's/.*\/api\/find//' | sed 's/,.*//' | awk -F '"' '{print $3$5}')"
+    d="$(curl -sS "https://howlongtobeat.com/api/find/$id" -A 'x' \
         -H 'content-type: application/json' \
         -H 'referer: https://howlongtobeat.com/' \
-        --data-raw '{"searchType":"games","searchTerms":["'"${1// /\",\"}"'"],"searchPage":1,"size":20,"searchOptions":{"games":{"userId":0,"platform":"","sortCategory":"popular","rangeCategory":"main","rangeTime":{"min":null,"max":null},"gameplay":{"perspective":"","flow":"","genre":"","subGenre":""},"rangeYear":{"min":"","max":""},"modifier":""},"users":{"sortCategory":"postcount"},"lists":{"sortCategory":"follows"},"filter":"","sort":0,"randomizer":0},"useCache":false}' \
+        --data-raw '{"searchType":"games","searchTerms":["'"${1// /\",\"}"'"],"searchPage":1,"size":20,"searchOptions":{"games":{"userId":0,"platform":"","sortCategory":"popular","rangeCategory":"main","rangeTime":{"min":null,"max":null},"gameplay":{"perspective":"","flow":"","genre":"","difficulty":""},"rangeYear":{"min":"","max":""},"modifier":""},"users":{"sortCategory":"postcount"},"lists":{"sortCategory":"follows"},"filter":"","sort":0,"randomizer":0},"useCache":false}' \
         |  jq -r '.data[] | "\\033[32m\(.game_name)\\033[0m|\\033[33m\(.comp_main/3600 *10.0|round/10)|\(.comp_plus/3600 *10.0|round/10)|\(.comp_100/3600 *10.0|round/10)\\033[0m|\\033[34m\(.review_score)\\033[0m"' \
         | column -t -s '|')"
     printf "%b\n" "$d"
