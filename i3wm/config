@@ -37,7 +37,8 @@ floating_modifier $mod
 bindsym Mod1+F4 kill
 
 # rofi
-bindsym $mod+space exec "rofi -show run -eh 1 -font '%rofifont% %rofifontsize%' -theme 'Arc-Dark' -theme-str 'window {width:35%;}' -theme-str 'listview {lines:8;}'"
+bindsym $mod+space exec "rofi -show combi -combi-modi 'drun,run' -modi combi -combi-hide-mode-prefix -eh 1 -font '%rofifont %rofifontsize' -theme 'Arc-Dark' -theme-str 'window {width:35%;}' -theme-str 'listview {lines:8;}'"
+bindsym $mod+BackSpace exec "rofi -show combi -combi-modi 'drun,run' -modi combi -combi-hide-mode-prefix -eh 1 -font '%rofifont %rofifontsize' -theme 'Arc-Dark' -theme-str 'window {width:35%;}' -theme-str 'listview {lines:8;}'"
 
 # change focus
 bindsym $mod+h focus left
@@ -95,6 +96,8 @@ bindsym $mod+w workspace $ws2
 bindsym $mod+f workspace $ws3
 bindsym $mod+a workspace $ws4
 bindsym $mod+r workspace $ws5
+bindsym $mod+Shift+n workspace next
+bindsym $mod+Shift+p workspace prev
 
 # move focused container to workspace
 bindsym $mod+Shift+q move container to workspace $ws1; workspace $ws1
@@ -206,7 +209,7 @@ for_window [class="Firefox-esr"] layout tabbed
 assign [class="qutebrowser"] $ws1
 for_window [class="qutebrowser"] layout tabbed
 
-assign [class="Chromium"] $ws1
+assign [class="Chromium"] $ws4
 for_window [class="Chromium"] layout tabbed
 
 assign [class="Viewnior"] $ws5
