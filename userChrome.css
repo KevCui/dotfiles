@@ -1,23 +1,85 @@
 /* To enable userChrome.css: Open `about:config` set `toolkit.legacyUserProfileCustomizations.stylesheets` to true */
 
 /* Hide nav bar, source code form https://www.reddit.com/r/FirefoxCSS/comments/rcogwz/comment/hnzf5rg */
-#nav-bar {
-  /* customize this value. */
-  --navbar-margin: -38px;
+/* Updated code from https://github.com/MrOtherGuy/firefox-csshacks/blob/master/chrome/autohide_main_toolbar.css */
 
-  margin-top: var(--navbar-margin);
-  margin-bottom: 0;
-  z-index: -100;
-  transition: all 0.3s ease !important;
-  opacity: 0;
+:root {
+  --uc-navbar-transform: -40px;
+  --uc-autohide-toolbar-delay: 300ms;
+  --uc-autohide-toolbar-duration: 100ms;
 }
 
-#navigator-toolbox:focus-within > #nav-bar,
-#navigator-toolbox:hover > #nav-bar {
-  margin-top: 0;
-  margin-bottom: var(--navbar-margin);
-  z-index: 100;
+#navigator-toolbox > div {
+  display: contents;
+}
+
+#nav-bar:not([customizing]) {
+  opacity: 0;
+  transition:
+    transform var(--uc-autohide-toolbar-duration) ease
+      var(--uc-autohide-toolbar-delay),
+    opacity var(--uc-autohide-toolbar-duration) ease
+      var(--uc-autohide-toolbar-delay) !important;
+  position: relative;
+  z-index: 2;
+}
+#titlebar {
+  position: relative;
+  z-index: 3;
+}
+
+#navigator-toolbox,
+#sidebar-box,
+#sidebar-main,
+#sidebar-splitter,
+#tabbrowser-tabbox {
+  z-index: auto !important;
+}
+/* Show when toolbox is focused, like when urlbar has received focus */
+#navigator-toolbox:focus-within > .browser-toolbar {
+  transform: translateY(0);
   opacity: 1;
+  transition-duration: var(--uc-autohide-toolbar-duration),
+    var(--uc-autohide-toolbar-duration) !important;
+  transition-delay: 0s !important;
+}
+/* Show when toolbox is hovered */
+#titlebar:hover ~ .browser-toolbar,
+.browser-titlebar:hover ~ :is(#nav-bar, #PersonalToolbar),
+#nav-bar:hover,
+#nav-bar:hover + #PersonalToolbar {
+  transform: translateY(0);
+  opacity: 1;
+  transition-duration: var(--uc-autohide-toolbar-duration),
+    var(--uc-autohide-toolbar-duration) !important;
+  transition-delay: 0s !important;
+}
+:root[sessionrestored] #urlbar[popover] {
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--uc-autohide-toolbar-duration) ease
+      var(--uc-autohide-toolbar-delay),
+    opacity var(--uc-autohide-toolbar-duration) ease
+      var(--uc-autohide-toolbar-delay);
+  transform: translateY(var(--uc-navbar-transform));
+}
+#nav-bar:is(:hover, :focus-within) #urlbar[popover],
+#urlbar-container > #urlbar[popover]:is([focused], [open]) {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0ms;
+  transform: translateY(0);
+}
+#urlbar-container > #urlbar[popover]:is([focused], [open]) {
+  transition-duration: 100ms; /* Faster when focused */
+}
+
+/* Move up the content view */
+:root[sessionrestored]:not([inFullscreen], [chromehidden~='toolbar'])
+  > body
+  > #browser {
+  margin-top: var(--uc-navbar-transform);
 }
 
 /* Add number on tab, source code from https://gist.github.com/arthurattwell/19d868330a3c9f668a3f3a69230ac28c */
