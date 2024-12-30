@@ -1,0 +1,84 @@
+{
+  // tabbed split container with 1 children
+  "border": "pixel",
+  "floating": "auto_off",
+  "layout": "tabbed",
+  "percent": 1,
+  "type": "con",
+  "nodes": [
+    {
+      // splith split container with 2 children
+      "border": "pixel",
+      "floating": "auto_off",
+      "layout": "splith",
+      "percent": null,
+      "type": "con",
+      "nodes": [
+        {
+          "border": "pixel",
+          "current_border_width": 1,
+          "floating": "auto_off",
+          "geometry": {
+            "height": 514,
+            "width": 810,
+            "x": 0,
+            "y": 0
+          },
+          "percent": 0.6,
+          "swallows": [
+            {
+              "instance": "term-main"
+            }
+          ],
+          "type": "con"
+        },
+        {
+          // splitv split container with 2 children
+          "border": "pixel",
+          "floating": "auto_off",
+          "layout": "splitv",
+          "percent": 0.4,
+          "type": "con",
+          "nodes": [
+            {
+              "border": "pixel",
+              "current_border_width": 1,
+              "floating": "auto_off",
+              "geometry": {
+                "height": 514,
+                "width": 810,
+                "x": 0,
+                "y": 0
+              },
+              "percent": 0.4,
+              "swallows": [
+                {
+                  "instance": "term-small"
+                }
+              ],
+              "type": "con"
+            },
+            {
+              "border": "pixel",
+              "current_border_width": 1,
+              "floating": "auto_off",
+              "geometry": {
+                "height": 514,
+                "width": 810,
+                "x": 0,
+                "y": 0
+              },
+              "percent": 0.6,
+              "swallows": [
+                {
+                  "instance": "term-medium"
+                }
+              ],
+              "type": "con"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

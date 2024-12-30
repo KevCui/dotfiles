@@ -1,0 +1,44 @@
+# font
+font-family = %font%
+font-size = %size%
+
+# color
+background = %bgcolor%
+foreground = %fgcolor%
+palette = 0=%color0%
+palette = 1=%color1%
+palette = 2=%color2%
+palette = 3=%color3%
+palette = 4=%color4%
+palette = 5=%color5%
+palette = 6=%color6%
+palette = 7=%color7%
+palette = 8=%color8%
+palette = 9=%color9%
+palette = 10=%color10%
+palette = 11=%color11%
+palette = 12=%color12%
+palette = 13=%color13%
+palette = 14=%color14%
+palette = 15=%color15%
+cursor-color = %cscolor%
+
+# window
+window-decoration = false
+gtk-titlebar = false
+window-padding-x = 3
+window-padding-y = 3
+
+# selection
+copy-on-select = clipboard
+selection-invert-fg-bg = true
+
+# mouse
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+
+# keybinding
+keybind = ctrl+v=paste_from_clipboard
+## search feature request: https://github.com/ghostty-org/ghostty/issues/189
+## current workaround: https://github.com/ghostty-org/ghostty/issues/2435#issuecomment-2564058758
+keybind = ctrl+f=write_screen_file:open

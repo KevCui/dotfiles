@@ -31,7 +31,7 @@ floating_modifier $mod
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 %execst%bindsym $mod+Return exec st
-%execalacritty%bindsym $mod+Return exec alacritty
+%execghostty%bindsym $mod+Return exec ghostty
 
 # kill focused window (Alt+F4)
 bindsym Mod1+F4 kill
@@ -169,6 +169,7 @@ for_window [class="^.*$"] border none
 for_window [class="st-256color"] border 1pixel
 for_window [class="Alacritty"] border 1pixel
 for_window [class="XTerm"] border 1pixel
+for_window [instance="ghostty"] border 1pixel
 hide_edge_borders none
 new_window 1pixel
 
@@ -251,16 +252,15 @@ no_focus [title="fff"]
 no_focus [instance="tasksh"]
 no_focus [instance="additional"]
 %execst%exec --no-startup-id i3-msg "workspace 2; append_layout ${HOME}/.config/i3/st-workspace.json"
-%execalacritty%exec --no-startup-id i3-msg "workspace 2; append_layout ${HOME}/.config/i3/alacritty-workspace.json"
+%execghostty%exec --no-startup-id i3-msg "workspace 2; append_layout ${HOME}/.config/i3/terminal-workspace.json"
 exec --no-startup-id dunst
 %browser%exec --no-startup-id "qutebrowser"
 exec --no-startup-id ${HOME}/Script/fswatch.sh
 %bluetooth%exec --no-startup-id blueman-applet
 exec --no-startup-id ${HOME}/.config/systemd/user/changepaper.sh
-%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n main'
-%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n medium'
-%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n small'
-%execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t main'
-%execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t medium'
-%execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t tiny1'
-%execalacritty%exec --no-startup-id i3-msg 'workspace 2; exec alacritty -t tiny2'
+%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n term-main'
+%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n term-medium'
+%execst%exec --no-startup-id i3-msg 'workspace 2; exec st -n term-small'
+%execghostty%exec --no-startup-id i3-msg 'exec ghostty --x11-instance-name=term-main'
+%execghostty%exec --no-startup-id i3-msg 'exec ghostty --x11-instance-name=term-medium'
+%execghostty%exec --no-startup-id i3-msg 'exec ghostty --x11-instance-name=term-small'
