@@ -476,10 +476,12 @@ holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nag
 
 #/ howlongtobeat <name>: search how long to beat a game
 howlongtobeat () {
-    local fn id d
+    local fn id d jf s
     fn="$(curl -sS 'https://howlongtobeat.com/' -A 'x' | grep _app | sed 's/.*\/pages\/_app/_app/' | sed 's/\" .*//')"
-    id="$(curl -sS "https://howlongtobeat.com/_next/static/chunks/pages/$fn" -A 'x' | sed 's/.*\/api\/lookup//' | sed 's/,.*//' | awk -F '"' '{print $3$5}')"
-    d="$(curl -sS "https://howlongtobeat.com/api/lookup/$id" -A 'x' \
+    jf="$(curl -sS "https://howlongtobeat.com/_next/static/chunks/pages/$fn" -A 'x')"
+    s="$(grep -Eo '"/api/\w+/"' <<< "$jf" | grep -v 'game' | sed 's/"//g')"
+    id="$(sed 's;.*'"$s"';;' <<< "$jf" | sed 's/,.*//' | awk -F '"' '{print $3$5}')"
+    d="$(curl -sS "https://howlongtobeat.com${s}${id}" -A 'x' \
         -H 'content-type: application/json' \
         -H 'referer: https://howlongtobeat.com/' \
         --data-raw '{"searchType":"games","searchTerms":["'"${1// /\",\"}"'"],"searchPage":1,"size":20,"searchOptions":{"games":{"userId":0,"platform":"","sortCategory":"popular","rangeCategory":"main","rangeTime":{"min":null,"max":null},"gameplay":{"perspective":"","flow":"","genre":"","difficulty":""},"rangeYear":{"min":"","max":""},"modifier":""},"users":{"sortCategory":"postcount"},"lists":{"sortCategory":"follows"},"filter":"","sort":0,"randomizer":0},"useCache":false}' \
