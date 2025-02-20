@@ -197,18 +197,6 @@ alias dispon='xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1'
     echo "scale=2; ($r)/1" | bc
 }
 
-#/ appsearch <id>: search app in Play Store or App Store by app id
-appsearch() {
-    if [[ "$1" =~ '^[0-9]+$' ]]; then
-        curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/ios/applications/$1/metadata.json?language=en&device=iphone" | jq
-    else
-        curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/android/applications/$1/metadata.json?language=en" | jq
-    fi
-}
-
-#/ appstoresearch <term>: search apps in App Store by term
-appstoresearch() { curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/ios/searches.json?language=en&device=iphone&term=$1" | jq }
-
 #/ addpet: add command snippet to $SNIPPET
 addpet () {
     read "?Command: " cmdinput
@@ -225,23 +213,6 @@ alpha () {
         [[ $((n % 5 )) -eq 0 ]] && o+="\n"
     done
     echo -e "$o"
-}
-
-#/ antonym <word>: search for antonym of a word
-antonym() { curl -sS https://www.thesaurus.com/browse/$1| htmlq -t 'script' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g'| jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .antonyms | sort_by (.term) | .[] | select((.similarity | tonumber)<-51) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
-
-#/ bang [<keyword> <text>]: open DDG bang
-bang() {
-    if [[ "$1" ]]; then
-        xdg-open "https://duckduckgo.com/?q=%21${1}+${2// /+}"
-    else
-        curl -sS 'https://duckduckgo.com/bang.v255.js' | jq -r '.[] | "\(.t) \(.u)"'
-    fi
-}
-
-#/ brainyquote <word>: search brainyquote
-brainyquote () {
-    curl -sS "https://www.brainyquote.com/search_results?q=${1// /+}" | htmlq -t -w '.clearfix' | sedremovespace | sed -E "s/\&#39;/\'/g" | awk 'NR % 2 {print} !(NR % 2) {printf "- %s\n\n",$0 }'
 }
 
 #/ buildapk <keystore> <alias>: sign apk
@@ -273,24 +244,6 @@ cpu () {
     column -t -s ';;' <<< "$out"
 }
 
-#/ currency <from_currency> <to_currency> <number>: fetch currency exchange rate
-currency () { curl -sS "https://www.xe.com/currencyconverter/convert/?Amount=$3&From=${1:u}&To=${2:u}" | sed 's/faded-digits.*//' | tail -1 | sed 's/.*">//' | awk -F '<' '{print $1}' }
-
-#/ cvss <vector>: calculate cvss3.1 score
-cvss() {
-    local v="${1:-}" ip
-    if [[ -z "${v:-}" ]]; then
-        read ip\?"AV:NALP AC:LH PR:NLH UI:NR S:UC C:NLH I:NLH A:NLH: "
-        v="CVSS:3.1/AV:${ip:0:1}/AC:${ip:1:1}/PR:${ip:2:1}/UI:${ip:3:1}/S:${ip:4:1}/C:${ip:5:1}/I:${ip:6:1}/A:${ip:7:1}"
-        v="${v:u}"
-    fi
-    echo "$v"
-    "$(command -v chromium)" --headless=new --timeout=500 --disable-gpu --dump-dom "https://www.first.org/cvss/calculator/3.1#$v" 2>/dev/null \
-    | htmlq -t '#baseMetricGroup .scoreRating span' \
-    | awk '{printf "%s ", $0;}'
-    echo
-}
-
 #/ cve <CVE-ID>: list CVE details
 cve () {
     local data="$(curl -sS "https://nvd.nist.gov/vuln/detail/${1:u}" --compressed)"
@@ -311,9 +264,6 @@ cve () {
     htmlq -t '#cveTreeJsonDataHidden' -a value <<< "$data" | sed -E 's/\&#34;/"/g' | jq -r '.[].containers[].cpes[] | "\(.cpe23Uri) \(.rangeDescription)"'
 }
 
-#/ cvetrends [24hrs|7days]: show CVE trends in 24hrs or 7days
-cvetrends() { curl -sS "https://cvetrends.com/api/cves/${1:-24hrs}" | jq -r '.data[] | "\(.cve)\n\(.description)\n"' }
-
 #/ dadjoke: show dadjoke
 dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
@@ -326,30 +276,6 @@ datediff () {
 
 #/ defaultpassword <keyword>: search default password from a keyword
 defaultpassword() { curl -sS 'https://raw.githubusercontent.com/many-passwords/many-passwords/main/passwords.csv' | rg "$1|Vendor,Model" | column -t -s ',' }
-
-#/ dekudeals <game>: show game prices from DekuDeals
-dekudeals () {
-    local d l r len o="" p
-    d="$(curl -sS "https://www.dekudeals.com/autocomplete?term=${1// /%20}" | jq -r '.[] | "[\(.url)] \(.name)"')"
-    l="$(fzf -1 -0 <<< "$d" \
-        | awk -F']' '{print $1}' \
-        | sed -E 's/^\[//')"
-    r="$(curl -sS "https://www.dekudeals.com/${l}")"
-    len="$(htmlq '.item-price-table tr' <<< "$r" | grep -c "</tr>")"
-    for i in $(seq 1 "$len"); do
-        p="$(htmlq -t ".item-price-table tr:nth-child($i)" <<< "$r" \
-            | sedremovespace \
-            | tr '\n' ' ')"
-        [[ "$p" =~ ^Digital* || "$p" =~ ^Physical* ]] && o+="\n$p" || o+=" $p"
-    done
-    echo -e "$o\n---" | sed -E '/^[[:space:]]*$/d'
-    len="$(htmlq -t '#price-history table tr' <<< "$r" | grep -c "</tr>")"
-    for i in $(seq 1 "$len"); do
-        htmlq -t "#price-history table tr:nth-child($i)" <<< "$r" \
-            | sedremovespace \
-            | sed '/$/N;s/\n/ /'
-    done
-}
 
 #/ doomsday <yyyy>: calculate doomsday of a given year
 doomsday() {
@@ -371,26 +297,6 @@ doomsday() {
     fi
 
     echo "$(((decade/12 + decade%12 + decade%12/4 + doomsdaycentury) %7 )) $isleap"
-}
-
-#/ douban <movie_name>: douban movie search
-douban () {
-    local o m s t r rc
-    o=$($GITREPO/putility/putility.js "https://search.douban.com/movie/subject_search?search_text=$1" -w 100)
-    m=$(grep -o sc-bZQynM <<< "$o" | wc -l)
-    for (( i = 0; i < m; i++ )); do
-        s=$(htmlq '.sc-bZQynM:nth-child('$((i+1))')' <<< "$o")
-        if [[ "$s" ]]; then
-            t=$(htmlq -t '.title-text' <<< "$s" | sedremovespace | sed -E "s/\&#39;/\'/g")
-            r=$(htmlq -t '.rating_nums' <<< "$s" | sedremovespace)
-            rc=$(htmlq -t '.pl' <<< "$s" | sedremovespace)
-            if [[ "$r" ]]; then
-                printf "%b\n" "\033[33m[$r $rc]\033[0m $t"
-            else
-                printf "%b\n" "$t"
-            fi
-        fi
-    done
 }
 
 #/ extract <file_name>: all-in-one decompression
@@ -711,9 +617,6 @@ outline () {
     xdg-open "https://outline.com/$u"
 }
 
-#/ playstoresearch <term>: search apps in Play Store by term
-playstoresearch () { curl -sS -H "X-Apptweak-Key: $APPTWEAK_KEY" "https://api.apptweak.com/android/searches.json?language=en&term=$1" | jq }
-
 #/ plug: mount plugged-in device(s)
 plug () {
     local dl d
@@ -731,9 +634,6 @@ port () { curl -sS 'https://www.portcheckers.com/port-number-assignment' --data-
 
 #/ qotd: quote of the day
 qotd () { curl -s 'https://favqs.com/api/qotd' | jq -r '.quote | "\"\(.body)\" - \(.author)"'; echo }
-
-#/ quodb <quote>: movie quote search
-quodb () { printf "$(curl -sS "http://api.quodb.com/search/${1// /%20}?page=1&titles_per_page=50&phrases_per_title=1" | jq -r '.docs[] | "\\033[32m\(.phrase)\\033[0m - \(.title) \(.year)"')" }
 
 #/ randompwd <length>: generate random password, min. length is 4
 randompwd () {
@@ -833,9 +733,6 @@ snykadvisor () {
     done
 }
 
-#/ synonym <word>: search for synonym of a word
-synonym() { curl -sS https://www.thesaurus.com/browse/$1| htmlq -t 'script' | grep INITIAL_STATE | sed -E 's/.*INITIAL_STATE = //;s/;$//' | sed -E 's/:undefined,/:null,/g' | jq -r '.searchData.tunaApiData.posTabs[] | .definition as $definition | .pos as $pos | .synonyms | sort_by (.term) | .[] | select((.similarity | tonumber)>49) | "\($pos) \($definition):: \(.term)"' | awk -F"::" '{if ($1==prev) printf ",%s", $2; else printf "\n\n%s\n %s", $1, $2; prev=$1} END {print "\n"}' }
-
 #/ timezone <city>: show timezone of a city
 timezone() {
     local data
@@ -843,12 +740,6 @@ timezone() {
     htmlq -t '#clock0_bg' <<< "$data"
     htmlq -t '#dd' <<< "$data"
     htmlq -t '.keypoints' <<< "$data"
-}
-
-#/ tinyurl <url>: shorten url using tinyurl
-tinyurl()  {
-    local u=$(curl -sS "https://tinyurl.com/create.php?source=index&alias=&url=$1" | grep '://tinyurl.com/' | grep 'target' | grep -E 'https://tinyurl.com/\w+' -o | head -1)
-    echo -n "$u" | xclip -selection clipboard
 }
 
 #/ toc <file.md>: add table of coentents in markdown file
@@ -883,105 +774,6 @@ unshorten() { curl -sSL -I "$1" | grep 'Location: ' | awk -F ': ' '{print $2}' }
 
 #/ v <img> [viu params]: display image in terminal
 v () { [[ "$(echo $1 | tr '[a-z]' '[A-Z]')" =~ (CR2|DNG)$ ]] && dcraw -c -w "$1" | cjpeg | viu "${@:2}" || viu "$@" }
-
-#/ vrt <keyword>: Bugcrowd’s Vulnerability Rating Taxonomy search
-vrt () {
-    local d nl n np cl cn cp ccl ccn ccp vf
-    vf="${HOME}/.vrt.json"
-    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json" "7" "$vf"
-
-    d="$(jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' < "$vf" | grep -v '.id:' | grep -v '.type:')"
-    nl="$(tail -1 <<< "$d" | awk -F '.' '{print $3}')"
-    for (( i = 0; i <= nl; i++ )); do
-        np="$(grep ".content.${i}.priority" <<< "$d" | sed 's/.*: /: P/')"
-        n="$(grep ".content.${i}.name" <<< "$d" | sed 's/.*: "//' | sed 's/"$//')${np}"
-        cl="$(grep ".content.${i}.children." <<< "$d" | tail -1 | awk -F '.' '{print $5}')"
-        if [[ -n "${cl:-}" ]]; then
-            for (( j = 0; j <= cl; j++ )); do
-                cp="$(grep ".content.${i}.children.${j}.priority" <<< "$d" | sed 's/.*: /: P/')"
-                cn="$n > $(grep ".content.${i}.children.${j}.name" <<< "$d" | sed 's/.*: "//' | sed 's/"$//')${cp}"
-                ccl="$(grep ".content.${i}.children.${j}.children." <<< "$d" | tail -1 | awk -F '.' '{print $7}')"
-                if [[ -n "${ccl:-}" ]]; then
-                    for (( jj = 0; jj <= ccl; jj++ )); do
-                        ccp="$(grep ".content.${i}.children.${j}.children.${jj}.priority" <<< "$d" | sed 's/.*: /: P/')"
-                        ccn="$cn > $(grep ".content.${i}.children.${j}.children.${jj}.name" <<< "$d" | sed 's/.*: "//' | sed 's/"$//')${ccp}"
-                        echo "$ccn" | rg -i "$1"
-                    done
-                else
-                    echo "$cn" | rg -i "$1"
-                fi
-            done
-        else
-            echo "$n" | rg -i "$1"
-        fi
-    done
-}
-
-#/ vrt2cvss <keyword>: convert Bugcrowd’s VRT to CVSS score
-vrt2cvss () {
-    local id vf cf
-    vf="${HOME}/.vrt.json"
-    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json" "7" "$vf"
-    cf="${HOME}/.vrt2cvss.json"
-    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/cvss_v3/cvss_v3.json" "7" "$cf"
-
-    while read -r id; do
-        echo "---"
-        grep -i "$id" -A 1 < "$cf" | sedremovespace | sed -E 's/,$//;s/"$//;s/.*": "//'
-    done <<< "$(grep -i 'name": .*'"$1" -B 1 < "$vf" | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//')"
-}
-
-#/ vrt2cwe <keyword>: show Bugcrowd’s VRT CWE mappings
-vrt2cwe () {
-    local id vf d
-    vf="${HOME}/.cwe.json"
-    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/cwe/cwe.json" "7" "$vf"
-    d="$(jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' < "$vf")"
-
-    while read -r l; do
-        id="$(grep "$l" <<< "$d" | awk '{print $1}')"
-        cwe="$(grep "${id//id/cwe.0}" <<< "$d" | awk '{print $2}')"
-        echo "$l $cwe" | grep "$1"
-    done <<< "$(grep ".id:" <<< "$d" | awk '{print $2}')"
-}
-
-#/ vrtadvice <keyword>: show Bugcrowd’s VRT redediation advice
-vrtadvice () {
-    local id vf cf d prefix
-    vf="${HOME}/.vrt.json"
-    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/vulnerability-rating-taxonomy.json" "7" "$vf"
-    cf="${HOME}/.vrtadvice.json"
-    vrtdownload "https://raw.githubusercontent.com/bugcrowd/vulnerability-rating-taxonomy/master/mappings/remediation_advice/remediation_advice.json" "7" "$cf"
-    d="$(jq -r 'paths(scalars) as $p | "." + ([([$p[] | tostring] | join(".")), (getpath($p) | tojson)] | join(": "))' "$cf")"
-    while read -r id; do
-        if [[ -n "${id:-}" ]]; then
-            prefix="$(grep 'id: "' <<< "$d" | grep "\"${id}\"" | sed 's/id: ".*$//')"
-            if [[ -n "${prefix:-}" ]]; then
-                echo -e "--$id--\n$(grep "${prefix}remediation_advice" <<< "$d" | sed 's/.*.remediation_advice: //')"
-                grep "${prefix}references" <<< "$d" | sed 's/.*.references.*: //'
-            fi
-        fi
-    done <<< "$(grep -i 'name": .*'"$1" -B 1 < "$vf" | grep '"id":' | sed -E 's/,$//;s/"$//;s/.*": "//' | sort -u)"
-}
-
-# Download VRT JSON files
-vrtdownload () {
-    # $1: URL
-    # $2: expiration day
-    # $3: output file
-    local dl=0 fu no
-    if [[ ! -s "$3" ]]; then
-        dl=1
-    else
-        fu=$(date -d "$(date -r "$3") +$2 day" +%s)
-        no=$(date +%s)
-        [[ "$no" -gt "$fu" ]] && dl=1
-    fi
-
-    if [[ "$dl" == "1" ]]; then
-        curl -sS "$1" > "$3"
-    fi
-}
 
 #/ what3words: get random 3 words
 what3words () {
