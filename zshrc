@@ -453,6 +453,17 @@ goodreads () {
     done
 }
 
+#/ grok <text>: Grok 3
+grok () {
+    local c
+    c="$(shuf < "$HOME/.grokie" | tail -1)"
+    curl -sS 'https://grok.com/rest/app-chat/conversations/new' \
+      -H "cookie: sso=$c" \
+      --data-raw '{"temporary":true,"modelName":"grok-3","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
+      | grep '"modelResponse"' \
+      | jq -r '.result.response.modelResponse.message'
+}
+
 #/ h1 <keyword>: search disclosed report from h1
 h1() {
     local res session csrftoken
