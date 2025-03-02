@@ -361,15 +361,31 @@ goodreads () {
 
 #/ grok <text>: Grok 3
 grok () {
-    local c a
+    read_output() {
+        while true; do
+            [[ ! -f "$1" ]] && return
+            clear
+            echo -e "$(tr -d '\n' < "$1" | sed 's/\\\"/"/g')"
+            sleep 0.5
+        done
+    }
+
+    local c a f
     c="$(shuf < "$HOME/.grokie" | tail -1)"
     a="$(shuf < "$HOME/.useragent" | tail -1)"
+    f="$(mktemp)"
+
+    setopt NO_NOTIFY
+    read_output "$f" 2>/dev/null &
+
     curl-impersonate -sS 'https://grok.com/rest/app-chat/conversations/new' \
       -H "cookie: sso=$c" \
       -A "$a" \
       --data-raw '{"temporary":true,"modelName":"grok-3","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
-      | grep '"modelResponse"' \
-      | jq -r '.result.response.modelResponse.message'
+      | grep --line-buffered '{"token"' \
+      | sed -u 's/.*{"token":"//;s/",".*//' > "$f"
+    sleep 1
+    rm -f "$f"
 }
 
 #/ h1 <keyword>: search disclosed report from h1
