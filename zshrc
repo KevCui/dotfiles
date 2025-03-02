@@ -375,7 +375,7 @@ grok () {
     a="$(shuf < "$HOME/.useragent" | tail -1)"
     f="$(mktemp)"
 
-    setopt NO_NOTIFY
+    setopt NO_MONITOR
     read_output "$f" 2>/dev/null &
 
     curl-impersonate -sS 'https://grok.com/rest/app-chat/conversations/new' \
