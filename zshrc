@@ -362,10 +362,12 @@ goodreads () {
 #/ grok <text>: Grok 3
 grok () {
     read_output() {
+        local d
         while true; do
             [[ ! -f "$1" ]] && return
+            d="$(cat $1)"
             clear
-            echo -e "$(tr -d '\n' < "$1" | sed 's/\\\"/"/g')"
+            echo -e "$(tr -d '\n' <<< "$d" | sed 's/\\\"/"/g')"
             sleep 0.5
         done
     }
@@ -378,12 +380,12 @@ grok () {
     setopt NO_MONITOR
     read_output "$f" 2>/dev/null &
 
-    curl-impersonate -sS 'https://grok.com/rest/app-chat/conversations/new' \
+    curl-impersonate -sS -N 'https://grok.com/rest/app-chat/conversations/new' \
       -H "cookie: sso=$c" \
       -A "$a" \
       --data-raw '{"temporary":true,"modelName":"grok-3","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
       | grep --line-buffered '{"token"' \
-      | sed -u 's/.*{"token":"//;s/",".*//' > "$f"
+      | sed -u 's/.*{"token":"//;s/","isThinking.*//' > "$f"
     sleep 1
     rm -f "$f"
 }
