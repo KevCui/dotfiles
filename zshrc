@@ -372,10 +372,11 @@ grok () {
         done
     }
 
-    local c a f
+    local c a f ff
     c="$(shuf < "$HOME/.grokie" | tail -1)"
     a="$(shuf < "$HOME/.useragent" | tail -1)"
     f="$(mktemp)"
+    ff="$(mktemp)"
 
     setopt NO_MONITOR
     read_output "$f" 2>/dev/null &
@@ -384,10 +385,14 @@ grok () {
       -H "cookie: sso=$c" \
       -A "$a" \
       --data-raw '{"temporary":true,"modelName":"grok-3","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
+      | tee "$ff" \
       | grep --line-buffered '{"token"' \
       | sed -u 's/.*{"token":"//;s/","isThinking.*//' > "$f"
-    sleep 1
     rm -f "$f"
+    sleep 0.5
+    clear
+    grep '"modelResponse"' < "$ff" | jq -r '.result.response.modelResponse.message'
+    rm -f "$ff"
 }
 
 #/ h1 <keyword>: search disclosed report from h1
