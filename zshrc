@@ -299,6 +299,41 @@ doomsday() {
     echo "$(((decade/12 + decade%12 + decade%12/4 + doomsdaycentury) %7 )) $isleap"
 }
 
+#/ duckai <text>: DuckAI
+duckai () {
+    read_output() {
+        while true; do
+            [[ ! -f "$1" ]] && return
+            clear
+            echo -e "$(tr -d '\n' < "$1" | sed 's/\\\"/"/g')"
+            sleep 0.5
+        done
+    }
+
+    local a f ff t
+    a="$(shuf < "$HOME/.useragent" | tail -1)"
+    f="$(mktemp)"
+    ff="$(mktemp)"
+
+    setopt NO_MONITOR
+    read_output "$f" 2> /dev/null &
+
+    t="$(curl https://duckduckgo.com/duckchat/v1/status -H 'x-vqd-accept: 1' -A "$a" -I -sS | grep x-vqd-4 | awk '{print $2}')"
+    curl -sS https://duckduckgo.com/duckchat/v1/chat \
+        -H 'content-type: application/json' \
+        -H 'referer: https://duckduckgo.com/' \
+        -H "user-agent: $a" \
+        -H "x-vqd-4: $t" \
+        --data-raw '{"model":"o3-mini","messages":[{"role":"user","content":"'"$1"'"}]}' \
+        | grep --line-buffered 'data: {"message":"' \
+        | sed -u 's/.*"message":"//;s/","created":.*//' | tee "$ff" > "$f"
+    rm -f "$f"
+    sleep 0.5
+    clear
+    echo -e "$(tr -d '\n' < "$ff" | sed 's/\\\"/"/g')"
+    rm -f "$ff"
+}
+
 #/ extract <file_name>: all-in-one decompression
 extract () {
   if [ -f $1 ] ; then
