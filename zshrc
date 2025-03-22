@@ -310,7 +310,7 @@ duckai () {
         done
     }
 
-    local a f ff t
+    local a f ff d t th
     a="$(shuf < "$HOME/.useragent" | tail -1)"
     f="$(mktemp)"
     ff="$(mktemp)"
@@ -318,12 +318,15 @@ duckai () {
     setopt NO_MONITOR
     read_output "$f" 2> /dev/null &
 
-    t="$(curl https://duckduckgo.com/duckchat/v1/status -H 'x-vqd-accept: 1' -A "$a" -I -sS | grep x-vqd-4 | awk '{print $2}')"
+    d="$(curl https://duckduckgo.com/duckchat/v1/status -H 'x-vqd-accept: 1' -A "$a" -I -sS)"
+    t="$(grep x-vqd-4 <<< "$d" | awk '{print $2}' | tr -d '\r')"
+    th="$(grep x-vqd-hash-1 <<< "$d" | awk '{print $2}' | tr -d '\r')"
     curl -sS https://duckduckgo.com/duckchat/v1/chat \
         -H 'content-type: application/json' \
         -H 'referer: https://duckduckgo.com/' \
         -H "user-agent: $a" \
         -H "x-vqd-4: $t" \
+        -H "x-vqd-hash-1: $th" \
         --data-raw '{"model":"o3-mini","messages":[{"role":"user","content":"'"$1"'"}]}' \
         | grep --line-buffered 'data: {"message":"' \
         | sed -u 's/.*"message":"//;s/","created":.*//' | tee "$ff" > "$f"
