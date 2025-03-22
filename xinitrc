@@ -14,6 +14,7 @@ syndaemon -i 0.8 -t -K -R -d
 
 # Mouse
 imwheel --kill
+xbindkeys
 
 # Keyboard layout
 xmodmap $HOME/.Xmodmap

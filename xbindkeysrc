@@ -1,0 +1,5 @@
+"xte 'keydown Super_L' 'keydown Shift_L' 'key n' 'keyup Super_L' 'keyup Shift_L'"
+  b:8
+
+"xte 'keydown Super_L' 'keydown Shift_L' 'key p' 'keyup Super_L' 'keyup Shift_L'"
+  b:9
