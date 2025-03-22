@@ -240,7 +240,7 @@ chartable () {
 cpu () {
     local out
     out="Name;;Mark;;Rank;;Value;;Price"$'\n'
-    out+="$(curl -sS 'https://www.cpubenchmark.net/cpu_list.php' | grep 'cpu_lookup' | sed 's/<\/td/;;<\/td/g' | htmlq -t | grep -i "$1")"
+    out+="$(curl -sS 'https://www.cpubenchmark.net/cpu_list.php' -A x | grep 'cpu_lookup' | sed 's/<\/td/;;<\/td/g' | htmlq -t | grep -i "$1")"
     column -t -s ';;' <<< "$out"
 }
 
