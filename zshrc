@@ -325,7 +325,7 @@ duckai () {
         -H 'referer: https://duckduckgo.com/' \
         -H "user-agent: $a" \
         -H "x-vqd-4: $t" \
-        --data-raw '{"model":"o3-mini","messages":[{"role":"user","content":"'"$1"'"}]}' \
+        --data-raw '{"model":"o3-mini","messages":[{"role":"user","content":""},{"role":"user","content":"'"$1"'"}]}' \
         | grep --line-buffered 'data: {"message":"' \
         | sed -u 's/.*"message":"//;s/","created":.*//' | tee "$ff" > "$f"
     rm -f "$f"
