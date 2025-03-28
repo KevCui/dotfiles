@@ -99,7 +99,6 @@ augroup END
 " file coding utf-8
 set encoding=utf-8
 set fileencodings=utf-8,gb2312,gbk,gb18030
-set termencoding=utf-8
 set nofixendofline
 
 " format
@@ -180,9 +179,7 @@ function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-"   toggle paste mode
-set pastetoggle=<F2>
-"   open file in browser
+" open file in browser
 nnoremap gO :exe ':silent !$BROWSER %'<CR>
 " Visual Block mode: Vb or <C-V>
 command! Vb execute "normal! \<C-V>"
