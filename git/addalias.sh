@@ -76,37 +76,37 @@ au="! cd \"\$(pwd)/\$GIT_PREFIX\"\
 b="! cd \$(pwd)/\$GIT_PREFIX\
  && sh -c \"git blame \$1\
  | fzf -0 --ansi --cycle $FZF_OPTION_BIND\
- --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
+ --bind 'enter:execute($GIT_DIFF_TREE | $DIFF_CMD)+abort'\""
 
 d="! $GIT_DIFF_NAME\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND\
  --preview 'git diff -- {2..-1} | $DIFF_CMD'\
- --bind 'enter:abort+execute(git diff -- {2..-1} | $DIFF_CMD)'"
+ --bind 'enter:execute(git diff -- {2..-1} | $DIFF_CMD)+abort'"
 
 ds="! $GIT_DIFF_NAME_CACHED\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PREVIEW_WINDOW:80 $FZF_OPTION_BIND\
  --preview 'git diff --cached -- {2..-1} | $DIFF_CMD'\
- --bind 'enter:abort+execute(git commit)'"
+ --bind 'enter:execute(git commit)+abort'"
 
 f="! cd \$(pwd)/\$GIT_PREFIX\
  && sh -c \"git log --follow --pretty=format:'%h %ad %s%d' --date=short \$1\
  | fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND\
  --preview '$GIT_DIFF_TREE | $DIFF_CMD'\
- --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'\""
+ --bind 'enter:execute($GIT_DIFF_TREE | $DIFF_CMD)+abort'\""
 
 h="log --pretty=format:'%Cgreen%h%Creset %C(yellow)%ad%Creset | %s%d [%an]' --graph --date=short"
 
 l="! git log --pretty=format:'%h %ad %s%d' --date=short\
  | fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND\
  --preview '$GIT_DIFF_TREE | $DIFF_CMD'\
- --bind 'enter:abort+execute($GIT_DIFF_TREE | $DIFF_CMD)'"
+ --bind 'enter:execute($GIT_DIFF_TREE | $DIFF_CMD)+abort'"
 
 ls="! git log --pretty=format:'%h %ad %s%d' --date=short\
  | fzf -0 +s $FZF_OPTION_PREVIEW_WINDOW $FZF_OPTION_BIND\
  --preview 'git show --color --compact-summary {1}'\
- --bind 'enter:abort+execute(git show --compact-summary {1})'"
+ --bind 'enter:execute(git show --compact-summary {1})+abort'"
 
 ua="! while read -r f; do\
  IFS=\$'\n'; git restore --staged \$f;\
