@@ -419,6 +419,7 @@ grok () {
 
     curl-impersonate -sS -N 'https://grok.com/rest/app-chat/conversations/new' \
       -H "cookie: sso=$c" \
+      -H 'origin: https://grok.com' \
       -A "$a" \
       --data-raw '{"temporary":true,"modelName":"grok-3","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
       | tee "$ff" \
