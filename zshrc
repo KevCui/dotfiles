@@ -301,25 +301,11 @@ doomsday() {
 
 #/ duckai <text>: DuckAI
 duckai () {
-    read_output() {
-        while true; do
-            [[ ! -f "$1" ]] && return
-            clear
-            echo -e "$(tr -d '\n' < "$1" | sed 's/\\\"/"/g')"
-            sleep 0.5
-        done
-    }
-
-    local a f ff d t
+    local a  d t
     a="$(shuf < "$HOME/.useragent" | tail -1)"
-    f="$(mktemp)"
-    ff="$(mktemp)"
-
-    setopt NO_MONITOR
-    read_output "$f" 2> /dev/null &
-
     d="$(curl https://duckduckgo.com/duckchat/v1/status -H 'x-vqd-accept: 1' -A "$a" -I -sS)"
     t="$(grep x-vqd-4 <<< "$d" | awk '{print $2}' | tr -d '\r')"
+
     curl -sS https://duckduckgo.com/duckchat/v1/chat \
         -H 'content-type: application/json' \
         -H 'referer: https://duckduckgo.com/' \
@@ -327,12 +313,8 @@ duckai () {
         -H "x-vqd-4: $t" \
         --data-raw '{"model":"o3-mini","messages":[{"role":"user","content":""},{"role":"user","content":"'"$1"'"}]}' \
         | grep --line-buffered 'data: {"message":"' \
-        | sed -u 's/.*"message":"//;s/","created":.*//' | tee "$ff" > "$f"
-    rm -f "$f"
-    sleep 0.5
-    clear
-    echo -e "$(tr -d '\n' < "$ff" | sed 's/\\\"/"/g')"
-    rm -f "$ff"
+        | sed -u "s/^data: //" \
+        | jq -j -r --unbuffered '.message'
 }
 
 #/ extract <file_name>: all-in-one decompression
@@ -397,39 +379,17 @@ goodreads () {
 
 #/ grok <text>: Grok 3
 grok () {
-    read_output() {
-        local d
-        while true; do
-            [[ ! -f "$1" ]] && return
-            d="$(cat $1)"
-            clear
-            echo -e "$(tr -d '\n' <<< "$d" | sed 's/\\\"/"/g')"
-            sleep 0.5
-        done
-    }
-
-    local c a f ff
+    local c a
     c="$(shuf < "$HOME/.grokie" | tail -1)"
     a="$(shuf < "$HOME/.useragent" | tail -1)"
-    f="$(mktemp)"
-    ff="$(mktemp)"
-
-    setopt NO_MONITOR
-    read_output "$f" 2>/dev/null &
 
     curl-impersonate -sS -N 'https://grok.com/rest/app-chat/conversations/new' \
       -H "cookie: sso=$c" \
       -H 'origin: https://grok.com' \
       -A "$a" \
       --data-raw '{"temporary":true,"modelName":"grok-3","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
-      | tee "$ff" \
       | grep --line-buffered '{"token"' \
-      | sed -u 's/.*{"token":"//;s/","isThinking.*//' > "$f"
-    rm -f "$f"
-    sleep 0.5
-    clear
-    grep '"modelResponse"' < "$ff" | jq -r '.result.response.modelResponse.message'
-    rm -f "$ff"
+      | jq -j -r --unbuffered '.result.response.token'
 }
 
 #/ h1 <keyword>: search disclosed report from h1
