@@ -344,6 +344,18 @@ extract () {
 #/ findlast: find last modified file in folder
 findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec sh -c "echo {}; /bin/ls -lrtp {} 2> /dev/null | grep -v / | tail -n 1 | awk '{\$1=\$2=\$3=\$4=\$5=\"\"; print \$0}'; echo" \; }
 
+#/ gemini <text>: Gemini
+gemini () {
+    local k
+    k="$(shuf < "$HOME/.gemini" | tail -1)"
+    curl -sS -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?key=$k&alt=sse" \
+        -H 'Content-Type: application/json' \
+        -d '{ "contents": [{ "parts":[{"text": "'"$1"'"}] }]}' -N \
+        | grep --line-buffered '^data: ' \
+        | sed -u 's/^data: //' \
+        | jq -j --unbuffered -r '.candidates[0].content.parts[0].text'
+}
+
 #/ geocode <address>: gecode an address
 geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1] | tostring | split(".") | .[0]).\(.[1] | tostring | split(".") | .[1][0:6]),\(.[0] | tostring | split(".") | .[0]).\(.[0] | tostring | split(".") | .[1][0:6])"'}
 
