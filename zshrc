@@ -346,11 +346,12 @@ findlast () { p="$1"; if [[ -z "$1" ]]; then p="."; fi; find "$p" -type d -exec 
 
 #/ gemini <text>: Gemini
 gemini () {
-    local k
+    local k n
     k="$(shuf < "$HOME/.gemini" | tail -1)"
-    curl -sS -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?key=$k&alt=sse" \
+    n="$(cat "$HOME/.gemini-model")"
+    curl -sS -X POST "https://generativelanguage.googleapis.com/v1beta/models/${n}:streamGenerateContent?key=${k}&alt=sse" \
         -H 'Content-Type: application/json' \
-        -d '{ "contents": [{ "parts":[{"text": "'"$1"'"}] }]}' -N \
+        -d '{ "contents": [{ "parts":[{"text": "'"$1"'"}] }], "tools": [{ "google_search": {}}]}' -N \
         | grep --line-buffered '^data: ' \
         | sed -u 's/^data: //' \
         | jq -j --unbuffered -r '.candidates[0].content.parts[0].text'
