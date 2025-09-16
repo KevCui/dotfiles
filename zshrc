@@ -423,6 +423,7 @@ grok () {
       -A "$a" \
       --data-raw '{"temporary":true,"modelName":"grok-3","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
       | grep --line-buffered '{"token"' \
+      | grep -v --line-buffered ',"toolUsageCardId":' \
       | jq -j -r --unbuffered '.result.response.token'
 }
 
