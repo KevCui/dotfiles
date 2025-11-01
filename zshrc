@@ -424,6 +424,7 @@ grok () {
       --data-raw '{"temporary":true,"modelName":"grok-3","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
       | grep --line-buffered '{"token"' \
       | grep -v --line-buffered ',"toolUsageCardId":' \
+      | grep -v --line-buffered 'card_type=\\"citation_card\\"' \
       | jq -j -r --unbuffered '.result.response.token'
 }
 
