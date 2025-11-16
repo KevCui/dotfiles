@@ -628,7 +628,7 @@ myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?
 #/ myip: show my ip address
 myip () {
     local o ip loc
-    o="$(curl -sS 'https://duckduckgo.com/?q=my%20ip')"
+    o="$(curl -sSL 'https://duckduckgo.com/?q=my%20ip' -A x)"
     ip="$(grep -oE "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" <<< "$o")"
     loc="$(htmlq -t script <<< "$o" | rg DDG.duckbar | sed 's/.*">//' | sed 's/<\/a.*//')"
     echo "$ip - $loc"
