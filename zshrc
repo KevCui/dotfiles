@@ -236,6 +236,40 @@ chartable () {
     done
 }
 
+#/ chatgpt <test>: ChatGPT
+chatgpt () {
+    # req file contains HTTP request of POST https://chatgpt.com/backend-anon/sentinel/chat-requirements/finalize
+    local r="$HOME/.req"
+
+    prepareToken="$(grep prepare_token "$r" | jq -r '.prepare_token')"
+    proofofwork="$(grep prepare_token "$r" | jq -r '.proofofwork')"
+    cookie="$(grep cf_clearance "$r" | awk -F: '{print $2}')"
+    device_id="$(grep -i oai-device-id "$r" | awk -F: '{print $2}')"
+    useragent="$(grep -i user-agent "$r" | awk -F': ' '{print $2}')"
+    uuid="$(uuidgen)"
+
+    token="$(curl -sS -X 'POST' 'https://chatgpt.com/backend-anon/sentinel/chat-requirements/finalize' \
+      -H 'Content-Type: application/json' \
+      -H "Oai-Device-Id: $device_id" \
+      -H "User-Agent: $useragent" \
+      -H "Cookie: $cookie" --data-binary '{"prepare_token":"'$prepareToken'","proofofwork":"'$proofofwork'","turnstile":""}' \
+      | jq -r .token)"
+
+    curl -sS -X POST 'https://chatgpt.com/backend-anon/f/conversation' \
+      -H 'Accept: text/event-stream' \
+      -H 'Accept-Language: en-US,en;q=0.9' \
+      -H "Openai-Sentinel-Proof-Token: $proofofwork" \
+      -H "Openai-Sentinel-Chat-Requirements-Token: $token" \
+      -H "Oai-Device-Id: $device_id" \
+      -H "User-Agent: $useragent" \
+      -H "Cookie: $cookie" \
+      --data-binary '{"action":"next","messages":[{"id":"'$uuid'","author":{"role":"user"},"content":{"content_type":"text","parts":["'"$1"'"]}}],"parent_message_id":"client-created-root","model":"auto","timezone_offset_min":0,"timezone":"","history_and_training_disabled":true,"conversation_mode":{"kind":"primary_assistant"},"enable_message_followups":true,"system_hints":["search"],"supports_buffering":true,"supported_encodings":["v1"],"force_use_search":true,"paragen_cot_summary_display_override":"allow","force_parallel_switch":"auto"}' \
+        | grep --line-buffered '"/message/content/parts/0"' \
+        | sed 's/^data: //' \
+        | jq -j --unbuffered -r '.v[] | select(.p == "/message/content/parts/0") | .v' \
+        | sed 's/cite.*//g'
+}
+
 #/ claude <text>: Claude.ai
 claude () {
     local a k o u h
