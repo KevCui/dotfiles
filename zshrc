@@ -104,10 +104,10 @@ alias vil='$EDITOR $(find ${HOME}/stdout -type f -printf "%T@ %p\n" | sort -n | 
 alias hugos="cd $GITREPO/blog; hugo server -D &"
 
 # python server
-alias python-server='ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
+alias python-server='ip addr | grep "state UP" -A 3 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
 
 # miniserve
-alias mini-server='ip=$(ip addr | grep "state UP" -A 2 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | tail -1 | awk "{print \$2}"); miniserve -u -qz -i "$ip" .'
+alias mini-server='ip=$(ip addr | grep "state UP" -A 3 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | tail -1 | awk "{print \$2}"); miniserve -u -qz -i "$ip" .'
 
 # run firefox or chromium in new instance
 alias newchromium='chromium --user-data-dir=$(mktemp -d) &> /dev/null &'
@@ -236,7 +236,7 @@ chartable () {
     done
 }
 
-#/ chatgpt <test>: ChatGPT
+#/ chatgpt <text>: ChatGPT
 chatgpt () {
     # req file contains HTTP request of POST https://chatgpt.com/backend-anon/sentinel/chat-requirements/finalize
     local r="$HOME/.req"
