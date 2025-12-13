@@ -266,7 +266,7 @@ chatgpt () {
       --data-binary '{"action":"next","messages":[{"id":"'$uuid'","author":{"role":"user"},"content":{"content_type":"text","parts":["'"$1"'"]}}],"parent_message_id":"client-created-root","model":"auto","timezone_offset_min":0,"timezone":"","history_and_training_disabled":true,"conversation_mode":{"kind":"primary_assistant"},"enable_message_followups":true,"system_hints":["search"],"supports_buffering":true,"supported_encodings":["v1"],"force_use_search":true,"paragen_cot_summary_display_override":"allow","force_parallel_switch":"auto"}' \
         | grep --line-buffered '"/message/content/parts/0"' \
         | sed 's/^data: //' \
-        | jq -j --unbuffered -r '.v[] | select(.p == "/message/content/parts/0") | .v' \
+        | jq -j --unbuffered -r '.v | if type == "array" then .[] else {v: ., p:"/message/content/parts/0"} end | select(.p == "/message/content/parts/0") | .v' \
         | sed 's/cite.*//g'
 }
 
