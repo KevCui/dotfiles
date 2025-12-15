@@ -70,7 +70,6 @@ po() { sleep "$1" && systemctl poweroff }
 alias q='qutebrowser'
 alias rg='rg -i --no-ignore'
 alias rm='rm -i'
-alias s='export lst=$(ls | tail -1); export fst=$(ls | head -1)'
 alias sedremovespace="sed -E '/^[[:space:]]*$/d;s/^[[:space:]]+//;s/[[:space:]]+$//'"
 alias subtitle='subliminal download -l en'
 alias top='htop'
