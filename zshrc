@@ -214,27 +214,6 @@ alpha () {
     echo -e "$o"
 }
 
-#/ buildapk <keystore> <alias>: sign apk
-buildapk () { cordova build --release; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "$1" android-release-unsigned.apk "$2";zipalign -v 4 android-release-unsigned.apk android-signed.apk;zipalign -c -v 4 android-signed.apk }
-
-#/ chartable <title>: chartable podcast search
-chartable () {
-    local h o m s t r
-    h="https://chartable.com"
-    o="$(curl -sS "$h/search?q=${1// /+}" | jq -r '.[]')"
-    m=$(jq 'length' <<< "$o")
-    for (( i = 0; i < m; i++ )); do
-        s=$(jq -r '.[($index|tonumber)].slug' --arg index "$i" <<< "$o")
-        t=$(jq -r '.[($index|tonumber)].title' --arg index "$i" <<< "$o")
-        r=$(curl -sS "$h/podcasts/$s" | grep "class='gray'" | sed -E 's/stars from /\(/;s/ ratings/\)/' | sed -E "s/<div class='gray'>//;s/<\/div>//")
-        if [[ "$r" ]]; then
-            printf '%b\n' "\033[33m[$r]\033[0m $t"
-        else
-            printf '%b\n' "$t"
-        fi
-    done
-}
-
 #/ chatgpt <text>: ChatGPT
 chatgpt () {
     # req file contains HTTP request of POST https://chatgpt.com/backend-anon/sentinel/chat-requirements/finalize
@@ -296,26 +275,6 @@ cpu () {
     column -t -s ';;' <<< "$out"
 }
 
-#/ cve <CVE-ID>: list CVE details
-cve () {
-    local data="$(curl -sS "https://nvd.nist.gov/vuln/detail/${1:u}" --compressed)"
-    htmlq -t 'p[data-testid="vuln-description"]' <<< "$data" | sedremovespace
-    echo "---"
-    htmlq -t '#Cvss3NistCalculatorAnchor' <<< "$data" | sedremovespace
-    htmlq -t '.tooltipCvss3NistMetrics' <<< "$data" | sedremovespace
-    local cScore="$(htmlq -t '#Cvss3CnaCalculatorAnchor' <<< "$data" | sedremovespace)"
-    if [[ -n "${cScore:-}" ]]; then
-        echo "CNA: $cScore"
-        htmlq -t '.tooltipCvss3CnaMetrics' <<< "$data" | sedremovespace
-    fi
-    echo "---"
-    htmlq -t '#vulnHyperlinksPanel table td' <<< "$data" | grep http | sedremovespace
-    echo "---"
-    htmlq -t '#vulnTechnicalDetailsDiv table td' <<< "$data" | sedremovespace
-    echo "---"
-    htmlq -t '#cveTreeJsonDataHidden' -a value <<< "$data" | sed -E 's/\&#34;/"/g' | jq -r '.[].containers[].cpes[] | "\(.cpe23Uri) \(.rangeDescription)"'
-}
-
 #/ dadjoke: show dadjoke
 dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
 
@@ -349,24 +308,6 @@ doomsday() {
     fi
 
     echo "$(((decade/12 + decade%12 + decade%12/4 + doomsdaycentury) %7 )) $isleap"
-}
-
-#/ duckai <text>: DuckAI
-duckai () {
-    local a  d t
-    a="$(shuf < "$HOME/.useragent" | tail -1)"
-    d="$(curl https://duckduckgo.com/duckchat/v1/status -H 'x-vqd-accept: 1' -A "$a" -I -sS)"
-    t="$(grep x-vqd-4 <<< "$d" | awk '{print $2}' | tr -d '\r')"
-
-    curl -sS https://duckduckgo.com/duckchat/v1/chat \
-        -H 'content-type: application/json' \
-        -H 'referer: https://duckduckgo.com/' \
-        -H "user-agent: $a" \
-        -H "x-vqd-4: $t" \
-        --data-raw '{"model":"o3-mini","messages":[{"role":"user","content":""},{"role":"user","content":"'"$1"'"}]}' \
-        | grep --line-buffered 'data: {"message":"' \
-        | sed -u "s/^data: //" \
-        | jq -j -r --unbuffered '.message'
 }
 
 #/ extract <file_name>: all-in-one decompression
@@ -408,9 +349,6 @@ gemini () {
         | sed -u 's/^data: //' \
         | jq -j --unbuffered -r '.candidates[0].content.parts[0].text'
 }
-
-#/ geocode <address>: gecode an address
-geocode () { curl -sS "https://www.qwant.com/maps/geocoder/autocomplete?q=${1// /%20}" | jq -r '.features[0].geometry.coordinates | "\(.[1] | tostring | split(".") | .[0]).\(.[1] | tostring | split(".") | .[1][0:6]),\(.[0] | tostring | split(".") | .[0]).\(.[0] | tostring | split(".") | .[1][0:6])"'}
 
 #/ getlinks <url>: get all links on the page
 getlinks () { curl -sS "$1" | htmlq 'a, link, base, area' -a  href | sedremovespace | sort -u }
@@ -461,48 +399,8 @@ grok () {
       | jq -j -r --unbuffered '.result.response.token'
 }
 
-#/ h1 <keyword>: search disclosed report from h1
-h1() {
-    local res session csrftoken
-    res="$(wget -qO- 'https://hackerone.com/hacktivity' --debug 2>&1)"
-    session="$(grep Host-session <<< "$res" | sed 's/.*Host-session //' | tail -1)"
-    csrftoken="$(grep csrf <<< "$res" | grep -v authenticity | sed 's/.*content="//;s/".*//')"
-
-    curl -sS 'https://hackerone.com/graphql' \
-      -H 'content-type: application/json' \
-      -H "x-csrf-token: $csrftoken" \
-      -H "cookie: __Host-session=$session" \
-      -d '{"query":"query HacktivityPageQuery($querystring: String, $orderBy: HacktivityItemOrderInput, $secureOrderBy: FiltersHacktivityItemFilterOrder, $where: FiltersHacktivityItemFilterInput, $count: Int, $cursor: String) {\n  hacktivity_items(first: $count, after: $cursor, query: $querystring, order_by: $orderBy, secure_order_by: $secureOrderBy, where: $where) {\n    total_count\n    ...HacktivityList\n  }\n}\n\nfragment HacktivityList on HacktivityItemConnection {\n  edges {\n    node {\n      ... on HacktivityItemInterface {\n        ...HacktivityItem\n      }\n    }\n  }\n}\n\nfragment HacktivityItem on HacktivityItemUnion {\n\n  ... on Disclosed {\n    ...HacktivityItemDisclosed\n  }\n  ... on HackerPublished {\n    ...HacktivityItemHackerPublished\n  }\n}\n\nfragment HacktivityItemDisclosed on Disclosed {\n  report {\n    title\n    url\n  substate\n  }\n  latest_disclosable_activity_at\n  severity_rating\n}\n\nfragment HacktivityItemHackerPublished on HackerPublished {\n  report {\n    title\n    url\n  substate\n  }\n  latest_disclosable_activity_at\n  severity_rating\n}","variables":{"querystring":"'"$1"'","where":{"report":{"disclosed_at":{"_is_null":false}}},"orderBy":{"field":"popular","direction":"DESC"},"secureOrderBy":null,"count":100},"operationName":"HacktivityPageQuery"}' \
-    | jq -r '.data.hacktivity_items.edges[].node.report'
-}
-
 #/ help <keyword>: list functions
 help () { grep "^#/" "${HOME}/.zshrc" | cut -c4- | rg -i "${@:-}" }
-
-#/ holiday <country_code> <year>: list of public holidays in country $1 in year $2
-holiday () { [[ -z $2 ]] && y=$(date "+%Y") || y="$2"; curl -s "https://date.nager.at/Api/v2/PublicHolidays/$y/$1" | jq -r '.[] | "\(.date) \(.localName) - \(.name)"' }
-
-#/ howlongtobeat <name>: search how long to beat a game
-howlongtobeat () {
-    local fn id d jf s
-    fn="$(curl -sS 'https://howlongtobeat.com/' -A 'x' | grep _app | sed 's/.*\/pages\/_app/_app/' | sed 's/\" .*//')"
-    jf="$(curl -sS "https://howlongtobeat.com/_next/static/chunks/pages/$fn" -A 'x')"
-    s="$(grep -Eo '"/api/\w+/"' <<< "$jf" | grep -v 'game' | sed 's/"//g')"
-    id="$(sed 's;.*'"$s"';;' <<< "$jf" | sed 's/,.*//' | awk -F '"' '{print $3$5}')"
-    d="$(curl -sS "https://howlongtobeat.com${s}${id}" -A 'x' \
-        -H 'content-type: application/json' \
-        -H 'referer: https://howlongtobeat.com/' \
-        --data-raw '{"searchType":"games","searchTerms":["'"${1// /\",\"}"'"],"searchPage":1,"size":20,"searchOptions":{"games":{"userId":0,"platform":"","sortCategory":"popular","rangeCategory":"main","rangeTime":{"min":null,"max":null},"gameplay":{"perspective":"","flow":"","genre":"","difficulty":""},"rangeYear":{"min":"","max":""},"modifier":""},"users":{"sortCategory":"postcount"},"lists":{"sortCategory":"follows"},"filter":"","sort":0,"randomizer":0},"useCache":false}' \
-        |  jq -r '.data[] | "\\033[32m\(.game_name)\\033[0m|\\033[33m\(.comp_main/3600 *10.0|round/10)|\(.comp_plus/3600 *10.0|round/10)|\(.comp_100/3600 *10.0|round/10)\\033[0m|\\033[34m\(.review_score)\\033[0m"' \
-        | column -t -s '|')"
-    printf "%b\n" "$d"
-}
-
-#/ httpstatus: show HTTP code explanation, $1 HTTP code
-httpstatus () { curl -i "https://httpstat.us/$1" }
-
-#/ httpstatuslist: show list of HTTP codes
-httpstatuslist () { curl -s 'https://httpstat.us/' | htmlq -t 'dl' | sedremovespace | awk 'NR%2{printf "%s ",$0;next}{print}' }
 
 #/ imdb <title>: imdb search
 imdb () {
@@ -540,27 +438,6 @@ ip2int() {
 #/ ipinfo <ip>: show IP info
 ipinfo () {
     curl -sS "https://ipinfo.io/widget/demo/$1" -H 'Referer: https://ipinfo.io' --compressed | jq '.data | del(.abuse)'
-}
-
-#/ islegitsite <domain_url>: check site is legit or not
-islegitsite() {
-    local r="$(curl -sS -L "https://www.islegitsite.com/check/$1")"
-
-    printf '%b\n' "\033[32mWOT Rating\033[0m"
-    htmlq -t '.container div:nth-child(4) .panel-body .label' <<< "$r" | sedremovespace
-
-    printf '%b\n' "\033[32mWebsite Blacklist\033[0m"
-    htmlq -t '.container div:nth-child(5) .panel-body table td' <<< "$r" \
-        | sedremovespace \
-        | grep -v 'More Information'
-
-    printf '%b\n' "\033[32mDomain Creation\033[0m"
-    htmlq -t '.container div:nth-child(7) .panel-body .font-bold' <<< "$r" | sedremovespace
-
-    printf '%b\n' "\033[32mWebsite Popularity\033[0m"
-    htmlq -t '.container div:nth-child(9) .panel-body .font-bold' <<< "$r" | sedremovespace
-    htmlq -t '.container div:nth-child(9) .panel-body strong' <<< "$r" | sedremovespace
-    htmlq -t '.container div:nth-child(9) .panel-body a' -a href <<< "$r" | sedremovespace
 }
 
 #/ jsonpath: command to print each path/value pair
@@ -604,57 +481,6 @@ lm () {
     done
 }
 
-#/ lyrics <word>: search lyrics
-lyrics () {
-    local o m s t a l
-    o=$(curl -sS "https://www.lyrics.com/lyrics/${1// /%20}" | sed -E 's/\r$/---/g' | htmlq '.sec-lyric')
-    m=$(grep -c '.sec-lyric' <<< "$o")
-    [[ "$m" -gt 11 ]] && m=10
-
-    for (( i = 0; i < m; i++ )); do
-        s=$(htmlq 'div.sec-lyric:nth-child('"$((i+1))"')' <<< "$o")
-        t=$(htmlq -t '.lyric-meta-title' <<< "$s" | sedremovespace)
-        a=$(htmlq -t '.lyric-meta-album-artist' <<< "$s" | sedremovespace)
-        [[ "$a" == "" ]] && a=$(htmlq -t '.lyric-meta-artists' <<< "$s" | sedremovespace)
-        l=$(htmlq -t '.lyric-body' <<< "$s" | sedremovespace | awk '{printf "%s ",$0}' | sed -E 's/---/\n/g' | sedremovespace)
-        printf '\n%b\n' "\033[32m$t\033[0m - $a\n$l" | sed -E "s/\&#39;/\'/g"
-    done
-}
-
-#/ mangaupdate <manga_name>: search mangaupdate
-mangaupdate () {
-    local o m t y r
-    o=$(curl -sS "https://www.mangaupdates.com/series.html?search=${1// /+}&display=list&type=manga&perpage=20" | htmlq 'div.p-2:nth-child(2) > div:nth-child(2)')
-    m=$(grep -c 'py-1' <<< "$o")
-    for (( i = 0; i < m; i++ )); do
-        t=$(htmlq -t 'div.py-1:nth-child('"$((i*4+6))"')' <<< "$o" | sedremovespace)
-        y=$(htmlq -t 'div.col-1:nth-child('"$((i*4+8))"')' <<< "$o" | sedremovespace)
-        r=$(htmlq -t 'div.col-1:nth-child('"$((i*4+9))"')' <<< "$o" | sedremovespace)
-        [[ ! "$r" ]] && r="n/a "
-        printf '%b\n' "\033[33m[$r]\033[0m $y $t"
-    done
-}
-
-#/ metacritic <game_title>: search metacritic game rating
-metacritic() {
-    local i=0 s len d t r p
-    while true; do
-        s="$(curl -sS -A g "https://www.metacritic.com/search/game/${1// /%20}/results?page=$i")"
-        len="$(grep -c 'li class="result' <<< "$s")"
-        if [[ "$len" -ge 1 ]]; then
-            for (( j = 1; j <= len; j++ )); do
-                d="$(htmlq ".search_results li:nth-child($j)" <<< "$s")"
-                t="$(htmlq -t '.product_title' <<< "$d" | sedremovespace)"
-                r="$(htmlq -t '.metascore_w' <<< "$d" | sedremovespace)"
-                p="$(htmlq -t '.main_stats p' <<< "$d" | sedremovespace | awk '{printf "%s ",$0}')"
-                printf "%b\n" "\033[33m[$r]\033[0m \033[32m$t\033[0m - $p"
-            done
-        fi
-        [[ "$len" -lt 10 ]] && break
-        ((i++))
-    done
-}
-
 #/ myanimelist <anime_name>: search anime info
 myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime" or .type == "manga") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)+\(.payload.published)"' | sed -E 's/\+null//' | column -t -s '+')" }
 
@@ -669,44 +495,6 @@ myip () {
 
 #/ mytimezone: show my timezone
 mytimezone () { curl -s 'https://ipapi.co/timezone' }
-
-#/ mytraceroute: returns a traceroute from my servers to my ip address
-mytraceroute () { curl 'icanhaztraceroute.com' }
-
-#/ mytrafficproxied : determine if my taffic is proxied or not
-mytrafficproxied () { curl 'icanhazproxy.com' }
-
-#/ opencritic <game>:show OpenCritic game scores
-opencritic ()  {
-    local t d len item n l r
-    t="${1// /%20}"
-    t="${t//:/%3A}"
-    t="${t//\'/%27}"
-    d="$(curl -sS "https://api.opencritic.com/api/meta/search?criteria=${t}" -H 'Origin: https://opencritic.com' --compressed)"
-    len="$(jq 'length' <<< "$d")"
-    for (( i = 0; i < len; i++ )); do
-        item="$(jq -r ".[$i]" <<< "$d")"
-        if [[ "$(jq -r .relation <<< "$item")" == "game" ]]; then
-            n="$(jq -r '.name' <<< "$item")"
-            l="$(jq -r '"\(.id)/\(.name)"' <<< "$item" \
-                | sed 's/[^[:alnum:] \/]//g' \
-                | tr -s '[:space:]' \
-                | sed 's/ /-/g' \
-                | tr '[:upper:]' '[:lower:]')"
-            r="$(curl -sS "https://opencritic.com/game/$l" \
-                | htmlq -t '.inner-orb' \
-                | awk '{$1=$1};1' \
-                | sed '/$/N;s/\n/\//')"
-            printf "%b\n" "\033[33m[$r]\033[0m \033[32m$n\033[0m"
-        fi
-    done
-}
-
-#/ outline <url>: generate outline link
-outline () {
-    local u=$(curl -sS "https://api.outline.com/v3/parse_article?source_url=$1" -H 'Referer: https://outline.com/' | jq -r '.data.short_code')
-    xdg-open "https://outline.com/$u"
-}
 
 #/ plug: mount plugged-in device(s)
 plug () {
@@ -744,11 +532,6 @@ randompwd () {
 
 #/ randomuser: generate random user
 randomuser () { curl -sS 'https://randomuser.me/api/' | jq }
-
-#/ reversegeocode <lat,log>: reverse geocoding
-reversegeocode () {
-    curl -sS "http://www.mapquestapi.com/geocoding/v1/reverse?key=${MAP_QUEST_KEY}&location=${1// /%20}" | jq -r '.results[0].locations[0] | "\(.street), \(.postalCode) \(.adminArea5)"'
-}
 
 #/ rawtojpg <raw_file>: convert raw image to jpg
 rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
@@ -850,7 +633,6 @@ toc() {
     mv "$out" "$1"
 }
 
-
 #/ uplung: unmount device(s)
 unplug () {
     local dl d
@@ -937,6 +719,7 @@ youtuberss () { url=$(curl -s "$1" | htmlq 'link' | grep RSS | sed -e 's/^.*href
 
 #/ yuicss <css_file>: css compressor
 yuicss () { echo "$1".css; rm -f $1.min.css; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type css "$1".css > "$1".min.css;}
+
 #/ yuijs <js_file>: js compressor
 yuijs () { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type js "$1".js > "$1".min.js;}
 
