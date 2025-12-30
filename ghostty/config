@@ -26,7 +26,6 @@ cursor-color = %cscolor%
 # window
 window-decoration = false
 gtk-titlebar = false
-gtk-adwaita = false
 window-padding-x = 3
 window-padding-y = 3
 
@@ -36,7 +35,7 @@ selection-invert-fg-bg = true
 
 # mouse
 mouse-hide-while-typing = true
-mouse-scroll-multiplier = 2
+mouse-scroll-multiplier = 1
 
 # keybinding
 keybind = ctrl+v=paste_from_clipboard
