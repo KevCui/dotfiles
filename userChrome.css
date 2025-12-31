@@ -5,12 +5,36 @@
 
 :root {
   --uc-navbar-transform: -40px;
-  --uc-autohide-toolbar-delay: 300ms;
-  --uc-autohide-toolbar-duration: 100ms;
+  --uc-autohide-toolbar-delay: 0.5s;
+  --uc-autohide-toolbar-duration: 200ms;
+}
+:root[uidensity='compact'] {
+  --uc-navbar-transform: -34px;
 }
 
 #navigator-toolbox > div {
   display: contents;
+}
+:root[sessionrestored]
+  :where(
+    #nav-bar,
+    #PersonalToolbar,
+    #tab-notification-deck,
+    .global-notificationbox,
+    #notifications-toolbar
+  ) {
+  transform: translateY(var(--uc-navbar-transform));
+}
+:root:is([customizing], [chromehidden*='toolbar'])
+  :where(
+    #nav-bar,
+    #PersonalToolbar,
+    #tab-notification-deck,
+    .global-notificationbox,
+    #notifications-toolbar
+  ) {
+  transform: none !important;
+  opacity: 1 !important;
 }
 
 #nav-bar:not([customizing]) {
@@ -22,10 +46,6 @@
       var(--uc-autohide-toolbar-delay) !important;
   position: relative;
   z-index: 2;
-}
-#titlebar {
-  position: relative;
-  z-index: 3;
 }
 
 #navigator-toolbox,
@@ -39,19 +59,18 @@
 #navigator-toolbox:focus-within > .browser-toolbar {
   transform: translateY(0);
   opacity: 1;
-  transition-duration: var(--uc-autohide-toolbar-duration),
-    var(--uc-autohide-toolbar-duration) !important;
+  transition-duration:
+    var(--uc-autohide-toolbar-duration), var(--uc-autohide-toolbar-duration) !important;
   transition-delay: 0s !important;
 }
 /* Show when toolbox is hovered */
-#titlebar:hover ~ .browser-toolbar,
 .browser-titlebar:hover ~ :is(#nav-bar, #PersonalToolbar),
 #nav-bar:hover,
 #nav-bar:hover + #PersonalToolbar {
   transform: translateY(0);
   opacity: 1;
-  transition-duration: var(--uc-autohide-toolbar-duration),
-    var(--uc-autohide-toolbar-duration) !important;
+  transition-duration:
+    var(--uc-autohide-toolbar-duration), var(--uc-autohide-toolbar-duration) !important;
   transition-delay: 0s !important;
 }
 :root[sessionrestored] #urlbar[popover] {
@@ -64,6 +83,17 @@
       var(--uc-autohide-toolbar-delay);
   transform: translateY(var(--uc-navbar-transform));
 }
+#mainPopupSet:has(
+    > [panelopen]:not(
+        #ask-chat-shortcuts,
+        #selection-shortcut-action-panel,
+        #chat-shortcuts-options-panel,
+        #tab-preview-panel
+      )
+  )
+  ~ toolbox
+  #urlbar[popover],
+.browser-titlebar:is(:hover, :focus-within) ~ #nav-bar #urlbar[popover],
 #nav-bar:is(:hover, :focus-within) #urlbar[popover],
 #urlbar-container > #urlbar[popover]:is([focused], [open]) {
   opacity: 1;
@@ -74,12 +104,79 @@
 #urlbar-container > #urlbar[popover]:is([focused], [open]) {
   transition-duration: 100ms; /* Faster when focused */
 }
+/* This ruleset is separate, because not having :has support breaks other selectors as well */
+#mainPopupSet:has(
+    > [panelopen]:not(
+        #ask-chat-shortcuts,
+        #selection-shortcut-action-panel,
+        #chat-shortcuts-options-panel,
+        #tab-preview-panel
+      )
+  )
+  ~ #navigator-toolbox
+  > .browser-toolbar {
+  transition-delay: 33ms !important;
+  transform: translateY(0);
+  opacity: 1;
+}
+/* If tabs are in sidebar then nav-bar doesn't normally have its own background - so we nee to add it back */
+#nav-bar.browser-titlebar {
+  background: inherit;
+}
+#toolbar-menubar:not([autohide='true'], [autohide=''])
+  ~ #nav-bar.browser-titlebar {
+  background-position-y: -28px; /* best guess, could vary */
+  border-top: none !important;
+}
+
+/* Bookmarks toolbar needs so extra rules */
+#PersonalToolbar {
+  transition: transform var(--uc-autohide-toolbar-duration) ease
+    var(--uc-autohide-toolbar-delay) !important;
+  position: relative;
+  z-index: 1;
+}
 
 /* Move up the content view */
-:root[sessionrestored]:not([inFullscreen], [chromehidden~='toolbar'])
-  > body
-  > #browser {
+:root[sessionrestored]:not([chromehidden~='toolbar']) > body > #browser {
   margin-top: var(--uc-navbar-transform);
+}
+@media -moz-pref('browser.fullscreen.autohide') {
+  :root[sessionrestored][sizemode='fullscreen'] > body > #browser {
+    margin-top: revert;
+  }
+}
+/* Compatiblity rules for tabs_on_bottom_v2.css */
+@media -moz-pref('userchrome.autohide-main-toolbar.tabs-on-bottom-patch.enabled') {
+  #nav-bar {
+    margin-bottom: var(--uc-navbar-transform);
+  }
+  #TabsToolbar:not([customizing]) {
+    transition: transform var(--uc-autohide-toolbar-duration) ease
+      var(--uc-autohide-toolbar-delay) !important;
+    position: relative;
+    z-index: 1;
+    background: inherit !important;
+  }
+  #mainPopupSet:has(
+      > [panelopen]:not(
+          #ask-chat-shortcuts,
+          #selection-shortcut-action-panel,
+          #chat-shortcuts-options-panel,
+          #tab-preview-panel
+        )
+    )
+    ~ #navigator-toolbox
+    > #TabsToolbar,
+  #navigator-toolbox:is(:hover, :focus-within) > #TabsToolbar {
+    transform: translateY(calc(var(--uc-navbar-transform) * -1)) !important;
+    transition-duration:
+      var(--uc-autohide-toolbar-duration), var(--uc-autohide-toolbar-duration) !important;
+    transition-delay: 0s !important;
+  }
+  :root[sessionrestored][sizemode] > body > #browser {
+    margin-top: revert;
+  }
 }
 
 /* Add number on tab, source code from https://gist.github.com/arthurattwell/19d868330a3c9f668a3f3a69230ac28c */
@@ -94,7 +191,8 @@ tab:nth-child(4) .tab-label::before,
 tab:nth-child(5) .tab-label::before,
 tab:nth-child(6) .tab-label::before,
 tab:nth-child(7) .tab-label::before,
-tab:nth-child(8) .tab-label::before {
+tab:nth-child(8) .tab-label::before,
+tab:nth-child(9) .tab-label::before {
   background-color: white;
   border-radius: 0.25em;
   border: 1px solid white;
