@@ -1,0 +1,185 @@
+set $mod mod4
+set $terminal %term%
+font pango: %font% %fontsize%
+floating_modifier $mod
+
+# display mode
+output HDMI-A-1 mode 2560x1440
+
+# default terminal app
+bindsym $mod+Return exec $terminal
+
+# kill focused window
+bindsym Mod1+F4 kill
+
+# rofi
+bindsym $mod+space exec "rofi -show combi -combi-modi 'drun,run' -modi combi -combi-hide-mode-prefix -eh 1 -font '%font% %fontsize%' -theme 'Arc-Dark' -theme-str 'window {width:35%;}' -theme-str 'listview {lines:8;}'"
+bindsym $mod+BackSpace exec "rofi -show combi -combi-modi 'drun,run' -modi combi -combi-hide-mode-prefix -eh 1 -font '%font% %fontsize%' -theme 'Arc-Dark' -theme-str 'window {width:35%;}' -theme-str 'listview {lines:8;}'"
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+k focus down
+bindsym $mod+j focus up
+bindsym $mod+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+j move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+b split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+e fullscreen toggle
+
+# change container layout (stacking, tabbed, toggle split)
+bindsym $mod+n layout stacking
+bindsym $mod+m layout tabbed
+bindsym $mod+i layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+e floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+shift+space focus mode_toggle
+
+# switch to workspace
+workspace_layout tabbed
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+bindsym $mod+q workspace $ws1
+bindsym $mod+w workspace $ws2
+bindsym $mod+f workspace $ws3
+bindsym $mod+a workspace $ws4
+bindsym $mod+r workspace $ws5
+bindsym $mod+Shift+n workspace next
+bindsym $mod+Shift+p workspace prev
+
+# move focused container to workspace
+bindsym $mod+Shift+q move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+w move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+f move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+a move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+r move container to workspace $ws5; workspace $ws5
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+bindsym $mod+F5 restart
+
+# resize window
+mode "resize" {
+    # These bindings trigger as soon as you enter the resize mode
+    bindsym l resize grow width 10 px or 10 ppt
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+
+    # same bindings, but for the arrow keys
+    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Up resize grow height 10 px or 10 ppt
+    bindsym Down resize shrink height 10 px or 10 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+z mode "resize"
+
+# pass mode: disalbe all keybindigs
+mode "pass" {
+    bindsym $mod+9 mode "default"
+}
+bindsym $mod+9 mode "pass"
+
+# top bar
+bar {
+  position top
+  pango_markup enable
+  status_command ${HOME}/.config/sway/status.sh
+}
+
+# no border
+for_window [instance="ghostty"] border pixel 1
+hide_edge_borders --i3 smart
+default_border pixel 1
+
+# floating windows
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [title="Preferences$"] floating enable
+for_window [class="feh"] floating enable
+for_window [class="Wine"] floating enable
+for_window [class="Peek"] stacking enable
+
+# volume
+bindsym XF86AudioRaiseVolume exec "pamixer -i 5 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym XF86AudioLowerVolume exec "pamixer -d 5 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym XF86AudioMute exec "pamixer -t; if $(pamixer --get-mute); then notify-send -u critical 'mute'; else notify-send -u normal 'sound '$(pamixer --get-volume)'%'; fi"
+bindsym $mod+Shift+plus exec "pamixer -i 5 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym $mod+minus exec "pamixer -d 15 --allow-boost;notify-send -u low $(pamixer --get-volume)'%'"
+bindsym $mod+Shift+asterisk exec "pamixer -t; if $(pamixer --get-mute); then notify-send -u critical 'mute'; else notify-send -u normal 'sound '$(pamixer --get-volume)'%'; fi"
+
+# fixed workspace
+assign [app_id="nightly"] $ws1
+assign [app_id="firefox"] $ws1
+assign [app_id="firefox-esr"] $ws1
+assign [app_id="qutebrowser"] $ws1
+assign [app_id="chromium"] $ws4
+assign [class="Chromium-browser"] $ws4
+assign [app_id="viewnior"] $ws5
+assign [app_id="thunderbird-nightly"] $ws3
+assign [app_id="darktable"] $ws3
+assign [app_id="mpv"] $ws3
+assign [class="burp-StartBurp"] $ws3
+assign [class="caido"] $ws3
+assign [class="steam"] $ws3
+assign [app_id="net.lutris.Lutris"] $ws3
+assign [app_id="calibre"] $ws3
+assign [app_id="gimp"] $ws4
+assign [app_id="libreoffice-startcenter"] $ws4
+assign [app_id="libreoffice-writer"] $ws4
+assign [app_id="libreoffice-calc"] $ws4
+assign [app_id="soffice"] $ws4
+assign [app_id="qemu-system-x86_64"] $ws5
+
+# theme
+# <colorclass> <border> <background> <text> <indicator> <child_border>
+client.focused #0088CC #0088CC #ffffff #dddddd
+client.focused_inactive #333333 #333333 #888888 #292d2e
+client.unfocused #333333 #333333 #888888 #292d2e
+client.urgent #2f343a #900000 #ffffff #900000
+
+# mouse behavior
+mouse_warping none
+focus_follows_mouse no
+bindsym --whole-window button8 workspace next
+bindsym --whole-window button9 workspace prev
+
+# autostart
+no_focus [title="ranger"]
+no_focus [title="fff"]
+no_focus [instance="tasksh"]
+no_focus [instance="additional"]
+exec dunst
+exec firefox
+exec ${HOME}/Script/fswatch.sh
+exec ${HOME}/.config/sway/terminal-workspace.sh $terminal
+exec ${HOME}/.config/sway/changepaper.sh
+exec swayidle -w timeout 500 'wlr-randr --output HDMI-A-1 --off' resume 'wlr-randr --output HDMI-A-1 --on'
