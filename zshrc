@@ -496,6 +496,19 @@ myip () {
 #/ mytimezone: show my timezone
 mytimezone () { curl -s 'https://ipapi.co/timezone' }
 
+#/ perplexity <text>: Perplexity AI
+perplexity () {
+    curl -sS 'https://www.perplexity.ai/rest/sse/perplexity_ask' -X POST \
+        -A x -b '__cf_bm=x' \
+        -H 'Accept: text/event-stream' \
+        -H 'Accept-Language: en-US,en;q=0.5' \
+        -H 'content-type: application/json' \
+        --data-raw '{"params":{"last_backend_uuid":"","read_write_token":"","attachments":[],"language":"","timezone":"","search_focus":"internet","sources":["web"],"frontend_uuid":"","mode":"concise","model_preference":"turbo","is_related_query":false,"is_sponsored":false,"prompt_source":"user","query_source":"","is_incognito":true,"time_from_first_type":1,"local_search_enabled":false,"use_schematized_api":true,"send_back_text_in_streaming_api":false,"supported_block_use_cases":["answer_modes","media_items","knowledge_cards","inline_entity_cards","place_widgets","finance_widgets","prediction_market_widgets","sports_widgets","flight_status_widgets","news_widgets","shopping_widgets","jobs_widgets","search_result_widgets","inline_images","inline_assets","placeholder_cards","diff_blocks","inline_knowledge_cards","entity_group_v2","refinement_filters","canvas_mode","maps_preview","answer_tabs","price_comparison_widgets","preserve_latex","generic_onboarding_widgets","in_context_suggestions"],"client_coordinates":null,"mentions":[],"skip_search_enabled":true,"is_nav_suggestions_disabled":false,"followup_source":"link","source":"default","always_search_override":false,"override_no_search":false,"should_ask_for_mcp_tool_confirmation":true,"force_enable_browser_agent":false,"supported_features":[""],"version":""},"query_str":"'"$1"'"}' \
+        | grep --line-buffered '"diff_block": {"field": "markdown_block"' \
+        | sed 's/^data: //' \
+        | jq -j -r --unbuffered '.blocks[0].diff_block.patches[0].value | (.chunks?[0] // .)'
+}
+
 #/ plug: mount plugged-in device(s)
 plug () {
     local dl d
