@@ -387,7 +387,7 @@ grok () {
     a="$(shuf < "$HOME/.useragent" | tail -1)"
     s="$(shuf < "$HOME/.statsig" | tail -1)"
 
-    curl-impersonate -sS -N 'https://grok.com/rest/app-chat/conversations/new' \
+    curl -sS -N 'https://grok.com/rest/app-chat/conversations/new' \
       -H "cookie: sso=$c" \
       -H 'origin: https://grok.com' \
       -H "x-statsig-id: $s" \
