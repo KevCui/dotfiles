@@ -66,7 +66,7 @@ mpv() { /usr/bin/mpv "$1" &> /dev/null & }
 alias nv='$EDITOR -c ":NV"'
 alias ping='prettyping --nolegend'
 alias please='sudo $(fc -ln -1)'
-po() { sleep "$1" && sudo poweroff -f }
+po() { sleep "$1" && systemctl poweroff }
 alias q='qutebrowser'
 alias rg='rg -i --no-ignore'
 alias rm='rm -i'
