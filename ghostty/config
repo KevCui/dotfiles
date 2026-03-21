@@ -39,6 +39,4 @@ mouse-scroll-multiplier = 1
 
 # keybinding
 keybind = ctrl+v=paste_from_clipboard
-## search feature request: https://github.com/ghostty-org/ghostty/issues/189
-## current workaround: https://github.com/ghostty-org/ghostty/issues/2435#issuecomment-2564058758
-keybind = ctrl+f=write_screen_file:open
+keybind = ctrl+f=start_search
