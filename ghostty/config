@@ -28,6 +28,7 @@ window-decoration = false
 gtk-titlebar = false
 window-padding-x = 3
 window-padding-y = 3
+scrollbar = never
 
 # selection
 copy-on-select = clipboard
