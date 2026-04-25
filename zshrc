@@ -347,7 +347,7 @@ goodreads () {
     done
 }
 
-#/ grok <text>: Grok 3
+#/ grok <text>: Grok
 grok () {
     local c a s
     c="$(shuf < "$HOME/.grokie" | tail -1)"
@@ -359,7 +359,7 @@ grok () {
       -H 'origin: https://grok.com' \
       -H "x-statsig-id: $s" \
       -A "$a" \
-      --data-raw '{"temporary":true,"modelName":"grok-4","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
+      --data-raw '{"temporary":true,"modelName":"","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
       | grep --line-buffered '{"token"' \
       | grep -v --line-buffered ',"toolUsageCardId":' \
       | grep -v --line-buffered 'card_type=\\"citation_card\\"' \
