@@ -48,7 +48,7 @@ done
 #------------------------------
 # general alias
 alias cat='bat --theme=iceberg'
-alias ccat='pygmentize -g -O style=colorful,linenos=1'
+alias ccat='bat --theme=iceberg --style=plain'
 alias chist='head -n -2 $HOME/.histfile > /tmp/histfile && mv /tmp/histfile $HOME/.histfile'
 alias clock='tty-clock -s -c -C 4'
 alias convpdftotxt="pdftotext -layout -nopgbrk"
