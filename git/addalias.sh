@@ -62,7 +62,7 @@ ac="! while read -r f; do\
  done <<< \$($GIT_DIFF_NAME --diff-filter=M\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
- | cut -c5-)"
+ | cut -c3-)"
 
 au="! cd \"\$(pwd)/\$GIT_PREFIX\"\
  && while read -r f; do\
@@ -71,7 +71,7 @@ au="! cd \"\$(pwd)/\$GIT_PREFIX\"\
  | sed -E 's/\"//g'\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
- | cut -c8-)"
+ | cut -c6-)"
 
 b="! cd \$(pwd)/\$GIT_PREFIX\
  && sh -c \"git blame \$1\
@@ -113,7 +113,7 @@ ua="! while read -r f; do\
  done <<< \$($GIT_DIFF_NAME_CACHED\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
- | cut -c5-)"
+ | cut -c3-)"
 
 purge="! GIT_TOP=\$(pwd)\
  && cd \$(pwd)/\$GIT_PREFIX\
@@ -122,7 +122,7 @@ purge="! GIT_TOP=\$(pwd)\
  done <<< \$(git ls-files \"\$(realpath --relative-to=./ \$GIT_TOP)/\" --exclude-standard --others\
  | $ADD_ICON_CMD\
  | fzf -0 $FZF_OPTION_PROMPT --bind $FZF_KEYBINDING\
- | cut -c5-)"
+ | cut -c3-)"
 
 for i in "${ALIAS_LIST[@]}"; do
     git config --global alias."${i}" "${!i}"
