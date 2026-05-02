@@ -308,12 +308,11 @@ gemini () {
     local k n
     k="$(shuf < "$HOME/.gemini" | tail -1)"
     n="$(cat "$HOME/.gemini-model")"
-    curl -sS -X POST "https://generativelanguage.googleapis.com/v1beta/models/${n}:streamGenerateContent?key=${k}&alt=sse" \
+    curl -sS -X POST "https://generativelanguage.googleapis.com/v1beta/models/${n}:streamGenerateContent" \
+        -H "x-goog-api-key: $k" \
         -H 'Content-Type: application/json' \
-        -d '{ "contents": [{ "parts":[{"text": "'"$1"'"}] }], "tools": [{ "google_search": {}}]}' -N \
-        | grep --line-buffered '^data: ' \
-        | sed -u 's/^data: //' \
-        | jq -j --unbuffered -r '.candidates[0].content.parts[0].text' \
+        -d '{ "contents": [{ "parts":[{"text": "'"$1"'"}] }]}' -N \
+        | jq -j --unbuffered -r '.[].candidates[0].content.parts[0].text' \
         | bat --paging=never --language=md --style=plain --theme=base16
 }
 
