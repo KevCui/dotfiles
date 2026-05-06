@@ -358,7 +358,7 @@ grok () {
       -H 'origin: https://grok.com' \
       -H "x-statsig-id: $s" \
       -A "$a" \
-      --data-raw '{"temporary":true,"modelName":"","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"toolOverrides":{},"enableSideBySide":false,"isPreset":false,"sendFinalMetadata":false,"customInstructions":"","deepsearchPreset":"","isReasoning":false}'  \
+      --data-raw '{"temporary":true,"modelName":"","message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":4,"forceConcise":false,"enableSideBySide":false,"sendFinalMetadata":false,"disableTextFollowUps":false,"responseMetadata":{},"disableMemory":false,"forceSideBySide":false,"isAsyncChat":false,"disableSelfHarmShortCircuit":false,"collectionIds":[],"disabledConnectorIds":[],"deviceEnvInfo":{"darkModeEnabled":false,"devicePixelRatio":1,"screenWidth":2560,"screenHeight":1440,"viewportWidth":2000,"viewportHeight":1200},"modeId":"fast"}' \
       | grep --line-buffered '{"token"' \
       | grep -v --line-buffered ',"toolUsageCardId":' \
       | grep -v --line-buffered 'card_type=\\"citation_card\\"' \
