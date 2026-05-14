@@ -313,7 +313,7 @@ gemini () {
         -H 'Content-Type: application/json' \
         -d '{ "contents": [{ "parts":[{"text": "'"$1"'"}] }]}' -N \
         | jq -j --unbuffered -r '.[].candidates[0].content.parts[0].text' \
-        | bat --paging=never --language=md --style=plain --theme=base16
+        | bat --paging=never --language=md --style=plain --theme=iceberg
 }
 
 #/ getlinks <url>: get all links on the page
@@ -363,7 +363,7 @@ grok () {
       | grep -v --line-buffered ',"toolUsageCardId":' \
       | grep -v --line-buffered 'card_type=\\"citation_card\\"' \
       | jq -j -r --unbuffered '.result.response.token' \
-      | bat --paging=never --language=md --style=plain --theme=base16
+      | bat --paging=never --language=md --style=plain --theme=iceberg
 }
 
 #/ help <keyword>: list functions
@@ -474,7 +474,7 @@ perplexity () {
         | grep --line-buffered '"diff_block": {"field": "markdown_block"' \
         | sed 's/^data: //' \
         | jq -j -r --unbuffered '.blocks[0].diff_block.patches[0].value | (.chunks?[0] // .)' \
-        | bat --paging=never --language=md --style=plain --theme=base16
+        | bat --paging=never --language=md --style=plain --theme=iceberg
 }
 
 #/ plug: mount plugged-in device(s)
