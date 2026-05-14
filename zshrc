@@ -313,7 +313,7 @@ gemini () {
         -H 'Content-Type: application/json' \
         -d '{ "contents": [{ "parts":[{"text": "'"$1"'"}] }]}' -N \
         | jq -j --unbuffered -r '.[].candidates[0].content.parts[0].text' \
-        | bat --paging=never --language=md --style=plain --theme=iceberg
+        | bat --paging=never --language=md --style=plain --theme=lucent
 }
 
 #/ getlinks <url>: get all links on the page
@@ -363,7 +363,7 @@ grok () {
       | grep -v --line-buffered ',"toolUsageCardId":' \
       | grep -v --line-buffered 'card_type=\\"citation_card\\"' \
       | jq -j -r --unbuffered '.result.response.token' \
-      | bat --paging=never --language=md --style=plain --theme=iceberg
+      | bat --paging=never --language=md --style=plain --theme=lucent
 }
 
 #/ help <keyword>: list functions
