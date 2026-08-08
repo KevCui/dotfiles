@@ -214,25 +214,6 @@ alpha () {
     echo -e "$o"
 }
 
-#/ claude <text>: Claude.ai
-claude () {
-    local a k o u h
-    a="$(shuf < "$HOME/.useragent" | tail -1)"
-    k="$(cat "$HOME/.claudeai" | tail -1)"
-    o="$(cat "$HOME/.claudeai" | head -1)"
-    u="$(cat "$HOME/.claudeai" | head -2 | tail -1)"
-    h="https://claude.ai/api"
-
-    curl -sS -N "$h/organizations/$o/chat_conversations/$u/completion" \
-      -H 'content-type: application/json' \
-      -b "sessionKey=$k" \
-      -A "$a" \
-      --data-raw '{"prompt":"'"$1"'","parent_message_uuid":"00000000-0000-4000-8000-000000000000","timezone":"","personalized_styles":[{"type":"default","key":"Default","name":"Normal","nameKey":"normal_style_name","prompt":"Normal","summary":"","summaryKey":"normal_style_summary","isDefault":true}],"locale":"en-US","tools":[{"type":"web_search_v0","name":"web_search"},{"type":"artifacts_v0","name":"artifacts"}],"attachments":[],"files":[],"sync_sources":[],"rendering_mode":"messages"}' \
-      | grep --line-buffered -E '"text_delta"' \
-      | sed -u 's/^data: //' \
-      | jq -j -r --unbuffered '.delta.text'
-}
-
 #/ cpu <keyword>: find CPU info from PassMark: Name; Mark; Rank; Value; Price
 cpu () {
     local out
@@ -344,26 +325,6 @@ goodreads () {
         a=$(htmlq -t '.authorName' <<< "$s" | sedremovespace | awk '{printf " %s", $0}' | sedremovespace | sed -E "s/\&#39;/\'/g")
         printf "%b\n" "\033[32m$t\033[0m by $a - $st"
     done
-}
-
-#/ grok <text>: Grok
-grok () {
-    local c a s
-    c="$(shuf < "$HOME/.grokie" | tail -1)"
-    a="$(shuf < "$HOME/.useragent" | tail -1)"
-    s="$(shuf < "$HOME/.statsig" | tail -1)"
-
-    curl -sS -N 'https://grok.com/rest/app-chat/conversations/new' \
-      -H "cookie: sso=$c" \
-      -H 'origin: https://grok.com' \
-      -H "x-statsig-id: $s" \
-      -A "$a" \
-      --data-raw '{"temporary":true,"message":"'"$1"'","fileAttachments":[],"imageAttachments":[],"disableSearch":false,"enableImageGeneration":false,"returnImageBytes":false,"returnRawGrokInXaiRequest":false,"enableImageStreaming":false,"imageGenerationCount":2,"forceConcise":false,"enableSideBySide":false,"sendFinalMetadata":false,"disableTextFollowUps":false,"responseMetadata":{},"disableMemory":false,"forceSideBySide":false,"isAsyncChat":false,"disableSelfHarmShortCircuit":false,"collectionIds":[],"disabledConnectorIds":[],"deviceEnvInfo":{"darkModeEnabled":false,"devicePixelRatio":1,"screenWidth":2560,"screenHeight":1440,"viewportWidth":2000,"viewportHeight":1200},"modeId":"fast","linkQuery":false}' \
-      | grep --line-buffered '{"token"' \
-      | grep -v --line-buffered ',"toolUsageCardId":' \
-      | grep -v --line-buffered 'card_type=\\"citation_card\\"' \
-      | jq -j -r --unbuffered '.result.response.token' \
-      | bat --paging=never --language=md --style=plain --theme=lucent
 }
 
 #/ help <keyword>: list functions
