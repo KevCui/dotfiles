@@ -49,6 +49,7 @@ done
 # general alias
 alias cat='bat --theme=iceberg --style=plain --pager=never'
 alias bcat='bat --theme=iceberg'
+alias icat='kitten icat'
 alias chist='head -n -2 $HOME/.histfile > /tmp/histfile && mv /tmp/histfile $HOME/.histfile'
 alias clock='tty-clock -s -c -C 4'
 alias convpdftotxt="pdftotext -layout -nopgbrk"
@@ -76,7 +77,6 @@ alias top='htop'
 alias tree='exa --tree'
 alias ts='task'
 alias uc='UCOLLAGE_EXPAND_DIRS=0 UCOLLAGE_SORT_BY=time ucollage'
-alias uf='fzfimg.sh'
 watchout() { fswatch -r -0 --event=Updated "$1" 2>/dev/null | xargs -0 -n 1 zsh -c "$2; date +%H:%M:%S"}
 alias y='yay'
 
@@ -106,7 +106,7 @@ alias hugos="cd $GITREPO/blog; hugo server -D &"
 alias python-server='ip addr | grep "state UP" -A 3 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"; python3 -m http.server 8000'
 
 # miniserve
-alias mini-server='ip=$(ip addr | grep "state UP" -A 3 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | tail -1 | awk "{print \$2}"); miniserve -u -qz -i "$ip" .'
+alias mini-server='ip=$(ip addr | grep "state UP" -A 3 | grep -Eo "inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | grep 192 | tail -1 | awk "{print \$2}"); miniserve -u -qz -i "$ip" .'
 
 # run firefox or chromium in new instance
 alias newchromium='chromium --user-data-dir=$(mktemp -d) &> /dev/null &'
@@ -222,9 +222,6 @@ cpu () {
     column -t -s ';;' <<< "$out"
 }
 
-#/ dadjoke: show dadjoke
-dadjoke () { echo $(curl -sS -H "Accept: text/plain" https://icanhazdadjoke.com/)'\n' }
-
 #/ datediff <date1> <date2>: calculate date diff
 datediff () {
     local d1="$(date -u -d "$1" +%s)"
@@ -300,19 +297,6 @@ gemini () {
 #/ getlinks <url>: get all links on the page
 getlinks () { curl -sS "$1" | htmlq 'a, link, base, area' -a  href | sedremovespace | sort -u }
 
-#/ getproxy: get working proxy
-getproxy () {
-    local ip
-    while read -r line; do
-        if [[ -n "${line:-}" ]]; then
-            ip="$(awk -F ':' '{print $1}' <<< "$line")"
-            if [[ "$(curl -sS ifconfig.me -x "http://$line" --connect-timeout 3 2>/dev/null)" == "$ip" ]]; then
-                echo "$line"
-            fi
-        fi
-    done <<< "$(curl -sS 'https://free-proxy-list.net/' | htmlq -t .form-control | sed 's/.*[[:alpha:]].*//')"
-}
-
 #/ goodreads <book>: goodreads search
 goodreads () {
     local o m s t st a
@@ -329,29 +313,6 @@ goodreads () {
 
 #/ help <keyword>: list functions
 help () { grep "^#/" "${HOME}/.zshrc" | cut -c4- | rg -i "${@:-}" }
-
-#/ imdb <title>: imdb search
-imdb () {
-    local tt i s t dp du ge r rc
-    tt=$(awk '{print tolower($0)}' <<< "$1")
-    while read -r i; do
-        if [[ "$i" == "tt"* ]]; then
-            s="$(curl -sS "https://www.imdb.com/title/$i/" -A imdb | htmlq -t 'script' | grep '"@context')"
-            t="$(jq -r .name <<< "$s")"
-            dp="$(jq -r .datePublished <<< "$s")"
-            du="$(jq -r .duration <<< "$s" | grep -v null | sed 's/^PT//')"
-            ge="$(jq -r '.genre[]' <<< "$s" | awk '{print}' ORS=' ')"
-            r="$(jq -r .aggregateRating.ratingValue <<< "$s" | grep -v null)"
-            rc="$(jq -r .aggregateRating.ratingCount <<< "$s" | grep -v null)"
-
-            if [[ -n "${r:-}" ]]; then
-                printf "%b\n" "\033[33m[$r ($rc)]\033[0m \033[32m$t\033[0m - $dp \033[34m$du\033[0m $ge"
-            else
-                printf "%b\n" "\033[32m$t\033[0m - $dp \033[34m$du\033[0m $ge"
-            fi
-        fi
-    done <<< $(curl -sS "https://v2.sg.media-imdb.com/suggestion/${tt:0:1}/${tt// /_}.json" | jq -r '.d[].id')
-}
 
 #/ ip2int: convert IP address to an integer
 ip2int() {
@@ -400,15 +361,6 @@ leet () {
     echo "$t"
 }
 
-#/ lm: show last modified time of sites, defined in ${HOME}/.site
-lm () {
-    for url in $(cat "${HOME}/.site"); do
-        echo "> $url"
-        time=$(curl -Is "$url" | grep last | cut -c16-)
-        echo "\t"$(date -d $time)
-    done
-}
-
 #/ myanimelist <anime_name>: search anime info
 myanimelist () { printf "$(curl -sS "https://myanimelist.net/search/prefix.json?type=all&keyword=${1// /%20}&v=1" | jq -r '.categories[] | select (.type == "anime" or .type == "manga") | .items[] | "\\033[33m[\(.payload.score)]\\033[0m+\(.name)++\(.payload.media_type)+\(.payload.aired)+\(.payload.published)"' | sed -E 's/\+null//' | column -t -s '+')" }
 
@@ -419,23 +371,6 @@ myip () {
     ip="$(grep -oE "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" <<< "$o")"
     loc="$(htmlq -t script <<< "$o" | rg DDG.duckbar | sed 's/.*">//' | sed 's/<\/a.*//')"
     echo "$ip - $loc"
-}
-
-#/ mytimezone: show my timezone
-mytimezone () { curl -s 'https://ipapi.co/timezone' }
-
-#/ perplexity <text>: Perplexity AI
-perplexity () {
-    curl -sS 'https://www.perplexity.ai/rest/sse/perplexity_ask' -X POST \
-        -A x -b '__cf_bm=x' \
-        -H 'Accept: text/event-stream' \
-        -H 'Accept-Language: en-US,en;q=0.5' \
-        -H 'content-type: application/json' \
-        --data-raw '{"params":{"last_backend_uuid":"","read_write_token":"","attachments":[],"language":"","timezone":"","search_focus":"internet","sources":["web"],"frontend_uuid":"","mode":"concise","model_preference":"turbo","is_related_query":false,"is_sponsored":false,"prompt_source":"user","query_source":"","is_incognito":true,"time_from_first_type":1,"local_search_enabled":false,"use_schematized_api":true,"send_back_text_in_streaming_api":false,"supported_block_use_cases":["answer_modes","media_items","knowledge_cards","inline_entity_cards","place_widgets","finance_widgets","prediction_market_widgets","sports_widgets","flight_status_widgets","news_widgets","shopping_widgets","jobs_widgets","search_result_widgets","inline_images","inline_assets","placeholder_cards","diff_blocks","inline_knowledge_cards","entity_group_v2","refinement_filters","canvas_mode","maps_preview","answer_tabs","price_comparison_widgets","preserve_latex","generic_onboarding_widgets","in_context_suggestions"],"client_coordinates":null,"mentions":[],"skip_search_enabled":true,"is_nav_suggestions_disabled":false,"followup_source":"link","source":"default","always_search_override":false,"override_no_search":false,"should_ask_for_mcp_tool_confirmation":true,"force_enable_browser_agent":false,"supported_features":[""],"version":""},"query_str":"'"$1"'"}' \
-        | grep --line-buffered '"diff_block": {"field": "markdown_block"' \
-        | sed 's/^data: //' \
-        | jq -j -r --unbuffered '.blocks[0].diff_block.patches[0].value | (.chunks?[0] // .)' \
-        | bat --paging=never --language=md --style=plain --theme=iceberg
 }
 
 #/ plug: mount plugged-in device(s)
@@ -452,9 +387,6 @@ plug () {
 
 #/ port <port_number>: port lookup
 port () { curl -sS 'https://www.portcheckers.com/port-number-assignment' --data-raw port="$1" | grep '<tr><td>' | sed -E 's/<[\/]?t[rd]>/ /g' | sedremovespace }
-
-#/ qotd: quote of the day
-qotd () { curl -s 'https://favqs.com/api/qotd' | jq -r '.quote | "\"\(.body)\" - \(.author)"'; echo }
 
 #/ randompwd <length>: generate random password, min. length is 4
 randompwd () {
@@ -477,23 +409,6 @@ randomuser () { curl -sS 'https://randomuser.me/api/' | jq }
 
 #/ rawtojpg <raw_file>: convert raw image to jpg
 rawtojpg () { mkdir -p jpg; for i in *.CR2; do dcraw -c "$i" | cjpeg -quality 100 -optimize -progressive > ./jpg/$(echo $(basename "$i" ".CR2").jpg); done }
-
-#/ rottentomatoes <title>: rottentomatoes search
-rottentomatoes () {
-    local d sId aId o r
-    d="$(curl -sS https://www.rottentomatoes.com/ | grep thirdParty)"
-    sId="$(sed 's/.*sId":"//;s/"}.*//' <<< "$d")"
-    aId="$(sed 's/.*aId":"//;s/",".*//' <<< "$d")"
-    o="$(curl -sS "https://79frdp12pn-dsn.algolia.net/1/indexes/*/queries?x-algolia-api-key=${sId}&x-algolia-application-id=${aId}" --data-raw '{"requests":[{"indexName":"content_rt","query":"'"$1"'","params":"filters=isEmsSearchable%20%3D%201&hitsPerPage=10"}]}' --compressed)"
-    r=$(jq -r '.results[0].hits[] | "\\033[33m[\(.rottenTomatoes.criticsScore) \(.rottenTomatoes.audienceScore)]\\033[0m+++\(.type)+++\(.releaseYear)+++\(.title)"' <<< "$o")"\n"
-    printf '%b' "$r" | column -t -s '+++'
-}
-
-#/ savepage <url>: save webpage to one single HTML file
-savepage() { monolith "$1" > $(date +%s).html }
-
-#/ screenshot: take screenshot
-screenshot () { import -quiet -pause 2 $(date +%s).jpg }
 
 #/ shodan <IP>: search IP on shodan.io
 shodan () {
@@ -527,27 +442,6 @@ shodan () {
 
 #/ showpath: show PATH
 showpath () { awk -v RS=: '{print}' <<<$PATH }
-
-#/ snykadvisor <name> <source>: get pacakge info from Snyk Advisor
-snykadvisor () {
-    # $1: package name
-    # $2: npm, python or docker
-    local n="${1:-}"
-    local s="${2:-npm}"
-    local d len
-    d="$(curl -sS "https://snyk.io/advisor/search?source=${s}&q=${n}" | htmlq '.package')"
-    len="$(htmlq '.package' <<< "$d" | grep -c 'class="package"')"
-    for (( i = 1; i <= len; i++ )); do
-        printf '%b. \033[1m%b \033[34m%b\033[0m\033[0m\n' \
-            "$i" \
-            "$(htmlq -t '.package:nth-child('"$i"') .package-title' <<< "$d" | sedremovespace)" \
-            "$(htmlq -t '.package:nth-child('"$i"') .number' <<< "$d" | sedremovespace | sed -E 's/ \/ 100//')"
-        printf '\033[1;30m[%b] %b\033[0m\n' \
-            "$(htmlq -t '.package:nth-child('"$i"') .package-history' <<< "$d" | sedremovespace | sed 'N;s/\n/ /')" \
-            "$(htmlq -t '.package:nth-child('"$i"') .package-details p' <<< "$d" | sedremovespace)"
-        printf '%b\n\n' "$(htmlq -t '.package:nth-child('"$i"') a' -a href <<< "$d")"
-    done
-}
 
 #/ timezone <city>: show timezone of a city
 timezone() {
@@ -587,9 +481,6 @@ unplug () {
 #/ unshorten <url>: reveal shortened URL
 unshorten() { curl -sSL -I "$1" | grep 'Location: ' | awk -F ': ' '{print $2}' }
 
-#/ v <img> [viu params]: display image in terminal
-v () { [[ "$(echo $1 | tr '[a-z]' '[A-Z]')" =~ (CR2|DNG)$ ]] && dcraw -c -w "$1" | cjpeg | viu "${@:2}" || viu "$@" }
-
 #/ what3words: get random 3 words
 what3words () {
     local latitude longitude
@@ -603,16 +494,17 @@ weather () { curl "wttr.in/$1" }
 
 #/ weatherhourly <location>: get hourly weather info
 weatherhourly () {
-    local host k d cn h t f p
+    local host k d cn h t f p a
+    a="$(shuf < "$HOME/.useragent" | tail -1)"
     host="www.accuweather.com"
-    u="$(curl -sS "https://$host/en/search-locations?query=${1// /+}" -A 'accu' --compressed | htmlq -t '.locations-list a' -a href | grep web-api | head -1)"
-    k="$(curl -sSL "https://$host/$u" -A accu --compressed -D - | grep -i location: | awk '{print $2}' | sed 's/.*forecast\///' | sed 's/\?.*//')"
-    d="$(curl -sSL "https://$host/en/us/${1// /-}/$k/hourly-weather-forecast/$k" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
+    u="$(curl -sS "https://$host/en/search-locations?query=${1// /+}" -A "$a" --compressed | htmlq -t '.locations-list a' -a href | grep web-api | head -1)"
+    k="$(curl -sSL "https://$host/$u" -A "$a" --compressed -D - | grep -i location: | awk '{print $2}' | sed 's/.*forecast\///' | sed 's/\?.*//' | sed 's/[^0-9.]//g')"
+    d="$(curl -sSL "https://$host/en/us/${1// /-}/$k/hourly-weather-forecast/$k" -A "$a" --compressed | htmlq '.hourly-wrapper')"
     cn="$(grep -c 'hourly-card-top' <<< "$d")"
     for ((day = 1; day < 3; day++ )) do
         [[ "$day" -eq 1 ]] && echo "TODAY"
         [[ "$day" -eq 2 ]] && echo -e "\nTOMORROW"
-        d="$(curl -sSL "https://$host/en/us/${1// /-}/$k/hourly-weather-forecast/${k}?day=${day}" -A 'accu' --compressed | htmlq '.hourly-wrapper')"
+        d="$(curl -sSL "https://$host/en/us/${1// /-}/$k/hourly-weather-forecast/${k}?day=${day}" -A "$a" --compressed | htmlq '.hourly-wrapper')"
         cn="$(grep -c 'hourly-card-top' <<< "$d")"
         for ((i = 1; i <= cn; i++ )) do
             h="$(htmlq -t ".hour:nth-child($i) .date div" <<< "$d")"
@@ -626,17 +518,12 @@ weatherhourly () {
     done
 }
 
-#/ whatcms: show cms used by website $1
-whatcms () { curl -sS "https://whatcms.org/APIEndpoint/Detect?key=$(cat $WHATCMS_KEY_FILE | shuf | tail -1)&url=$1" | jq . }
-
 #/ whohosts: show host info of website $1
 whohosts () { curl -sS "https://www.who-hosts-this.com/APIEndpoint/Detect?key=$(cat $WHATCMS_KEY_FILE | shuf | tail -1)&url=$1" | jq . }
 
 #/ writeup <keyword>: search bug bounty writeups
 writeup () {
-    local u
-    u="$(curl -sS 'https://www.bugbountyhunting.com/' | grep 'script.js' | sed -E 's/.*https:/https:/' | sed -E "s/'><\/script>//")"
-    curl -sS "$u" | grep 'var data =' | sed -E 's/var data =//' | jq . | rg -A 1 'title".*'"$1"
+    curl -sS "https://www.bugbountyhunting.com/script.js" | rg -A 1 'title".*'"$1"
 }
 
 #/ yaml2json: convert YAML to JSON
@@ -658,12 +545,6 @@ yds () { yt-dlp --write-auto-sub --convert-subs=srt --sub-lang en,en-US $(sed -E
 
 #/ youtuberss <url>: get YouTube RSS QR code
 youtuberss () { url=$(curl -s "$1" | htmlq 'link' | grep RSS | sed -e 's/^.*href="//' | sed -e 's/">.*$//'); echo "$url"; qr "$url"}
-
-#/ yuicss <css_file>: css compressor
-yuicss () { echo "$1".css; rm -f $1.min.css; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type css "$1".css > "$1".min.css;}
-
-#/ yuijs <js_file>: js compressor
-yuijs () { echo "$1".js; rm -f $1.min.js; java -jar ${HOME}/Script/yuicompressor-2.4.8.jar --type js "$1".js > "$1".min.js;}
 
 #/ zipundo <zip_file>: clean unzip mess
 zipundo () { unzip -Z -1 "$1" | xargs -I{} rm -v {} }
