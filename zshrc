@@ -61,7 +61,6 @@ alias emptytrash='rm -rf "$HOME/.local/share/Trash"'
 alias ff='firefox'
 alias grep='grep --color=auto'
 alias kp='kill $(ps aux | fzf | awk "{print \$2}")'
-lg() { logsave -a "${HOME}/stdout/$(date +%s)" zsh -c "source ~/.zshrc; $1" }
 alias md='rich -m $1'
 mpv() { /usr/bin/mpv "$1" &> /dev/null & }
 alias nv='$EDITOR -c ":NV"'
@@ -97,7 +96,6 @@ l() { [[ -z "${1:-}" ]] && ll || llg "$1" }
 alias vi='$EDITOR'
 alias vim='$EDITOR'
 alias vif='$EDITOR "$(fzf --bind "enter:abort+execute(echo {2..-1})" --preview="cat {2..-1}" --preview-window=right:70%:wrap)"'
-alias vil='$EDITOR $(find ${HOME}/stdout -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -f2- -d" ")'
 
 # hugo
 alias hugos="cd $GITREPO/blog; hugo server -D &"
